@@ -1,0 +1,80 @@
+.header {
+  position: sticky;
+  top: 0;
+  background: $background-color;
+  padding-bottom: 20px
+}
+
+body, button {
+  font-family: Consolas, monaco, monospace;
+}
+
+body {
+  font-size: 15px;
+}
+
+.large {
+  font-size: 20px;
+}
+
+.audio-control-button-group button {
+  font-size: 15px;
+}
+
+body {
+  margin: auto;
+  max-width: 1400px;
+  background-color: $background-color;
+  color: $font-color;
+}
+
+.section {
+  margin: 40px;
+}
+
+.group {
+  margin-top: 40px;
+  padding: 5px 10px 10px;
+  color: $font-color;
+  background: $element-color;
+  border: 1px solid $font-color;
+  overflow: auto;
+}
+
+.line {
+  margin-top: 5px;
+}
+
+.sub-line {
+  font-size: 15px;
+}
+
+.right {
+  float: right;
+}
+
+.tab-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tab {
+  width: 30%;
+}
+
+.tab label {
+  display: block;
+  text-align: center;
+}
+
+input {
+  color: $font-color;
+  background: $element-color;
+  border: 1px solid $font-color;
+  padding: 4px 12px;
+  font-size: 20px;
+}
+
+audio {
+  width: 100%;
+}

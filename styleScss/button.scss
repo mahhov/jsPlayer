@@ -1,0 +1,21 @@
+input[type=checkbox], input[type=radio] {
+  display: none;
+}
+
+button, input[type=checkbox] + label, input[type=radio] + label {
+  color: $font-color;
+  background: $element-color;
+  border: 1px solid $font-color;
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: .2s ease;
+}
+
+button:hover, input[type=checkbox]:hover + label, input[type=radio]:hover + label {
+  background: $hover-color;
+}
+
+button:active, input[type=checkbox]:checked + label, input[type=radio]:checked + label {
+  color: $active-font-color;
+  background: $active-color;
+}

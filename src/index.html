@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <link rel="manifest" href="manifest.json">
+        <link rel="stylesheet" href="style.css">
+        <script src="main.js"></script>
+
+        <style>
+            .container {
+                margin-left: 30px;
+            }
+
+            .section {
+                margin-top: 30px;
+            }
+
+            .horiz-section {
+                margin-left: 30px;
+            }
+
+            .song-link {
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .song-link:hover {
+                color: #0056b3;
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="section">
+                <button id="install-button">install</button>
+            </div>
+
+            <div class="section">
+                <button>clear</button>
+                <button>add</button>
+                <input id="directory-selector" type="file" webkitdirectory multiple hidden>
+            </div>
+
+            <div class="section"> <!--audio-control-button-group-->
+                <button onclick="" class="fa fa-step-backward"></button>
+                <button onclick="" class="fa fa-backward"></button>
+                <button onclick="" class="fa fa-pause"></button>
+                <button onclick="" class="fa fa-play"></button>
+                <button onclick="" class="fa fa-forward"></button>
+                <button onclick="" class="fa fa-step-forward"></button>
+            </div>
+
+            <div class="section">
+                <p><span>playing 906 of 1386 Trance - New Life</span></p>
+            </div>
+
+            <div class="section" bind-for="song in list">
+                <p><span class="song-link" bind="song"></span></p>
+            </div>
+        </div>
+    </body>
+</html>
