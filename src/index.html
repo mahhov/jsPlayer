@@ -26,13 +26,86 @@
                 color: #0056b3;
                 text-decoration: underline;
             }
+
+            .top-button {
+                border-top: none;
+            }
+
+            .audio {
+                display: inline-block;
+            }
+
+            .progress {
+                display: inline-block;
+                width: 250px;
+            }
+
+            .background, .fill {
+                display: inline-block;
+                height: 10px;
+            }
+
+            .background {
+                background-color: lightblue;
+                position: relative;
+                width: 100%;
+            }
+
+            .fill {
+                background-color: deepskyblue;
+                position: absolute;
+                left: 0;
+                width: 39%;
+            }
+
+            .controls-bottom {
+                margin-top: 10px;
+            }
+
+            .controls-right {
+                float: right;
+            }
         </style>
     </head>
 
     <body>
-        <div class="container">
+        <div class="container header">
+            <div>
+                <button id="install-button" class="top-button">install</button>
+            </div>
+
             <div class="section">
-                <button id="install-button">install</button>
+                <div class="audio">
+                    <div>
+                        <audio src="" autoplay type="audio/webm" onended=""></audio>
+                        <span class="time">1:20</span>
+                        <span class="progress">
+                            <span class="background">
+                                <span class="fill"></span>
+                            </span>
+                        </span>
+                        <span class="time">3:25</span>
+                    </div>
+                    <div class="controls-bottom">
+                        <span>
+                            <button onclick="" class="fa fa-step-backward"></button>
+                            <button onclick="" class="fa fa-step-backward"></button>
+                            <button onclick="" class="fa fa-step-backward"></button>
+                        </span>
+                        <span class="controls-right">
+                            <button onclick="" class="fa fa-step-backward"></button>
+                            <button onclick="" class="fa fa-backward"></button>
+                            <button onclick="" class="fa fa-pause"></button>
+                            <button onclick="" class="fa fa-play"></button>
+                            <button onclick="" class="fa fa-forward"></button>
+                            <button onclick="" class="fa fa-step-forward"></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <p><span>playing 906 of 1386 Trance - New Life</span></p>
             </div>
 
             <div class="section">
@@ -40,22 +113,12 @@
                 <button>add</button>
                 <input id="directory-selector" type="file" webkitdirectory multiple hidden>
             </div>
+        </div>
 
-            <div class="section"> <!--audio-control-button-group-->
-                <button onclick="" class="fa fa-step-backward"></button>
-                <button onclick="" class="fa fa-backward"></button>
-                <button onclick="" class="fa fa-pause"></button>
-                <button onclick="" class="fa fa-play"></button>
-                <button onclick="" class="fa fa-forward"></button>
-                <button onclick="" class="fa fa-step-forward"></button>
-            </div>
-
-            <div class="section">
-                <p><span>playing 906 of 1386 Trance - New Life</span></p>
-            </div>
-
+        <div class="container">
             <div class="section" bind-for="song in list">
                 <p><span class="song-link" bind="song"></span></p>
+                <p><span>x</span></p>
             </div>
         </div>
     </body>
