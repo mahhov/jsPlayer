@@ -69,6 +69,11 @@
             .controls-right {
                 float: right;
             }
+
+            .text-input {
+                font: inherit;
+                padding: 2px 6px;
+            }
         </style>
     </head>
 
@@ -114,9 +119,10 @@
 
             <div class="section">
                 <div>
+                    <input id="directory-selector" type="file" webkitdirectory multiple hidden>
                     <button>clear</button>
                     <button>add</button>
-                    <input id="directory-selector" type="file" webkitdirectory multiple hidden>
+                    <input class="text-input" placeholder="search">
                 </div>
 
                 <div bind-for="song in list">
