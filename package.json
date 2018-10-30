@@ -1,24 +1,24 @@
 {
- "name": "js-player",
- "version": "1.0.0",
- "description": "progressive web app to play local media",
- "main": "index.js",
- "scripts": {
-  "build-windows": "rmdir /s/q build > nul && mkdir build && xcopy /s/e src build && node node_modules\\browserify\\bin\\cmd --debug src\\main.js -o build\\main.js",
-  "serve": "http-server build -o -a localhost -c-1",
-  "scss": "node-sass styleScss/style.scss -o src",
-  "watch-windows": "nodemon --watch src -e html,js,css --exec npm run build-windows"
- },
- "author": "",
- "license": "ISC",
- "devDependencies": {
-  "browserify": "^16.2.3",
-  "http-server": "^0.11.1",
-  "nodemon": "^1.18.5"
- },
- "dependencies": {
-  "bb-better-binding": "^8.1.0",
-  "font-awesome": "^4.7.0",
-  "node-sass": "^4.9.4"
- }
+  "name": "js-player",
+  "version": "1.0.0",
+  "description": "progressive web app to play local media",
+  "main": "index.js",
+  "scripts": {
+	"build-windows": "rmdir /s/q build > nul && npm run scss && xcopy /s/e src build && xcopy /s/e node_modules\\font-awesome\\fonts build\\fonts\\ && node node_modules\\browserify\\bin\\cmd --debug src\\main.js -o build\\main.js",
+	"serve": "http-server build -o -a localhost -c-1",
+	"scss": "node-sass styleScss/style.scss -o build",
+	"watch-windows": "nodemon --watch src --watch styleScss -e html,js,scss,css --exec npm run build-windows"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+	"browserify": "^16.2.3",
+	"http-server": "^0.11.1",
+	"nodemon": "^1.18.5"
+  },
+  "dependencies": {
+	"bb-better-binding": "^8.1.0",
+	"font-awesome": "^4.7.0",
+	"node-sass": "^4.9.4"
+  }
 }
