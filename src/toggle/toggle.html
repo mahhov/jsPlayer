@@ -1,0 +1,26 @@
+<div>
+    <style>
+        label {
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        label:hover {
+            background-color: #fafafa;
+        }
+
+        input:checked ~ .a {
+            display: none
+        }
+
+        input:not(:checked) ~ .b {
+            display: none
+        }
+    </style>
+
+    <label>
+        <input type="checkbox" hidden>
+        <span class="a">state 1</span>
+        <span class="b">state 2</span>
+    </label>
+</div>

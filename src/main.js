@@ -1,10 +1,9 @@
 const bb = require('bb-better-binding')();
-// bb.declareBlock('todoList', require('./todoListBlock/todoList'));
+bb.declareBlock('toggle', require('./toggle/toggle'));
 
+const $ = document.getElementById.bind(document);
 
 // navigator.serviceWorker.register('sw.js');
-//
-// const $ = document.getElementById.bind(document);
 //
 // window.customElements.define('playlist-item', class extends HTMLElement {
 // 	constructor() {
@@ -22,6 +21,7 @@ const bb = require('bb-better-binding')();
 //
 // });
 //
+
 document.addEventListener('DOMContentLoaded', () => {
 	const source = bb.boot(document.body);
 
