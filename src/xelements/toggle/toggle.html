@@ -1,0 +1,25 @@
+<style>
+    label {
+        display: inline-block;
+        padding: 3px 5px;
+        border-radius: 5px;
+    }
+
+    label:hover {
+        background-color: #eee;
+    }
+
+    input:checked ~ .toggle-off {
+        display: none
+    }
+
+    input:not(:checked) ~ .toggle-on {
+        display: none
+    }
+</style>
+
+<label class="toggle">
+    <input type="checkbox" hidden>
+    <slot name="toggle-on" class="toggle-on"></slot>
+    <slot name="toggle-off" class="toggle-off"></slot>
+</label>

@@ -1,7 +1,4 @@
-const bb = require('bb-better-binding')();
-bb.declareBlock('toggle', require('./toggle/toggle'));
-
-const $ = document.getElementById.bind(document);
+require('./xelements/import');
 
 // navigator.serviceWorker.register('sw.js');
 //
@@ -23,10 +20,6 @@ const $ = document.getElementById.bind(document);
 //
 
 document.addEventListener('DOMContentLoaded', () => {
-	const source = bb.boot(document.body);
-
-	source.list = ['The Elephant\'s Todo List', '2'];
-
 // 	let installEvent;
 // 	window.addEventListener('beforeinstallprompt', event => {
 // 		$('install-button').hidden = false;
