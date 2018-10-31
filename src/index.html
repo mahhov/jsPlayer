@@ -3,88 +3,16 @@
         <link rel="manifest" href="manifest.json">
         <link rel="stylesheet" href="style.css">
         <script src="main.js"></script>
-
-        <style>
-            .container {
-                margin-left: 30px;
-            }
-
-            .section {
-                margin-top: 30px;
-            }
-
-            .song-link {
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            .song-link:hover {
-                color: #0056b3;
-                text-decoration: underline;
-            }
-
-            .song-name {
-                margin-left: 10px;
-            }
-
-            .song-remove {
-                margin-left: 30px;
-            }
-
-            .top-button {
-                border-top: none;
-            }
-
-            .audio {
-                display: inline-block;
-            }
-
-            .progress {
-                display: inline-block;
-                width: 250px;
-            }
-
-            .background, .fill {
-                display: inline-block;
-                height: 10px;
-            }
-
-            .background {
-                background-color: lightblue;
-                position: relative;
-                width: 100%;
-            }
-
-            .fill {
-                background-color: deepskyblue;
-                position: absolute;
-                left: 0;
-                width: 39%;
-            }
-
-            .controls-bottom {
-                margin-top: 10px;
-            }
-
-            .controls-right {
-                float: right;
-            }
-
-            .text-input {
-                font: inherit;
-                padding: 2px 6px;
-            }
-        </style>
     </head>
 
     <body>
 
-        <div class="container header">
+        <div class="container">
             <div>
                 <button id="install-button" class="top-button">install</button>
             </div>
 
-            <div class="section">
+            <div class="header">
                 <div class="audio">
                     <div>
                         <audio src="" autoplay type="audio/webm" onended=""></audio>
@@ -127,6 +55,50 @@
                 </div>
 
                 <div bind-for="song in list">
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
+                    <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
                     <p><span>1</span><span class="song-link song-name" bind="song"></span><span class="song-link song-remove">x</span></p>
                     <!--todo x fa icon-->
                 </div>

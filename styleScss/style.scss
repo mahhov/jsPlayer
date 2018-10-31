@@ -3,3 +3,72 @@ $fa-font-path: "../fonts";
 @import './colors';
 @import './layout';
 @import './button';
+
+input {
+  color: $font-color;
+  background: $element-color;
+  border: 1px solid $font-color;
+}
+
+.song-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.song-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.song-name {
+  margin-left: 10px;
+}
+
+.song-remove {
+  margin-left: 30px;
+}
+
+.top-button {
+  border-top: none;
+}
+
+.audio {
+  display: inline-block;
+}
+
+.progress {
+  display: inline-block;
+  width: 250px;
+}
+
+.background, .fill {
+  display: inline-block;
+  height: 10px;
+}
+
+.background {
+  background-color: lightblue;
+  position: relative;
+  width: 100%;
+}
+
+.fill {
+  background-color: deepskyblue;
+  position: absolute;
+  left: 0;
+  width: 39%;
+}
+
+.controls-bottom {
+  margin-top: 10px;
+}
+
+.controls-right {
+  float: right;
+}
+
+.text-input {
+  font: inherit;
+  padding: 2px 6px;
+}
+
