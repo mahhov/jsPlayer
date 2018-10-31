@@ -33,8 +33,10 @@
                         <span class="controls-right">
                             <button onclick="" class="fa fa-step-backward"></button>
                             <button onclick="" class="fa fa-backward"></button>
-                            <button onclick="" class="fa fa-pause"></button>
-                            <button onclick="" class="fa fa-play"></button>
+                            <x-toggle>
+                                <button slot="toggle-on" onclick="" class="fa fa-pause"></button>
+                                <button slot="toggle-off" onclick="" class="fa fa-play"></button>
+                            </x-toggle>
                             <button onclick="" class="fa fa-forward"></button>
                             <button onclick="" class="fa fa-step-forward"></button>
                         </span>
