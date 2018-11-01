@@ -15,24 +15,6 @@ input {
   border: 1px solid $font-color;
 }
 
-.song-link {
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.song-link:hover {
-  color: #0056b3;
-  text-decoration: underline;
-}
-
-.song-name {
-  margin-left: 10px;
-}
-
-.song-remove {
-  margin-left: 30px;
-}
-
 .top-button {
   border-top: none;
 }
