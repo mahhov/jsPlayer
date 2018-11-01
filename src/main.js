@@ -1,3 +1,4 @@
+require('./shareStyling');
 require('./xelements/import');
 
 // navigator.serviceWorker.register('sw.js');
