@@ -16,7 +16,8 @@ customElements.define('x-song-list-item', class extends XElement {
 			if (!this.hasAttribute('title'))
 				this.setAttribute('title', '');
 
-			this.$('#remove').addEventListener('click', this.onRemove_);// todo need bind?
+			this.$('#title').addEventListener('click', this.onSelect_); // todo need bind?
+			this.$('#remove').addEventListener('click', this.onRemove_); // todo need bind?
 		}
 
 		disconnectedCallback() {
@@ -41,6 +42,10 @@ customElements.define('x-song-list-item', class extends XElement {
 
 		attributeChangedCallback(name, oldValue, newValue) {
 			this.$(`#${name}`).textContent = newValue;
+		}
+
+		onSelect_() {
+			this.dispatchEvent(new CustomEvent('select-song', {number: this.number, title: this.title}))
 		}
 
 		onRemove_() {
