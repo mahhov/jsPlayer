@@ -17,6 +17,7 @@ input {
 
 .top-button {
   border-top: none;
+  border-radius: 0px;
 }
 
 .audio {
@@ -51,8 +52,6 @@ input {
 }
 
 .controls-bottom button {
-  border-radius: 5px;
-  outline: none;
   width: 30px;
   height: 30px;
 }
