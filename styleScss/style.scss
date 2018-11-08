@@ -50,6 +50,13 @@ input {
   margin-top: 10px;
 }
 
+.controls-bottom button {
+  border-radius: 5px;
+  outline: none;
+  width: 30px;
+  height: 30px;
+}
+
 .controls-right {
   float: right;
 }
@@ -58,4 +65,3 @@ input {
   font: inherit;
   padding: 2px 6px;
 }
-

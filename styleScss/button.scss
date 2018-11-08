@@ -1,8 +1,4 @@
-input[type=checkbox], input[type=radio] {
-  display: none;
-}
-
-button, input[type=checkbox] + label, input[type=radio] + label {
+button {
   color: $font-color;
   background: $element-color;
   border: 1px solid $font-color;
@@ -11,11 +7,11 @@ button, input[type=checkbox] + label, input[type=radio] + label {
   transition: .2s ease;
 }
 
-button:hover, input[type=checkbox]:hover + label, input[type=radio]:hover + label {
+button:hover {
   background: $hover-color;
 }
 
-button:active, input[type=checkbox]:checked + label, input[type=radio]:checked + label {
+button:active {
   color: $active-font-color;
   background: $active-color;
 }
