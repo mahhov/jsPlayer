@@ -20,6 +20,7 @@
   "dependencies": {
 	"bb-better-binding": "^8.1.0",
 	"font-awesome": "^4.7.0",
-	"node-sass": "^4.9.4"
+	"node-sass": "^4.9.4",
+	"shadow-dom-style-sharing": "^1.1.0"
   }
 }

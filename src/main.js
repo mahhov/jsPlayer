@@ -1,4 +1,4 @@
-require('./shareStyling');
+require('shadow-dom-style-sharing');
 require('./xelements/import');
 
 // navigator.serviceWorker.register('sw.js');
