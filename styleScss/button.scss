@@ -1,4 +1,4 @@
-button {
+button, .theme button {
   color: $font-color;
   background: $element-color;
   border: 1px solid $font-color;
@@ -9,11 +9,11 @@ button {
   transition: .2s ease;
 }
 
-button:hover {
+button:hover, .theme button:hover {
   background: $hover-color;
 }
 
-button:active {
+button:active, .theme button:active {
   color: $active-font-color;
   background: $active-color;
 }

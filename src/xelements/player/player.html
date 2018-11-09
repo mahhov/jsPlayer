@@ -1,0 +1,73 @@
+<style>
+	.audio {
+		display: inline-block;
+	}
+
+	.progress {
+		display: inline-block;
+		width: 250px;
+	}
+
+	.background, .fill {
+		display: inline-block;
+		height: 10px;
+	}
+
+	.background {
+		background-color: lightblue;
+		position: relative;
+		width: 100%;
+	}
+
+	.fill {
+		background-color: deepskyblue;
+		position: absolute;
+		left: 0;
+		width: 39%;
+	}
+
+	.controls-bottom button {
+		width: 30px;
+		height: 30px;
+	}
+
+	.controls-right {
+		float: right;
+	}
+
+	.inner-section {
+		margin-top: 20px;
+	}
+</style>
+
+<div class="audio">
+	<div>
+		<audio src="" autoplay type="audio/webm" onended=""></audio>
+		<span class="time">1:20</span>
+		<span class="progress">
+			<span class="background">
+				<span class="fill"></span>
+			</span>
+		</span>
+		<span class="time">3:25</span>
+	</div>
+	<div class="inner-section controls-bottom">
+		<span>
+			<button onclick="" class="fa fa-window-minimize"></button>
+			<button onclick="" class="fa fa-window-maximize"></button>
+			<button onclick="" class="fa fa-random"></button>
+		</span>
+		<span class="controls-right">
+			<button onclick="" class="fa fa-step-backward"></button>
+			<button onclick="" class="fa fa-backward"></button>
+			<x-toggle>
+				<button slot="toggle-on" onclick="" class="fa fa-pause"></button>
+				<button slot="toggle-off" onclick="" class="fa fa-play"></button>
+			</x-toggle>
+			<button onclick="" class="fa fa-forward"></button>
+			<button onclick="" class="fa fa-step-forward"></button>
+		</span>
+	</div>
+</div>
+
+<div class="inner-section"><span>playing 906 of 1386 Trance - New Life</span></div>

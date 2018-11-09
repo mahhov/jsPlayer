@@ -17,47 +17,7 @@ input {
 
 .top-button {
   border-top: none;
-  border-radius: 0px;
-}
-
-.audio {
-  display: inline-block;
-}
-
-.progress {
-  display: inline-block;
-  width: 250px;
-}
-
-.background, .fill {
-  display: inline-block;
-  height: 10px;
-}
-
-.background {
-  background-color: lightblue;
-  position: relative;
-  width: 100%;
-}
-
-.fill {
-  background-color: deepskyblue;
-  position: absolute;
-  left: 0;
-  width: 39%;
-}
-
-.controls-bottom {
-  margin-top: 10px;
-}
-
-.controls-bottom button {
-  width: 30px;
-  height: 30px;
-}
-
-.controls-right {
-  float: right;
+  border-radius: 0;
 }
 
 .text-input {
