@@ -1,4 +1,4 @@
-let template = require('fs').readFileSync(`${__dirname}/songListItem.html`, 'utf8');
+const template = require('fs').readFileSync(`${__dirname}/songListItem.html`, 'utf8');
 const XElement = require('../XElement');
 
 customElements.define('x-song-list-item', class extends XElement {
