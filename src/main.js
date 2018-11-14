@@ -1,5 +1,8 @@
 require('shadow-dom-style-sharing');
 require('./xelements/import');
+const SongStorage = require('./storage/SongStorage');
+
+const songStorage = new SongStorage();
 
 // navigator.serviceWorker.register('sw.js');
 //
@@ -19,6 +22,9 @@ require('./xelements/import');
 //
 // });
 //
+
+// songStorage.writeSong({id: 3, title: 'title', audioData: 'xcxcxxxcx'})
+// songStorage.getAllSongs().then(x => console.log(x))
 
 document.addEventListener('DOMContentLoaded', () => {
 // 	let installEvent;
