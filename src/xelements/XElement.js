@@ -12,6 +12,11 @@ class XElement extends HTMLElement {
 	$$(query) {
 		return this.shadowRoot.querySelectorAll(query);
 	}
+
+	static clearChildren(element) {
+		while (element.firstChild)
+			element.removeChild(element.firstChild);
+	}
 }
 
 module.exports = XElement;

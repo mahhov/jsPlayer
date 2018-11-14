@@ -1,3 +1,4 @@
 require('./player/player');
-require('./toggle/toggle');
+require('./songList/songList');
 require('./songListItem/songListItem');
+require('./toggle/toggle');

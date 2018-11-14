@@ -27,6 +27,12 @@ const songStorage = new SongStorage();
 // songStorage.getAllSongs().then(x => console.log(x))
 
 document.addEventListener('DOMContentLoaded', () => {
+	$('#song-list').list = [
+		{title: 'flamingo', index: 3},
+		{title: 'elemphant', index: 8},
+		{title: 'mouse', index: 0},
+	];
+
 // 	let installEvent;
 // 	window.addEventListener('beforeinstallprompt', event => {
 // 		$('install-button').hidden = false;
