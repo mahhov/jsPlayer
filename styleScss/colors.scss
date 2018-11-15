@@ -15,7 +15,6 @@ $theme: light;
   $active-color: #2980b9;
 
   $font-color: #ecf0f1;
-  $active-font-color: #ecf0f1;
 
 } @else if $theme == light {
   $background-color: #fff;
@@ -25,7 +24,6 @@ $theme: light;
   $active-color: #ccf;
 
   $font-color: #00d;
-  $active-font-color: #a0d;
 }
 
 // css variables to integrate with custom elements
