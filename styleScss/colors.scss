@@ -21,9 +21,14 @@ $theme: light;
   $background-color: #fff;
 
   $element-color: #fff;
-  $hover-color: #eee;
+  $hover-color: #f0f7ff;
   $active-color: #ccf;
 
   $font-color: #00d;
   $active-font-color: #a0d;
+}
+
+// css variables to integrate with custom elements
+.theme * {
+  --hover-color: #{$hover-color};
 }
