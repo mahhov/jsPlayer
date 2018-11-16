@@ -6,7 +6,7 @@ customElements.define('x-song-list', class extends XElement {
 			super(template);
 		}
 
-		set list(listOfTitles) {
+		set list(titles) {
 			let listDiv = this.$('#list');
 			XElement.clearChildren(listDiv);
 
