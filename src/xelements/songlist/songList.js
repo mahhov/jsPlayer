@@ -11,12 +11,20 @@ customElements.define('x-song-list', class extends XElement {
 			XElement.clearChildren(listDiv);
 			songs
 				.sort(({index: i}, {index: j}) => i - j)
-				.map(({title, index}) => {
+				.map(({title, index, ...song}) => {
 					let element = document.createElement('x-song-list-item');
 					element.title = title;
 					element.number = index;
-					return element;
-				}).forEach(element => listDiv.appendChild(element));
+					return {title, index, ...song, element};
+				})
+				.forEach(({element, ...song}) => {
+					listDiv.appendChild(element);
+					element.addEventListener('click', () => this.onSongSelect_(song));
+				});
+		}
+
+		onSongSelect_(song) {
+			this.dispatchEvent(new CustomEvent('song-select', {detail: song}));
 		}
 	}
 );
