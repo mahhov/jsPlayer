@@ -6,25 +6,28 @@ customElements.define('x-song-list', class extends XElement {
 			super(template);
 		}
 
-		set list(songs) {
+		set list(listOfTitles) {
 			let listDiv = this.$('#list');
 			XElement.clearChildren(listDiv);
-			songs
-				.sort(({index: i}, {index: j}) => i - j)
-				.map(({title, index, ...song}) => {
-					let element = document.createElement('x-song-list-item');
-					element.title = title;
-					element.number = index;
-					return {title, index, ...song, element};
-				})
-				.forEach(({element, ...song}) => {
-					listDiv.appendChild(element);
-					element.addEventListener('click', () => this.onSongSelect_(song));
-				});
+
+			this.items_ = titles.map((title, index) => {
+				let element = document.createElement('x-song-list-item');
+				element.title = title;
+				element.number = index;
+				return element;
+			});
+			this.items_.forEach((element, index) => {
+				listDiv.appendChild(element);
+				element.addEventListener('click', () => this.onSongSelect_(index));
+			});
 		}
 
-		onSongSelect_(song) {
-			this.dispatchEvent(new CustomEvent('song-select', {detail: song}));
+		setSelectedSong(index) {
+			this.items_[index].selected = true;
+		}
+
+		onSongSelect_(index) {
+			this.dispatchEvent(new CustomEvent('song-select', {detail: index}));
 		}
 	}
 );
