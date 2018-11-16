@@ -3,7 +3,7 @@ const XElement = require('../XElement');
 
 customElements.define('x-song-list-item', class extends XElement {
 		static get observedAttributes() {
-			return ['number', 'title'];
+			return ['number', 'title', 'selected'];
 		}
 
 		constructor() {
@@ -37,8 +37,22 @@ customElements.define('x-song-list-item', class extends XElement {
 			this.setAttribute('title', value);
 		}
 
-		attributeChangedCallback(name, oldValue, newValue) {
-			this.$(`#${name}`).textContent = newValue;
+		get selected() {
+			return this.hasAttribute('selected');
+		}
+
+		set selected(value) {
+			if (value)
+				this.setAttribute('selected', '');
+			else
+				this.removeAttribute('selected');
+		}
+
+		attributeChangedCallback(name, oldValue, newValue, ...x) {
+			if (name === 'selected')
+				this.$('p').classList.toggle('selected', this.hasAttribute('selected'));
+			else
+				this.$(`#${name}`).textContent = newValue;
 		}
 	}
 );
