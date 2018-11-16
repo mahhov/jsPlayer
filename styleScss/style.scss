@@ -11,8 +11,13 @@ $fa-font-path: "../fonts";
 
 input {
   color: $font-color;
-  background: $element-color;
+  background-color: var(--hover-color);
   border: 1px solid $font-color;
+  outline: none;
+}
+
+input:focus {
+  background-color: white;
 }
 
 .top-button {

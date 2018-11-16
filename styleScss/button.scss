@@ -1,11 +1,9 @@
 button, .theme button {
   color: $font-color;
   background: $element-color;
-  border: 1px solid $font-color;
-  border-radius: 5px;
+  border: none;
   outline: none;
   cursor: pointer;
-  padding: 2px 6px;
   transition: .2s ease;
 }
 
@@ -14,6 +12,5 @@ button:hover, .theme button:hover {
 }
 
 button:active, .theme button:active {
-  color: $active-font-color;
   background: $active-color;
 }
