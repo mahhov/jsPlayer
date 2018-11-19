@@ -20,9 +20,6 @@ customElements.define('x-player', class extends XElement {
 			// this.$('#remove').addEventListener('click', this.onRemove_); // todo need bind?
 		}
 
-		disconnectedCallback() {
-			// this.$('#remove').removeEventListener('click', this.onRemove_);
-		}
 
 		get number() {
 			// return this.getAttribute('number');

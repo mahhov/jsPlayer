@@ -17,10 +17,6 @@ customElements.define('x-song-list-item', class extends XElement {
 				this.setAttribute('title', '');
 		}
 
-		disconnectedCallback() {
-			this.$('#remove').removeEventListener('click', this.onRemove_);
-		}
-
 		get number() {
 			return this.getAttribute('number');
 		}
@@ -48,7 +44,7 @@ customElements.define('x-song-list-item', class extends XElement {
 				this.removeAttribute('selected');
 		}
 
-		attributeChangedCallback(name, oldValue, newValue, ...x) {
+		attributeChangedCallback(name, oldValue, newValue) {
 			if (name === 'selected')
 				this.$('p').classList.toggle('selected', this.hasAttribute('selected'));
 			else
