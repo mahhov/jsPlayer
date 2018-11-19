@@ -3,32 +3,16 @@
 		display: inline-block;
 	}
 
-	.progress {
-		display: inline-block;
-		width: 250px;
+	#volume-bar {
+		width: 100px;
 	}
 
-	.background, .fill {
-		display: inline-block;
-		height: 10px;
-	}
-
-	.background {
-		background-color: lightblue;
-		position: relative;
-		width: 100%;
-	}
-
-	.fill {
-		background-color: deepskyblue;
-		position: absolute;
-		left: 0;
-		width: 39%;
+	#time-bar {
+		width: 500px;
 	}
 
 	.controls-bottom button {
 		width: 30px;
-		height: 30px;
 	}
 
 	.controls-right {
@@ -43,13 +27,8 @@
 <div class="audio">
 	<div>
 		<audio src="" autoplay type="audio/webm" onended=""></audio>
-		<span class="time">1:20</span>
-		<span class="progress">
-			<span class="background">
-				<span class="fill"></span>
-			</span>
-		</span>
-		<span class="time">3:25</span>
+		<x-progress-bar id="volume-bar" value-post="90%" progress="90"></x-progress-bar>
+		<x-progress-bar id="time-bar" value-pre="2:08" value-post="4:15" progress="50"></x-progress-bar>
 	</div>
 	<div class="inner-section controls-bottom">
 		<span>
