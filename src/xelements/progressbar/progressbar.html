@@ -1,0 +1,36 @@
+<style>
+	.container {
+		display: flex; /* todo */
+	}
+
+	.progress {
+		width: 100%;
+	}
+
+	.background, .fill {
+		display: inline-block;
+		height: 10px;
+	}
+
+	.background {
+		background-color: lightblue;
+		position: relative;
+		width: 100%;
+	}
+
+	.fill {
+		background-color: deepskyblue;
+		position: absolute;
+		left: 0;
+	}
+</style>
+
+<div class="container">
+	<span id="value-pre" class="value"></span>
+	<span id="progress" class="progress">
+		<span class="background">
+			<span id="progress-fill" class="fill"></span>
+		</span>
+	</span>
+	<span id="value-post" class="value"></span>
+</div>
