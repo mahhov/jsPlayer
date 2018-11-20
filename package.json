@@ -6,6 +6,7 @@
   "scripts": {
 	"build-windows": "rmdir /s/q build 2> nul & npm run scss && xcopy /s/e src build && xcopy /s/e node_modules\\font-awesome\\fonts build\\fonts\\ && node node_modules\\browserify\\bin\\cmd -t brfs --debug src\\main.js -o build\\main.js",
 	"serve": "http-server build -o -a localhost -c-1",
+	"serve-resources": "http-server resources -a localhost -p 8089 -c-1",
 	"scss": "node-sass styleScss/style.scss -o build",
 	"watch-windows": "nodemon --watch src --watch styleScss -e html,js,scss,css --exec npm run build-windows"
   },
