@@ -11,21 +11,14 @@
 				<button id="install-button" class="top-button">install</button>
 			</div>
 
+			<input class="text-input" placeholder="search">
+
 			<div class="header">
-				<x-player></x-player>
+				<x-player src="http://localhost:8089/sample.webm"></x-player>
 			</div>
 
 			<div class="section">
-				<div>
-					<input id="directory-selector" type="file" webkitdirectory multiple hidden>
-					<button>clear</button>
-					<button>add</button>
-					<input class="text-input" placeholder="search">
-				</div>
-
-				<div>
-					<x-song-list id="song-list"></x-song-list>
-				</div>
+				<x-song-list id="song-list"></x-song-list>
 			</div>
 		</div>
 	</body>
