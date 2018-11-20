@@ -11,10 +11,12 @@ customElements.define('x-player', class Player extends XElement {
 		}
 
 		connectedCallback() {
-			this.$('audio').addEventListener('timeupdate', () => this.onProgressChange_());
+			this.onVolumeChange_();
+			this.$('audio').addEventListener('volumechange', () => this.onVolumeChange_());
+			this.$('audio').addEventListener('timeupdate', () => this.onTimeChange_());
 			this.$('audio').addEventListener('ended', this.onEnded_.bind(this));
-
-			this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetProgress_(detail));
+			this.$('#volume-bar').addEventListener('progress-set', ({detail}) => this.onSetVolume_(detail));
+			this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
 		}
 
 		get src() {
@@ -30,7 +32,13 @@ customElements.define('x-player', class Player extends XElement {
 				this.$('audio').src = newValue;
 		}
 
-		onProgressChange_() {
+		onVolumeChange_() {
+			let {volume} = this.$('audio');
+			this.$('#volume-bar').progress = volume;
+			this.$('#volume-bar').preValue = Player.volumeFormat(volume);
+		}
+
+		onTimeChange_() {
 			let {currentTime, duration} = this.$('audio');
 			this.$('#time-bar').progress = currentTime / duration;
 			this.$('#time-bar').preValue = Player.timeFormat(currentTime);
@@ -41,8 +49,24 @@ customElements.define('x-player', class Player extends XElement {
 			this.dispatchEvent(new CustomEvent('ended'));
 		}
 
-		onSetProgress_(progress) {
-			this.$('audio').currentTime = progress * this.$('audio').duration;
+		onSetVolume_(volume) {
+			volume = Math.round(volume * 20) / 20;
+
+			const THRESHOLD = .15;
+			if (volume < THRESHOLD)
+				volume = 0;
+			if (volume > 1 - THRESHOLD)
+				volume = 1;
+
+			this.$('audio').volume = volume;
+		}
+
+		onSetTime_(time) {
+			this.$('audio').currentTime = time * this.$('audio').duration;
+		}
+
+		static volumeFormat(volume) {
+			return Player.num2str((volume * 100).toFixed(0), 2);
 		}
 
 		static timeFormat(seconds) {
