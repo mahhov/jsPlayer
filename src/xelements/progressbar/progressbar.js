@@ -3,7 +3,7 @@ const XElement = require('../XElement');
 
 customElements.define('x-progress-bar', class extends XElement {
 		static get observedAttributes() {
-			return ['value-pre', 'value-post', 'progress'];
+			return ['pre-value', 'post-value', 'progress'];
 		}
 
 		constructor() {
@@ -14,20 +14,20 @@ customElements.define('x-progress-bar', class extends XElement {
 			this.$('#progress').addEventListener('click', this.onProgressClick_.bind(this))
 		}
 
-		get valuePre() {
-			return this.getAttribute('value-pre');
+		get preValue() {
+			return this.getAttribute('pre-value');
 		}
 
-		set valuePre(value) {
-			this.setAttribute('value-pre', value);
+		set preValue(value) {
+			this.setAttribute('pre-value', value);
 		}
 
-		get valuePost() {
-			return this.getAttribute('value-post');
+		get postValue() {
+			return this.getAttribute('post-value');
 		}
 
-		set valuePost(value) {
-			this.setAttribute('value-post', value);
+		set postValue(value) {
+			this.setAttribute('post-value', value);
 		}
 
 		get progress() {
