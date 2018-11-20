@@ -3,7 +3,7 @@ const XElement = require('../XElement');
 
 customElements.define('x-player', class extends XElement {
 		static get observedAttributes() {
-			// return ['label', 'title'];
+			return ['src'];
 		}
 
 		constructor() {
@@ -11,34 +11,47 @@ customElements.define('x-player', class extends XElement {
 		}
 
 		connectedCallback() {
-			// if (!this.hasAttribute('number'))
-			// 	this.setAttribute('number', 0);
-			// if (!this.hasAttribute('title'))
-			// 	this.setAttribute('title', '');
-			//
-			// this.$('#title').addEventListener('click', this.onSelect_); // todo need bind?
-			// this.$('#remove').addEventListener('click', this.onRemove_); // todo need bind?
+			this.$('audio').addEventListener('timeupdate', () => this.onProgressChange_());
+			this.$('audio').addEventListener('ended', this.onEnded_.bind(this));
+
+			this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetProgress_(detail));
 		}
 
-
-		get number() {
-			// return this.getAttribute('number');
+		get src() {
+			return this.getAttribute('src');
 		}
 
-		set number(value) {
-			// this.setAttribute('number', value);
+		set src(value) {
+			this.setAttribute('src', value);
 		}
 
 		attributeChangedCallback(name, oldValue, newValue) {
-			// this.$(`#${name}`).textContent = newValue;
+			if (name === 'src')
+				this.$('audio').src = newValue;
 		}
 
-		onSelect_() {
-			// this.dispatchEvent(new CustomEvent('select-song', {number: this.number, title: this.title}))
+		onProgressChange_() {
+			let {currentTime, duration} = this.$('audio');
+			this.$('#time-bar').progress = currentTime / duration;
+			this.$('#time-bar').preValue = this.constructor.timeFormat(currentTime);
+			this.$('#time-bar').postValue = this.constructor.timeFormat(duration);
 		}
 
-		onRemove_() {
-			// this.dispatchEvent(new CustomEvent('remove-song', {number: this.number, title: this.title}));
+		onEnded_() {
+			this.dispatchEvent(new CustomEvent('ended'));
+		}
+
+		onSetProgress_(progress) {
+			this.$('audio').currentTime = progress * this.$('audio').duration;
+		}
+
+		static timeFormat(seconds) {
+			seconds = parseInt(seconds);
+			if (seconds < 60)
+				return `${seconds}s`;
+			let remainderSeconds = seconds % 60;
+			let minutes = seconds - rseconds;
+			return `${minutes}:${remainderSeconds}`;
 		}
 	}
 );
