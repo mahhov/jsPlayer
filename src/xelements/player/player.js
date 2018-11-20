@@ -1,7 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
 const XElement = require('../XElement');
 
-customElements.define('x-player', class extends XElement {
+customElements.define('x-player', class Player extends XElement {
 		static get observedAttributes() {
 			return ['src'];
 		}
@@ -33,8 +33,8 @@ customElements.define('x-player', class extends XElement {
 		onProgressChange_() {
 			let {currentTime, duration} = this.$('audio');
 			this.$('#time-bar').progress = currentTime / duration;
-			this.$('#time-bar').preValue = this.constructor.timeFormat(currentTime);
-			this.$('#time-bar').postValue = this.constructor.timeFormat(duration);
+			this.$('#time-bar').preValue = Player.timeFormat(currentTime);
+			this.$('#time-bar').postValue = Player.timeFormat(duration);
 		}
 
 		onEnded_() {
@@ -47,11 +47,13 @@ customElements.define('x-player', class extends XElement {
 
 		static timeFormat(seconds) {
 			seconds = parseInt(seconds);
-			if (seconds < 60)
-				return `${seconds}s`;
-			let remainderSeconds = seconds % 60;
-			let minutes = seconds - rseconds;
+			let remainderSeconds = Player.num2str(seconds % 60, 2);
+			let minutes = Player.num2str(seconds - remainderSeconds);
 			return `${minutes}:${remainderSeconds}`;
+		}
+
+		static num2str(number, length) {
+			return number.toString().padStart(length, 0);
 		}
 	}
 );
