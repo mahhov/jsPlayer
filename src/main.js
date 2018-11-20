@@ -1,4 +1,4 @@
-require('shadow-dom-style-sharing');
+const styleSharing = require('shadow-dom-style-sharing');
 require('./xelements/import');
 const SongStorage = require('./storage/SongStorage');
 
@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		{title: 'elemphant', index: 8},
 		{title: 'mouse', index: 0},
 	];
+
+	styleSharing.process(document);
 
 // 	let installEvent;
 // 	window.addEventListener('beforeinstallprompt', event => {
