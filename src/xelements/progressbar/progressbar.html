@@ -5,18 +5,18 @@
 
 	.container {
 		display: flex;
-		align-items: center;
+		flex-direction: column;
+		height: 100%;
 	}
 
 	.progress {
 		flex-grow: 1;
-		margin-left: 10px;
-		margin-right: 10px;
+		height: 0;
 	}
 
 	.background, .fill {
 		display: inline-block;
-		height: 10px;
+		height: 100%;
 	}
 
 	.background {
@@ -30,14 +30,20 @@
 		position: absolute;
 		left: 0;
 	}
+
+	.post-value {
+		float: right;
+	}
 </style>
 
 <div class="container">
-	<span id="pre-value" class="value"></span>
-	<span id="progress" class="progress">
+	<div>
+		<span id="pre-value" class="pre-value"></span>
+		<span id="post-value" class="post-value"></span>
+	</div>
+	<div id="progress" class="progress">
 		<span class="background">
 			<span id="progress-fill" class="fill"></span>
 		</span>
-	</span>
-	<span id="post-value" class="value"></span>
+	</div>
 </div>

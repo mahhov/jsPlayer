@@ -3,40 +3,52 @@
 		display: inline-block;
 	}
 
-	#volume-bar {
-		width: 100px;
-	}
-
 	#time-bar {
-		width: 500px;
+		width: 300px;
+		height: 27px;
 	}
 
-	.controls-bottom button {
-		width: 30px;
+	#volume-bar {
+		width: 55px;
+		height: 17px;
 	}
 
-	.controls-right {
-		float: right;
+	.controls {
+		display: flex;
 	}
 
-	.inner-section {
+	.controls-primary {
+		justify-content: space-evenly;
+		margin: 10px 60px 0;
+	}
+
+	.controls-secondary {
+		justify-content: space-between;
 		margin-top: 20px;
+		font-size: 10px;
+	}
+
+	.controls > {
+		width: 30px;
+		text-align: center;
+	}
+
+	.controls-secondary > button {
+		color: gray;
+	}
+
+	.status {
+		margin-top: 30px;
 	}
 </style>
 
 <div class="audio">
 	<div>
 		<audio autoplay type="audio/webm" onended=""></audio>
-		<x-progress-bar id="volume-bar"></x-progress-bar>
 		<x-progress-bar id="time-bar"></x-progress-bar>
 	</div>
-	<div class="inner-section controls-bottom">
-		<span>
-			<button onclick="" class="fa fa-window-minimize"></button>
-			<button onclick="" class="fa fa-window-maximize"></button>
-			<button onclick="" class="fa fa-random"></button>
-		</span>
-		<span class="controls-right">
+	<div class="">
+		<div class="controls controls-primary">
 			<button onclick="" class="fa fa-step-backward"></button>
 			<button onclick="" class="fa fa-backward"></button>
 			<x-toggle>
@@ -45,8 +57,14 @@
 			</x-toggle>
 			<button onclick="" class="fa fa-forward"></button>
 			<button onclick="" class="fa fa-step-forward"></button>
-		</span>
+		</div>
+		<div class="controls controls-secondary">
+			<x-progress-bar id="volume-bar"></x-progress-bar>
+			<button onclick="" class="fa fa-window-minimize"></button>
+			<button onclick="" class="fa fa-window-maximize"></button>
+			<button onclick="" class="fa fa-random"></button>
+		</div>
 	</div>
 </div>
 
-<div class="inner-section"><span>playing 906 of 1386 Trance - New Life</span></div>
+<div class="status"><span>playing 906 of 1386 Trance - New Life</span></div>
