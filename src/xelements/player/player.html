@@ -1,6 +1,7 @@
 <style>
 	.audio {
 		display: inline-block;
+		user-select: none;
 	}
 
 	#time-bar {
@@ -13,53 +14,57 @@
 		height: 17px;
 	}
 
-	.controls {
+	.status {
+		margin-top: 30px;
+	}
+
+	.controls-container {
+		margin-top: 10px;
 		display: flex;
-	}
-
-	.controls-primary {
-		justify-content: space-evenly;
-		margin: 10px 60px 0;
-	}
-
-	.controls-secondary {
 		justify-content: space-between;
-		margin-top: 20px;
+		align-items: center;
+	}
+
+	.center-controls {
+		flex-grow: 1;
+		display: flex;
+		justify-content: space-evenly;
+	}
+
+	.side-controls {
+		width: 100px;
 		font-size: 10px;
 	}
 
-	.controls > {
-		width: 30px;
+	.right-side-controls {
+		text-align: right
+	}
+
+	.play-toggle {
+		font-size: 25px;
 		text-align: center;
-	}
-
-	.controls-secondary > button {
-		color: gray;
-	}
-
-	.status {
-		margin-top: 30px;
+		width: 34px;
 	}
 </style>
 
 <div class="audio">
 	<div>
 		<audio autoplay type="audio/webm" onended=""></audio>
-		<x-progress-bar id="time-bar"></x-progress-bar>
+		<x-progress-bar id="time-bar" pre-value="0:00" post-value="0:00"></x-progress-bar>
 	</div>
-	<div class="">
-		<div class="controls controls-primary">
+	<div class="controls-container">
+		<div class="side-controls">
+			<x-progress-bar id="volume-bar"></x-progress-bar>
+		</div>
+		<div class="center-controls">
 			<button onclick="" class="fa fa-step-backward"></button>
-			<button onclick="" class="fa fa-backward"></button>
-			<x-toggle>
+			<x-toggle class="play-toggle">
 				<button slot="toggle-on" onclick="" class="fa fa-pause"></button>
 				<button slot="toggle-off" onclick="" class="fa fa-play"></button>
 			</x-toggle>
-			<button onclick="" class="fa fa-forward"></button>
 			<button onclick="" class="fa fa-step-forward"></button>
 		</div>
-		<div class="controls controls-secondary">
-			<x-progress-bar id="volume-bar"></x-progress-bar>
+		<div class="side-controls right-side-controls">
 			<button onclick="" class="fa fa-window-minimize"></button>
 			<button onclick="" class="fa fa-window-maximize"></button>
 			<button onclick="" class="fa fa-random"></button>
