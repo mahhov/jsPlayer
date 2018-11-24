@@ -17,8 +17,7 @@ customElements.define('x-player', class Player extends XElement {
 			this.$('audio').addEventListener('ended', this.onEnd_.bind(this));
 			this.$('#volume-bar').addEventListener('progress-set', ({detail}) => this.onSetVolume_(detail));
 			this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
-
-			this.$('#pause').addEventListener('change', ({detail}) => console.log('change', detail))
+			this.$('#pause').addEventListener('change', ({detail}) => this.onPauseToggle_(detail))
 		}
 
 		get src() {
@@ -65,6 +64,13 @@ customElements.define('x-player', class Player extends XElement {
 
 		onSetTime_(time) {
 			this.$('audio').currentTime = time * this.$('audio').duration;
+		}
+
+		onPauseToggle_(pause) {
+			if (pause)
+				this.$('audio').pause();
+			else
+				this.$('audio').play();
 		}
 
 		static volumeFormat(volume) {
