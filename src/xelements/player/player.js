@@ -14,9 +14,11 @@ customElements.define('x-player', class Player extends XElement {
 			this.onVolumeChange_();
 			this.$('audio').addEventListener('volumechange', () => this.onVolumeChange_());
 			this.$('audio').addEventListener('timeupdate', () => this.onTimeChange_());
-			this.$('audio').addEventListener('ended', this.onEnded_.bind(this));
+			this.$('audio').addEventListener('ended', this.onEnd_.bind(this));
 			this.$('#volume-bar').addEventListener('progress-set', ({detail}) => this.onSetVolume_(detail));
 			this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
+
+			this.$('#pause').addEventListener('change', ({detail}) => console.log('change', detail))
 		}
 
 		get src() {
@@ -45,8 +47,8 @@ customElements.define('x-player', class Player extends XElement {
 			this.$('#time-bar').postValue = Player.timeFormat(duration);
 		}
 
-		onEnded_() {
-			this.dispatchEvent(new CustomEvent('ended'));
+		onEnd_() {
+			this.dispatchEvent(new CustomEvent('end'));
 		}
 
 		onSetVolume_(volume) {

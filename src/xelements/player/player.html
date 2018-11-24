@@ -40,7 +40,7 @@
 		text-align: right
 	}
 
-	.play-toggle {
+	.pause-toggle {
 		font-size: 25px;
 		text-align: center;
 		width: 34px;
@@ -49,7 +49,7 @@
 
 <div class="audio">
 	<div>
-		<audio autoplay type="audio/webm" onended=""></audio>
+		<audio autoplay type="audio/webm"></audio>
 		<x-progress-bar id="time-bar" pre-value="0:00" post-value="0:00"></x-progress-bar>
 	</div>
 	<div class="controls-container">
@@ -57,17 +57,17 @@
 			<x-progress-bar id="volume-bar"></x-progress-bar>
 		</div>
 		<div class="center-controls">
-			<button onclick="" class="fa fa-step-backward"></button>
-			<x-toggle class="play-toggle">
-				<button slot="toggle-on" onclick="" class="fa fa-pause"></button>
-				<button slot="toggle-off" onclick="" class="fa fa-play"></button>
+			<button class="fa fa-step-backward"></button>
+			<x-toggle id="pause" class="pause-toggle">
+				<button slot="toggle-on" class="fa fa-pause"></button>
+				<button slot="toggle-off" class="fa fa-play"></button>
 			</x-toggle>
-			<button onclick="" class="fa fa-step-forward"></button>
+			<button class="fa fa-step-forward"></button>
 		</div>
 		<div class="side-controls right-side-controls">
-			<button onclick="" class="fa fa-window-minimize"></button>
-			<button onclick="" class="fa fa-window-maximize"></button>
-			<button onclick="" class="fa fa-random"></button>
+			<button class="fa fa-window-minimize"></button>
+			<button class="fa fa-window-maximize"></button>
+			<button class="fa fa-random"></button>
 		</div>
 	</div>
 </div>
