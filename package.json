@@ -7,15 +7,16 @@
 	"build-windows": "rmdir /s/q build 2> nul & npm run scss && xcopy /s/e src build && xcopy /s/e node_modules\\font-awesome\\fonts build\\fonts\\ && node node_modules\\browserify\\bin\\cmd -t brfs --debug src\\main.js -o build\\main.js",
 	"serve": "http-server build -o -a localhost -c-1",
 	"serve-resources": "http-server resources -a localhost -p 8089 -c-1",
-	"scss": "node-sass styleScss/style.scss -o build",
-	"watch-windows": "nodemon --watch src --watch styleScss -e html,js,scss,css --exec npm run build-windows"
+	"scss": "node-sass styleScss/style.scss -o build/style",
+	"watch-windows": "nodemon --watch src --watch styleScss -e html,js,scss,css --exec npm run build-windows",
+	"electron-dev": "electron build/index.html"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
 	"brfs": "^2.0.1",
 	"browserify": "^16.2.3",
-	"electron": "^3.0.10",
+	"electron": "^4.0.0-beta.7",
 	"http-server": "^0.11.1",
 	"nodemon": "^1.18.5"
   },
