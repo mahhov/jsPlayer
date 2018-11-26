@@ -27,11 +27,20 @@ const songStorage = new SongStorage();
 // songStorage.getAllSongs().then(x => console.log(x))
 
 document.addEventListener('DOMContentLoaded', () => {
+	let $ = query =>
+		document.querySelector(query);
+
 	$('#song-list').list = [
-		{title: 'flamingo', index: 3},
-		{title: 'elemphant', index: 8},
-		{title: 'mouse', index: 0},
+		'flamingo',
+		'elemphant',
+		'mouse',
 	];
+
+	$('#song-list').addEventListener('song-select', ({detail}) => console.log(detail));
+
+	$('x-player').addEventListener('end', () => {
+		console.log('ended caught by main.js');
+	});
 
 	styleSharing.process(document);
 
