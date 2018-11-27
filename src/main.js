@@ -4,25 +4,6 @@ const SongStorage = require('./storage/SongStorage');
 
 const songStorage = new SongStorage();
 
-// navigator.serviceWorker.register('sw.js');
-//
-// window.customElements.define('playlist-item', class extends HTMLElement {
-// 	constructor() {
-// 		super();
-// 		this.attachShadow({mode: 'open'});
-// 		this.containerDiv = document.createElement('div');
-// 		this.name = document.createElement('div');
-// 		this.controls = document.createElement('div');
-//
-//
-// 		this.shadowRoot.appendChild(containerDiv);
-// 	}
-//
-// 	update(list)
-//
-// });
-//
-
 // songStorage.writeSong({id: 3, title: 'title', audioData: 'xcxcxxxcx'})
 // songStorage.getAllSongs().then(x => console.log(x))
 
