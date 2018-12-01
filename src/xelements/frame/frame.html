@@ -1,0 +1,34 @@
+<style>
+	.select-strip {
+		position: absolute;
+		bottom: 30px;
+	}
+
+	button {
+		width: 30px;
+		height: 30px;
+	}
+
+	[slot="toggle-on"] {
+		background: #aaf;
+		color: white;
+	}
+</style>
+
+<div>dude</div>
+
+<div class="select-strip">
+	<x-toggle id="player">
+		<button slot="toggle-on" class="fa fa-music"></button>
+		<button slot="toggle-off" class="fa fa-music"></button>
+	</x-toggle>
+	<x-toggle id="list">
+		<button slot="toggle-on" class="fa fa-list"></button>
+		<button slot="toggle-off" class="fa fa-list"></button>
+	</x-toggle>
+	<x-toggle id="downloader">
+		<button slot="toggle-on" class="fa fa-download"></button>
+		<button slot="toggle-off" class="fa fa-download"></button>
+	</x-toggle>
+
+</div>
