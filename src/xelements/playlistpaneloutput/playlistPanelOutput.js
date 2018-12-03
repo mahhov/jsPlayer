@@ -6,9 +6,6 @@ customElements.define('x-playlist-panel-output', class extends XElement {
 			super(template);
 		}
 
-		connectedCallback() {
-		}
-
 		set plaoutputPrinter(value) {
 			this.setAttribute('id', value);
 		}

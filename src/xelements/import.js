@@ -1,6 +1,6 @@
 require('./frame/frame');
 require('./player/player');
-require('./playlistPanel/playlistPanel');
+require('./playlistpanel/playlistPanel');
 require('./playlistpanelitem/playlistPanelItem');
 require('./playlistpaneloutput/playlistPanelOutput');
 require('./progressbar/progressbar');
