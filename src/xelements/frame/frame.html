@@ -1,4 +1,8 @@
 <style>
+	.hidden-frame {
+		display: none;
+	}
+
 	.select-strip {
 		position: absolute;
 		bottom: 30px;
@@ -15,18 +19,20 @@
 	}
 </style>
 
-<div>dude</div>
+<div id="player-frame">dude 1</div>
+<div id="list-frame">dude 2</div>
+<div id="downloader-frame">dude 3</div>
 
 <div class="select-strip">
-	<x-toggle id="player">
+	<x-toggle id="player-select">
 		<button slot="toggle-on" class="fa fa-music"></button>
 		<button slot="toggle-off" class="fa fa-music"></button>
 	</x-toggle>
-	<x-toggle id="list">
+	<x-toggle id="list-select">
 		<button slot="toggle-on" class="fa fa-list"></button>
 		<button slot="toggle-off" class="fa fa-list"></button>
 	</x-toggle>
-	<x-toggle id="downloader">
+	<x-toggle id="downloader-select">
 		<button slot="toggle-on" class="fa fa-download"></button>
 		<button slot="toggle-off" class="fa fa-download"></button>
 	</x-toggle>
