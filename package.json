@@ -26,7 +26,7 @@
   },
   "dependencies": {
 	"bb-better-binding": "^8.1.0",
-	"dwytpl": "^2.1.0",
+	"dwytpl": "^3.0.0",
 	"font-awesome": "^4.7.0",
 	"node-sass": "^4.9.4",
 	"shadow-dom-style-sharing": "^2.1.0"
