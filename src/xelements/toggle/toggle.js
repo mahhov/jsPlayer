@@ -30,6 +30,7 @@ customElements.define('x-toggle', class extends XElement {
 	}
 
 	onChange_() {
+		this.checked = this.$('#checkbox').checked;
 		this.dispatchEvent(new CustomEvent('change', {detail: this.checked}));
 	}
 });
