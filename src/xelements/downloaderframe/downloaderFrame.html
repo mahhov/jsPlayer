@@ -1,0 +1,31 @@
+<style>
+	:host {
+		display: contents;
+	}
+
+	x-playlist-panel,
+	x-fixed-line-div {
+		margin-top: 15px;
+	}
+
+	#playlist-panels-list,
+	#messages {
+		flex-basis: 0;
+		flex-grow: 1;
+		overflow-y: auto;
+		border: 1px red;
+	}
+</style>
+
+<div>
+	<input id="playlist-id">
+	<button id="add-playlist" class="fa fa-plus"></button>
+	<button id="refresh-all" class="fa fa-refresh"></button>
+</div>
+
+<div id="playlist-panels-list"></div>
+
+<x-fixed-line-div id="title" size="1"></x-fixed-line-div>
+<x-fixed-line-div id="summary" size="2"></x-fixed-line-div>
+<x-fixed-line-div id="progress" size="10"></x-fixed-line-div>
+<x-fixed-line-div id="messages" size="100"></x-fixed-line-div>
