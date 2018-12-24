@@ -1,16 +1,17 @@
-button, .theme button {
+.theme button {
   color: $font-color;
   background: $element-color;
   border: none;
   outline: none;
   cursor: pointer;
   transition: .2s ease;
+  padding: 0;
 }
 
-button:hover, .theme button:hover {
+.theme button:hover {
   background: $button-hover-color;
 }
 
-button:active, .theme button:active {
+.theme button:active {
   background: $active-color;
 }
