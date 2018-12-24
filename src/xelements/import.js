@@ -1,8 +1,8 @@
+require('./downloaderframe/downloaderFrame');
+require('./fixedlinesdiv/fixedLinesDiv');
 require('./frame/frame');
 require('./player/player');
 require('./playlistpanel/playlistPanel');
-require('./playlistpanelitem/playlistPanelItem');
-require('./playlistpaneloutput/playlistPanelOutput');
 require('./progressbar/progressbar');
 require('./songlist/songList');
 require('./songlistitem/songListItem');
