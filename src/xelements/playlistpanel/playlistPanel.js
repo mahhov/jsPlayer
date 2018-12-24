@@ -1,36 +1,63 @@
 const template = require('fs').readFileSync(`${__dirname}/playlistPanel.html`, 'utf8');
 const XElement = require('../XElement');
+const dwytpl = require('dwytpl');
+const DW_PATH = './downloads'; // todo external source for all js files
 
 customElements.define('x-playlist-panel', class extends XElement {
+		static get observedAttributes() {
+			return ['playlist-id'];
+		}
+
 		constructor() {
 			super(template);
 		}
 
-		set list(playlists) {
-			let listDiv = this.$('#list');
-			XElement.clearChildren(listDiv);
+		connectedCallback() {
+			if (!this.hasAttribute('playlist-id'))
+				this.setAttribute('playlist-id', '');
 
-			this.items_ = playlists.map(({title, count, id}, index) => {
-				let element = document.createElement('x-playlist-panel-item');
-				element.title = title;
-				element.count = count;
-				element.id = id;
-				return element;
-			});
-			this.items_.forEach((element, index) => {
-				listDiv.appendChild(element);
-				element.addEventListener('synch', () => this.onSynch_(index));
-			});
+			this.$('#refresh').addEventListener('click', () => this.refresh());
+			this.$('#download-toggle').addEventListener('change', ({detail: value}) =>
+				value ? this.onDownload_() : this.stopDownload());
+			this.$('#remove').addEventListener('click', () => this.onRemove_());
 		}
 
-		onSynch_(index) {
-			this.dispatchEvent(new CustomEvent('song-select', {detail: index}));
+		get playlistId() {
+			return this.getAttribute('playlist-id');
+		}
+
+		set playlistId(value) {
+			this.setAttribute('playlist-id', value);
+		}
+
+		attributeChangedCallback(name, oldValue, newValue) {
+			this.playlistId_ = newValue;
+			this.refresh();
+		}
+
+		refresh() {
+			this.playlist_ = new dwytpl.Playlist(this.playlistId);
+			this.syncher_ = new dwytpl.Syncher(this.playlist_);
+			this.syncher_.setDownloadDir(DW_PATH);
+
+			this.playlist_.getOverview().then(({title, length}) => {
+				this.$('#title').textContent = title;
+				this.$('#count').textContent = length;
+			});
+			this.$('#playlist-id').textContent = this.playlistId;
+		}
+
+		onDownload_() {
+			this.syncher_.download();
+			this.dispatchEvent(new CustomEvent('download', {detail: this.syncher_.tracker}));
+		}
+
+		stopDownload() {
+			this.syncher_.stopDownload();
+		}
+
+		onRemove_() {
+			this.remove();
 		}
 	}
 );
-
-// let playlists = [{
-// 	title: '',
-// 	count: 0,
-// 	id: ''
-// }];
