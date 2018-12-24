@@ -27,7 +27,7 @@ customElements.define('x-downloader-frame', class DownloaderFrame extends XEleme
 		playlistPanel.addEventListener('download', ({detail: tracker}) => {
 			this.connectTracker(tracker);
 			this.$$('#playlist-panels-list x-playlist-panel').forEach(playlistPanelIter => {
-				
+
 				if (playlistPanelIter !== playlistPanel)
 					playlistPanelIter.stopDownload();
 			});
