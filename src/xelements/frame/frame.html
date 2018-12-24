@@ -1,11 +1,18 @@
 <style>
-	.hidden-frame {
-		display: none;
+	:host {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+
+	.frame-group {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.select-strip {
-		position: absolute;
-		bottom: 30px;
+		margin-top: 30px;
 	}
 
 	button {
@@ -21,11 +28,17 @@
 	button[slot="toggle-on"]:hover {
 		background: #aaf;
 	}
+
+	.hidden-frame {
+		display: none;
+	}
 </style>
 
-<div id="player-frame">dude 1</div>
-<div id="list-frame">dude 2</div>
-<div id="downloader-frame">dude 3</div>
+<div class="frame-group">
+	<div id="player-frame">dude 1</div>
+	<div id="list-frame">dude 2</div>
+	<x-downloader-frame id="downloader-frame"></x-downloader-frame>
+</div>
 
 <div class="select-strip">
 	<x-toggle id="player-select">
@@ -40,5 +53,4 @@
 		<button slot="toggle-on" class="fa fa-download"></button>
 		<button slot="toggle-off" class="fa fa-download"></button>
 	</x-toggle>
-
 </div>

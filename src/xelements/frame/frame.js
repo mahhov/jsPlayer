@@ -7,24 +7,24 @@ customElements.define('x-frame', class Frame extends XElement {
 		}
 
 		connectedCallback() {
-			this.frames = [
+			this.frames_ = [
 				this.$('#player-frame'),
 				this.$('#list-frame'),
 				this.$('#downloader-frame')];
 
-			this.selects = [
+			this.selects_ = [
 				this.$('#player-select'),
 				this.$('#list-select'),
 				this.$('#downloader-select')];
 
-			this.selects.forEach((select, i) => select.addEventListener('change', () => this.onSelect_(i)))
+			this.selects_.forEach((select, i) => select.addEventListener('change', () => this.onSelect_(i)));
 
 			this.onSelect_(0);
 		}
 
 		onSelect_(index) {
-			this.selects.forEach((item, i) => item.checked = i === index);
-			this.frames.forEach((item, i) => item.classList.toggle('hidden-frame', i !== index));
+			this.selects_.forEach((item, i) => item.checked = i === index);
+			this.frames_.forEach((item, i) => item.classList.toggle('hidden-frame', i !== index));
 		}
 	}
 );
