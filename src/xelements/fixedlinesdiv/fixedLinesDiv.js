@@ -23,6 +23,7 @@ customElements.define('x-fixed-line-div', class FixedLinesDiv extends XElement {
 		}
 
 		set lines(value) {
+			this.size = value.length;
 			this.lines_ = value;
 			value.forEach((line, i) => this.linePres_[i].textContent = line);
 		}
