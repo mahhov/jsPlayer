@@ -11,12 +11,15 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	refresh_() {
-		XElement.clearChildren(this.$('#list'));
-		songStorage.getSongList().then(songList => songList.forEach(songName => {
-			let songDiv = document.createElement('div');
-			songDiv.textContent = songName;
-			this.$('#list').appendChild(songDiv);
-		}));
+		songStorage.getSongList().then(songList => {
+			this.$('#count').textContent = songList.length;
+			XElement.clearChildren(this.$('#list'));
+			songList.forEach((songName, i) => {
+				let songDiv = document.createElement('div');
+				songDiv.textContent = `${i} ${songName}`;
+				this.$('#list').appendChild(songDiv);
+			});
+		});
 	}
 });
 
