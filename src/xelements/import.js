@@ -1,6 +1,7 @@
 require('./downloaderframe/downloaderFrame');
 require('./fixedlinesdiv/fixedLinesDiv');
 require('./frame/frame');
+require('./listframe/listFrame');
 require('./player/player');
 require('./playlistpanel/playlistPanel');
 require('./progressbar/progressbar');
