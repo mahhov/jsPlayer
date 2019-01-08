@@ -6,18 +6,18 @@ const songStorage = require('../../storage/SongStorage');
 customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	constructor() {
 		super(template);
+		this.$('#refresh').addEventListener('click', () => this.refresh_());
 		this.refresh_();
 	}
 
 	refresh_() {
 		XElement.clearChildren(this.$('#list'));
 		songStorage.getSongList().then(songList => songList.forEach(songName => {
-			let p = document.createElement('p');
-			p.textContent = songName;
-			this.$('#list').appendChild(p);
+			let songDiv = document.createElement('div');
+			songDiv.textContent = songName;
+			this.$('#list').appendChild(songDiv);
 		}));
 	}
 });
 
 // todo on clicking a song name, play that song
-// todo refresh button

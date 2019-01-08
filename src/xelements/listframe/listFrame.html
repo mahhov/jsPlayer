@@ -1,8 +1,19 @@
 <style>
 	:host {
-		display: block;
+		display: contents;
+	}
+
+	#list {
 		overflow-y: auto;
 	}
+
+	#list div {
+		margin-top: 15px;
+	}
 </style>
+
+<div>
+	<button id="refresh" class="fa fa-refresh"></button>
+</div>
 
 <div id="list"></div>
