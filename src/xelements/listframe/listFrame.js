@@ -6,8 +6,16 @@ const songStorage = require('../../storage/SongStorage');
 customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	constructor() {
 		super(template);
-		this.$('#refresh').addEventListener('click', () => this.refresh_());
+		this.$('#search').addEventListener('input', this.filter_.bind(this));
+		this.$('#refresh').addEventListener('click', this.refresh_.bind(this));
 		this.refresh_();
+	}
+
+	filter_() {
+		let filterString = this.$('#search').value;
+		let filterRegex = new RegExp(filterString, 'i');
+		[...this.$('#list').children].forEach(song =>
+			song.hidden = filterString && !song.textContent.match(filterRegex));
 	}
 
 	refresh_() {
@@ -19,6 +27,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 				songDiv.textContent = `${i} ${songName}`;
 				this.$('#list').appendChild(songDiv);
 			});
+			this.filter_();
 		});
 	}
 });

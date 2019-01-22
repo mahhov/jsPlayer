@@ -3,8 +3,8 @@
 		display: contents;
 	}
 
-	button {
-		margin-left: 15px;
+	.top > * {
+		margin-right: 15px;
 	}
 
 	#list {
@@ -16,8 +16,9 @@
 	}
 </style>
 
-<div>
-	<span id="count"></span> songs
+<div class="top">
+	<span><span id="count"></span> songs</span>
+	<input id="search">
 	<button id="refresh" class="fa fa-refresh"></button>
 </div>
 
