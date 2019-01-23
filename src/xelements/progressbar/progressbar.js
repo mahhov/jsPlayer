@@ -11,7 +11,7 @@ customElements.define('x-progress-bar', class extends XElement {
 		}
 
 		connectedCallback() {
-			this.$('#progress').addEventListener('click', this.onProgressClick_.bind(this))
+			this.$('#progress').addEventListener('click', e => this.onProgressClick_(e))
 		}
 
 		get preValue() {
