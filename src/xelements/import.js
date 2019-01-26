@@ -3,6 +3,7 @@ require('./fixedlinesdiv/fixedLinesDiv');
 require('./frame/frame');
 require('./listframe/listFrame');
 require('./player/player');
+require('./playframe/PlayFrame');
 require('./playlistpanel/playlistPanel');
 require('./progressbar/progressbar');
 require('./songlist/songList');

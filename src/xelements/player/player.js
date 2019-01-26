@@ -66,11 +66,11 @@ customElements.define('x-player', class Player extends XElement {
 		this.$('audio').currentTime = time * this.$('audio').duration;
 	}
 
-	onPauseToggle_(pause) {
-		if (pause)
+	onPauseToggle_(play) {
+		if (!play)
 			this.$('audio').pause();
 		else
-			this.$('audio').play();
+			this.$('audio').play().catch(e => console.log('err playing', e));
 	}
 
 	static volumeFormat(volume) {
