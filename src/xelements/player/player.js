@@ -1,5 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
 const XElement = require('../XElement');
+const path = require('path');
+const songStorage = require('../../storage/SongStorage');
 
 customElements.define('x-player', class Player extends XElement {
 	static get observedAttributes() {
@@ -30,7 +32,7 @@ customElements.define('x-player', class Player extends XElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name === 'src')
-			this.$('audio').src = newValue;
+			this.$('audio').src = path.resolve(songStorage.getSongDir(), newValue);
 	}
 
 	onVolumeChange_() {
@@ -80,7 +82,7 @@ customElements.define('x-player', class Player extends XElement {
 	static timeFormat(seconds) {
 		seconds = parseInt(seconds);
 		let remainderSeconds = Player.num2str(seconds % 60, 2);
-		let minutes = Player.num2str(seconds - remainderSeconds);
+		let minutes = Player.num2str((seconds - remainderSeconds) / 60);
 		return `${minutes}:${remainderSeconds}`;
 	}
 
