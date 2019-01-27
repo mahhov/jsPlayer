@@ -31,8 +31,10 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-		if (name === 'src')
+		if (name === 'src') {
 			this.$('audio').src = path.resolve(songStorage.getSongDir(), newValue);
+			this.play_();
+		}
 	}
 
 	onVolumeChange_() {
@@ -72,7 +74,11 @@ customElements.define('x-player', class Player extends XElement {
 		if (!play)
 			this.$('audio').pause();
 		else
-			this.$('audio').play().catch(e => console.log('err playing', e));
+			this.play_();
+	}
+
+	play_() {
+		this.$('audio').play().catch(e => console.log('err playing', e));
 	}
 
 	static volumeFormat(volume) {

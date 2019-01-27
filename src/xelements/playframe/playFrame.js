@@ -13,7 +13,6 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 	}
 
 	nextSong() {
-		console.log('.nextsong request')
 		this.songList.then(songList => {
 			let index = this.seeker.getNext();
 			this.$('#player').src = songList[index];
