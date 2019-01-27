@@ -1,12 +1,12 @@
 const template = require('fs').readFileSync(`${__dirname}/playFrame.html`, 'utf8');
 const XElement = require('../XElement');
-const songStorage = require('../../service/SongStorage');
+const storage = require('../../service/Storage');
 const Seeker = require('../../service/Seeker');
 
 customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 	constructor() {
 		super(template);
-		this.songList = songStorage.getSongList();
+		this.songList = storage.getSongList();
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 		this.$('#player').addEventListener('shuffle', ({detail}) => this.setShuffle_(detail));

@@ -1,7 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
 const XElement = require('../XElement');
 const path = require('path');
-const songStorage = require('../../service/SongStorage');
+const storage = require('../../service/Storage');
 
 customElements.define('x-player', class Player extends XElement {
 	static get observedAttributes() {
@@ -34,7 +34,7 @@ customElements.define('x-player', class Player extends XElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name === 'src') {
-			this.$('audio').src = path.resolve(songStorage.getSongDir(), newValue);
+			this.$('audio').src = path.resolve(storage.getSongDir(), newValue);
 			this.play_();
 		}
 	}
@@ -88,7 +88,7 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	play_() {
-		this.$('audio').play().catch(e => console.log('err playing', e));
+		this.$('audio').play().catch(e => console.error('err playing', e));
 	}
 
 	static volumeFormat(volume) {

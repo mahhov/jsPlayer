@@ -1,6 +1,6 @@
 const template = require('fs').readFileSync(`${__dirname}/listFrame.html`, 'utf8');
 const XElement = require('../XElement');
-const songStorage = require('../../service/SongStorage');
+const storage = require('../../service/Storage');
 
 customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	constructor() {
@@ -18,7 +18,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	refresh_() {
-		songStorage.getSongList().then(songList => {
+		storage.getSongList().then(songList => {
 			this.$('#count').textContent = songList.length;
 			XElement.clearChildren(this.$('#list'));
 			songList.forEach((songName, i) => {
