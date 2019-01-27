@@ -1,6 +1,6 @@
 const template = require('fs').readFileSync(`${__dirname}/listFrame.html`, 'utf8');
 const XElement = require('../XElement');
-const songStorage = require('../../storage/SongStorage');
+const songStorage = require('../../service/SongStorage');
 
 customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	constructor() {

@@ -1,7 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
 const XElement = require('../XElement');
 const path = require('path');
-const songStorage = require('../../storage/SongStorage');
+const songStorage = require('../../service/SongStorage');
 
 customElements.define('x-player', class Player extends XElement {
 	static get observedAttributes() {
