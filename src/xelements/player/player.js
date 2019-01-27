@@ -21,6 +21,7 @@ customElements.define('x-player', class Player extends XElement {
 		this.$('#prev').addEventListener('click', () => this.onPrev_());
 		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseToggle_(detail));
 		this.$('#next').addEventListener('click', () => this.onEnd_());
+		this.$('#shuffle').addEventListener('change', ({detail}) => this.onShuffleToggle_(detail));
 	}
 
 	get src() {
@@ -69,7 +70,7 @@ customElements.define('x-player', class Player extends XElement {
 
 	onPrev_() {
 		const PREVIOUS_SONG_THRESHOLD_S = 5;
-		if (this.$('audio').currentTime <PREVIOUS_SONG_THRESHOLD_S)
+		if (this.$('audio').currentTime < PREVIOUS_SONG_THRESHOLD_S)
 			this.dispatchEvent(new CustomEvent('prev'));
 		else
 			this.onSetTime_(0);
@@ -80,6 +81,10 @@ customElements.define('x-player', class Player extends XElement {
 			this.$('audio').pause();
 		else
 			this.play_();
+	}
+
+	onShuffleToggle_(shuffle) {
+		this.dispatchEvent(new CustomEvent('shuffle', {detail: shuffle}));
 	}
 
 	play_() {

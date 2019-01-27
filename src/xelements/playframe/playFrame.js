@@ -9,7 +9,9 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.songList = songStorage.getSongList();
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
+		this.$('#player').addEventListener('shuffle', ({detail}) => this.setShuffle_(detail));
 		this.songList.then(songList => {
+			/* todo seeker is defined async, and can cause errors if accessed before resolved */
 			this.seeker = new Seeker(songList.length);
 			this.setSong_(this.seeker.getCurrent());
 		});
@@ -21,6 +23,10 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 
 	nextSong_() {
 		this.setSong_(this.seeker.getNext());
+	}
+
+	setShuffle_(shuffle) {
+		this.seeker.setShuffle(shuffle);
 	}
 
 	setSong_(index) {
