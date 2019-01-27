@@ -23,7 +23,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 			XElement.clearChildren(this.$('#list'));
 			songList.forEach((songName, i) => {
 				let songDiv = document.createElement('div');
-				songDiv.textContent = `${i} ${songName}`;
+				songDiv.textContent = `${i + 1} ${songName}`;
 				this.$('#list').appendChild(songDiv);
 			});
 			this.filter_();
