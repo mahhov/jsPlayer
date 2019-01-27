@@ -13,13 +13,14 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	connectedCallback() {
-		this.onVolumeChange_();
-		this.$('audio').addEventListener('volumechange', () => this.onVolumeChange_());
+		this.onSetVolume_(1);
 		this.$('audio').addEventListener('timeupdate', () => this.onTimeChange_());
 		this.$('audio').addEventListener('ended', () => this.onEnd_());
 		this.$('#volume-bar').addEventListener('progress-set', ({detail}) => this.onSetVolume_(detail));
 		this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
-		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseToggle_(detail))
+		this.$('#prev').addEventListener('click', () => this.onPrev_());
+		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseToggle_(detail));
+		this.$('#next').addEventListener('click', () => this.onEnd_());
 	}
 
 	get src() {
@@ -37,12 +38,6 @@ customElements.define('x-player', class Player extends XElement {
 		}
 	}
 
-	onVolumeChange_() {
-		let {volume} = this.$('audio');
-		this.$('#volume-bar').progress = volume;
-		this.$('#volume-bar').preValue = Player.volumeFormat(volume);
-	}
-
 	onTimeChange_() {
 		let {currentTime, duration} = this.$('audio');
 		this.$('#time-bar').progress = currentTime / duration;
@@ -51,7 +46,7 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	onEnd_() {
-		this.dispatchEvent(new CustomEvent('end'));
+		this.dispatchEvent(new CustomEvent('next'));
 	}
 
 	onSetVolume_(volume) {
@@ -63,11 +58,21 @@ customElements.define('x-player', class Player extends XElement {
 		if (volume > 1 - THRESHOLD)
 			volume = 1;
 
+		this.$('#volume-bar').progress = volume;
+		this.$('#volume-bar').preValue = Player.volumeFormat(volume);
 		this.$('audio').volume = volume;
 	}
 
 	onSetTime_(time) {
 		this.$('audio').currentTime = time * this.$('audio').duration;
+	}
+
+	onPrev_() {
+		const PREVIOUS_SONG_THRESHOLD_S = 5;
+		if (this.$('audio').currentTime <PREVIOUS_SONG_THRESHOLD_S)
+			this.dispatchEvent(new CustomEvent('prev'));
+		else
+			this.onSetTime_(0);
 	}
 
 	onPauseToggle_(play) {

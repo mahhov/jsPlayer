@@ -7,18 +7,30 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 	constructor() {
 		super(template);
 		this.songList = songStorage.getSongList();
-		this.songList.then(songList => this.seeker = new Seeker(songList.length));
-		this.$('#player').addEventListener('end', () => this.nextSong());
-		this.nextSong();
+		this.$('#player').addEventListener('prev', () => this.prevSong_());
+		this.$('#player').addEventListener('next', () => this.nextSong_());
+		this.songList.then(songList => {
+			this.seeker = new Seeker(songList.length);
+			this.setSong_(this.seeker.getCurrent());
+		});
 	}
 
-	nextSong() {
+	prevSong_() {
+		this.setSong_(this.seeker.getPrev());
+	}
+
+	nextSong_() {
+		this.setSong_(this.seeker.getNext());
+	}
+
+	setSong_(index) {
 		this.songList.then(songList => {
-			let index = this.seeker.getNext();
+			console.log('play', index)
 			this.$('#player').src = songList[index];
+			// todo set status
 		});
 	}
 });
 
-// extract audio player and reuse in list frame
-// extract seeker to service and add shuffle, etc
+// todo extract audio player and reuse in list frame
+// todo extract seeker to service and add shuffle, etc
