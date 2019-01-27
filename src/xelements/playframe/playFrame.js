@@ -25,9 +25,8 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 
 	setSong_(index) {
 		this.songList.then(songList => {
-			console.log('play', index)
 			this.$('#player').src = songList[index];
-			// todo set status
+			this.$('#status').textContent = `playing ${index + 1} of ${songList.length} ${songList[index]}`;
 		});
 	}
 });
