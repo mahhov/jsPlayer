@@ -1,7 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/playlistPanel.html`, 'utf8');
 const XElement = require('../XElement');
 const dwytpl = require('dwytpl');
-const DW_PATH = './downloads'; // todo external source for all js files
+const storage = require('../../service/Storage');
 
 customElements.define('x-playlist-panel', class extends XElement {
 		static get observedAttributes() {
@@ -38,7 +38,7 @@ customElements.define('x-playlist-panel', class extends XElement {
 		refresh() {
 			this.playlist_ = new dwytpl.Playlist(this.playlistId);
 			this.syncher_ = new dwytpl.Syncher(this.playlist_);
-			this.syncher_.setDownloadDir(DW_PATH);
+			this.syncher_.setDownloadDir(storage.getSongDir());
 
 			this.playlist_.getOverview().then(({title, length}) => {
 				this.$('#title').textContent = title;
