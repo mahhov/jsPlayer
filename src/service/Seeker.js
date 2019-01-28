@@ -2,11 +2,15 @@
 let randInt = (min, max) => parseInt(Math.random() * (max - min) + min);
 
 class Seeker {
-	constructor(size) {
-		this.size = size;
+	constructor() {
+		this.size = 0;
 		this.current = 0;
 		this.isShuffle = false;
 		this.shuffled = [];
+	}
+
+	setSize(size) {
+		this.size = size;
 	}
 
 	setShuffle(shuffle) {

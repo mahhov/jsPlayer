@@ -37,7 +37,7 @@ let getPlayerSettings = async () => {
 	await prepareDir_();
 	return fs.readFile(path.resolve(STORAGE_DIR, PLAYER_SETTINGS))
 		.then(a => JSON.parse(a.toString()))
-		.catch(() => {});
+		.catch(() => ({}));
 };
 
 let savePlayerSettings = async playerSettings => {

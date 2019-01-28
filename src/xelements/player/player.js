@@ -13,7 +13,10 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	connectedCallback() {
-		this.onSetVolume_(1);
+		storage.getPlayerSettings().then(({volume, shuffle}) => {
+			this.setVolume_(volume);
+			this.shuffleToggle_(shuffle);
+		});
 		this.$('audio').addEventListener('timeupdate', () => this.onTimeChange_());
 		this.$('audio').addEventListener('ended', () => this.onEnd_());
 		this.$('#volume-bar').addEventListener('progress-set', ({detail}) => this.onSetVolume_(detail));
@@ -51,6 +54,11 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	onSetVolume_(volume) {
+		this.setVolume_(volume);
+		this.savePlayerSettings_();
+	}
+
+	setVolume_(volume = 0) {
 		volume = Math.round(volume * 20) / 20;
 
 		const THRESHOLD = .15;
@@ -84,11 +92,24 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	onShuffleToggle_(shuffle) {
+		this.shuffleToggle_(shuffle);
+		this.savePlayerSettings_();
+	}
+
+	shuffleToggle_(shuffle) {
 		this.dispatchEvent(new CustomEvent('shuffle', {detail: shuffle}));
+		this.$('#shuffle').checked = shuffle;
 	}
 
 	play_() {
 		this.$('audio').play().catch(e => console.error('err playing', e));
+	}
+
+	savePlayerSettings_() {
+		storage.savePlayerSettings({
+			volume: this.$('audio').volume,
+			shuffle: this.$('#shuffle').checked,
+		});
 	}
 
 	static volumeFormat(volume) {
