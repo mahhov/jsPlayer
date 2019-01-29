@@ -1,6 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/downloaderFrame.html`, 'utf8');
 const XElement = require('../XElement');
 const styleSharing = require('shadow-dom-style-sharing');
+const storage = require('../../service/Storage');
 
 customElements.define('x-downloader-frame', class DownloaderFrame extends XElement {
 	constructor() {
@@ -8,15 +9,16 @@ customElements.define('x-downloader-frame', class DownloaderFrame extends XEleme
 	}
 
 	connectedCallback() {
+		storage.getPlaylistList().then(playlistList =>
+			playlistList.forEach(playlist => this.addPlaylistPanel_(playlist)));
+
 		this.$('#add-playlist').addEventListener('click', () => this.onAddPlaylist_());
 		this.$('#refresh-all').addEventListener('click', () => this.onRefreshAll_());
-
-		this.addPlaylistPanel_('PLameShrvoeYfp54xeNPK1fGxd2a7IzqU2'); // todo from storage
-		this.addPlaylistPanel_('PLameShrvoeYfzOWuBX2bbER0LXD9EuxGx');
 	}
 
 	onAddPlaylist_() {
 		this.addPlaylistPanel_(this.$('#playlist-id').value);
+		this.savePlaylistList_();
 	}
 
 	addPlaylistPanel_(playlistId) {
@@ -31,6 +33,7 @@ customElements.define('x-downloader-frame', class DownloaderFrame extends XEleme
 					playlistPanelIter.stopDownload();
 			});
 		});
+		playlistPanel.addEventListener('removed', () => this.savePlaylistList_());
 
 		this.$('#playlist-panels-list').appendChild(playlistPanel);
 	}
@@ -38,6 +41,10 @@ customElements.define('x-downloader-frame', class DownloaderFrame extends XEleme
 	onRefreshAll_() {
 		this.$$('#playlist-panels-list x-playlist-panel').forEach(playlistPanel =>
 			playlistPanel.refresh());
+	}
+
+	savePlaylistList_() {
+		storage.savePlaylistList([...this.$('#playlist-panels-list').children].map(playlistPanel => playlistPanel.playlistId));
 	}
 
 	connectTracker(tracker) {

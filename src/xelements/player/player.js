@@ -18,6 +18,7 @@ customElements.define('x-player', class Player extends XElement {
 			this.shuffleToggle(shuffle);
 			this.onEnd_();
 		});
+
 		this.$('audio').addEventListener('timeupdate', () => this.onTimeChange_());
 		this.$('audio').addEventListener('ended', () => this.onEnd_());
 		this.$('#volume-bar').addEventListener('progress-set', ({detail}) => this.onSetVolume_(detail));

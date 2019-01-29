@@ -58,6 +58,7 @@ customElements.define('x-playlist-panel', class extends XElement {
 
 		onRemove_() {
 			this.remove();
+			this.dispatchEvent(new CustomEvent('removed'));
 		}
 	}
 );
