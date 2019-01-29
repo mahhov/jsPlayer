@@ -5,6 +5,9 @@ const storage = require('../../service/Storage');
 customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	constructor() {
 		super(template);
+	}
+
+	connectedCallback() {
 		this.$('#search').addEventListener('input', () => this.filter_());
 		this.$('#refresh').addEventListener('click', () => this.refresh_());
 		this.refresh_();

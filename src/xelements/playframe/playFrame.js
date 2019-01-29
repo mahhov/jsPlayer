@@ -6,6 +6,9 @@ const Seeker = require('../../service/Seeker');
 customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 	constructor() {
 		super(template);
+	}
+
+	connectedCallback() {
 		this.songList = storage.getSongList();
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());

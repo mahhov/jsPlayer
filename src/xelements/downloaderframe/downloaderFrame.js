@@ -5,7 +5,9 @@ const styleSharing = require('shadow-dom-style-sharing');
 customElements.define('x-downloader-frame', class DownloaderFrame extends XElement {
 	constructor() {
 		super(template);
+	}
 
+	connectedCallback() {
 		this.$('#add-playlist').addEventListener('click', () => this.onAddPlaylist_());
 		this.$('#refresh-all').addEventListener('click', () => this.onRefreshAll_());
 
