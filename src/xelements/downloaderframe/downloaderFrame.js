@@ -23,7 +23,7 @@ customElements.define('x-downloader-frame', class DownloaderFrame extends XEleme
 
 	addPlaylistPanel_(playlistId) {
 		let playlistPanel = document.createElement('x-playlist-panel');
-		styleSharing.process(playlistPanel); // todo not applying for some reason
+		styleSharing.process(playlistPanel);
 		playlistPanel.playlistId = playlistId;
 
 		playlistPanel.addEventListener('download', ({detail: tracker}) => {

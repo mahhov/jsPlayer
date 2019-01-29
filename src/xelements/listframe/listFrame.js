@@ -33,5 +33,3 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 		});
 	}
 });
-
-// todo on clicking a song name, play that song

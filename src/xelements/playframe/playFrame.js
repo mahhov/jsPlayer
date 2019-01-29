@@ -37,6 +37,3 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		});
 	}
 });
-
-// todo extract audio player and reuse in list frame
-// todo extract seeker to service and add shuffle, etc
