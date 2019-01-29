@@ -4,7 +4,7 @@ let randInt = (min, max) => parseInt(Math.random() * (max - min) + min);
 class Seeker {
 	constructor() {
 		this.size = 0;
-		this.current = 0;
+		this.current = -1;
 		this.isShuffle = false;
 		this.shuffled = [];
 	}
