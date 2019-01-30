@@ -3,6 +3,8 @@ const XElement = require('../XElement');
 const path = require('path');
 const storage = require('../../service/Storage');
 
+const SEEK_DELTA_S = 10;
+
 customElements.define('x-player', class Player extends XElement {
 	static get observedAttributes() {
 		return ['src'];
@@ -44,6 +46,12 @@ customElements.define('x-player', class Player extends XElement {
 				case 'ArrowDown':
 				case ' ':
 					this.onPauseToggle_(this.$('#pause').checked = !this.$('#pause').checked);
+					break;
+				case ',':
+					this.seek_(-SEEK_DELTA_S);
+					break;
+				case '.':
+					this.seek_(SEEK_DELTA_S);
 					break;
 			}
 		});
@@ -125,6 +133,10 @@ customElements.define('x-player', class Player extends XElement {
 
 	play_() {
 		this.$('audio').play().catch(e => console.error('err playing', e));
+	}
+
+	seek_(deltaS) {
+		this.$('audio').currentTime = this.$('audio').currentTime + deltaS;
 	}
 
 	savePlayerSettings_() {
