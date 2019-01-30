@@ -27,6 +27,26 @@ customElements.define('x-player', class Player extends XElement {
 		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseToggle_(detail));
 		this.$('#next').addEventListener('click', () => this.onEnd_());
 		this.$('#shuffle').addEventListener('change', ({detail}) => this.onShuffleToggle_(detail));
+
+		document.addEventListener('keydown', e => {
+			if (e.repeat)
+				return;
+			switch (e.key) {
+				case 'ArrowLeft':
+					this.onPrev_();
+					break;
+				case 'ArrowRight':
+					this.onEnd_();
+					break;
+				case 'ArrowUp':
+					this.$('#shuffle').change();
+					break;
+				case 'ArrowDown':
+				case ' ':
+					this.onPauseToggle_(this.$('#pause').checked = !this.$('#pause').checked);
+					break;
+			}
+		});
 	}
 
 	get src() {
