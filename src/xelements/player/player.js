@@ -2,6 +2,7 @@ const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
 const XElement = require('../XElement');
 const path = require('path');
 const storage = require('../../service/Storage');
+const shortcuts = require('../../service/shortcuts');
 
 const SEEK_DELTA_S = 10;
 
@@ -17,7 +18,7 @@ customElements.define('x-player', class Player extends XElement {
 	connectedCallback() {
 		storage.getPlayerSettings().then(({volume, shuffle}) => {
 			this.setVolume(volume);
-			this.shuffleToggle(shuffle);
+			this.shuffleSet(shuffle);
 			this.onEnd_();
 		});
 
@@ -26,35 +27,14 @@ customElements.define('x-player', class Player extends XElement {
 		this.$('#volume-bar').addEventListener('progress-set', ({detail}) => this.onSetVolume_(detail));
 		this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
 		this.$('#prev').addEventListener('click', () => this.onPrev_());
-		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseToggle_(detail));
+		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseSet_(detail));
 		this.$('#next').addEventListener('click', () => this.onEnd_());
-		this.$('#shuffle').addEventListener('change', ({detail}) => this.onShuffleToggle_(detail));
+		this.$('#shuffle').addEventListener('change', ({detail}) => this.onShuffleSet_(detail));
 
-		document.addEventListener('keydown', e => {
-			if (e.repeat)
-				return;
-			switch (e.key) {
-				case 'ArrowLeft':
-					this.onPrev_();
-					break;
-				case 'ArrowRight':
-					this.onEnd_();
-					break;
-				case 'ArrowUp':
-					this.$('#shuffle').change();
-					break;
-				case 'ArrowDown':
-				case ' ':
-					this.onPauseToggle_(this.$('#pause').checked = !this.$('#pause').checked);
-					break;
-				case ',':
-					this.seek_(-SEEK_DELTA_S);
-					break;
-				case '.':
-					this.seek_(SEEK_DELTA_S);
-					break;
-			}
-		});
+		shortcuts.addListenerKeydown(this.handleKeypress_.bind(this));
+		shortcuts.addListenerGlobalPrev(() => this.onPrev_());
+		shortcuts.addListenerGlobalNext(() => this.onEnd_());
+		shortcuts.addListenerGlobalPause(() => this.pauseToggle_());
 	}
 
 	get src() {
@@ -114,21 +94,29 @@ customElements.define('x-player', class Player extends XElement {
 			this.onSetTime_(0);
 	}
 
-	onPauseToggle_(play) {
+	onPauseSet_(play) {
 		if (!play)
 			this.$('audio').pause();
 		else
 			this.play_();
 	}
 
-	onShuffleToggle_(shuffle) {
-		this.shuffleToggle(shuffle);
+	pauseToggle_() {
+		this.onPauseSet_(this.$('#pause').checked = !this.$('#pause').checked);
+	}
+
+	onShuffleSet_(shuffle) {
+		this.shuffleSet(shuffle);
 		this.savePlayerSettings_();
 	}
 
-	shuffleToggle(shuffle) {
+	shuffleSet(shuffle) {
 		this.dispatchEvent(new CustomEvent('shuffle', {detail: shuffle}));
 		this.$('#shuffle').checked = shuffle;
+	}
+
+	shuffleToggle_() {
+		this.onShuffleSet_(this.$('#shuffle').checked = !this.$('#shuffle').checked);
 	}
 
 	play_() {
@@ -144,6 +132,32 @@ customElements.define('x-player', class Player extends XElement {
 			volume: this.$('audio').volume,
 			shuffle: this.$('#shuffle').checked,
 		});
+	}
+
+	handleKeypress_(e) {
+		if (e.repeat)
+			return;
+		switch (e.key) {
+			case 'ArrowLeft':
+				this.onPrev_();
+				break;
+			case 'ArrowRight':
+				this.onEnd_();
+				break;
+			case 'ArrowUp':
+				this.shuffleToggle_();
+				break;
+			case 'ArrowDown':
+			case ' ':
+				this.pauseToggle_();
+				break;
+			case ',':
+				this.seek_(-SEEK_DELTA_S);
+				break;
+			case '.':
+				this.seek_(SEEK_DELTA_S);
+				break;
+		}
 	}
 
 	static volumeFormat(volume) {
