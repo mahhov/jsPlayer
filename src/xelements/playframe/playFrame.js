@@ -33,7 +33,9 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 	setSong_(index) {
 		this.songList.then(songList => {
 			this.$('#player').src = songList[index];
-			this.$('#status').textContent = `playing ${index + 1} of ${songList.length} ${songList[index]}`;
+			let numberText = `Playing ${index + 1} of ${songList.length}`;
+			this.$('#status').textContent = `${numberText} ${songList[index]}`;
+			new Notification(numberText, {body: songList[index]});
 		});
 	}
 });

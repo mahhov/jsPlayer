@@ -1,6 +1,9 @@
 const path = require('path');
 const {app, BrowserWindow, globalShortcut} = require('electron');
 
+// necessary for notifications
+app.setAppUserModelId(process.execPath);
+
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 
 app.on('ready', () => {
