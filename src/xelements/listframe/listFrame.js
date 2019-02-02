@@ -26,11 +26,16 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 			this.$('#count').textContent = songList.length;
 			XElement.clearChildren(this.$('#list'));
 			songList.forEach((songName, i) => {
-				let songDiv = document.createElement('div');
-				songDiv.textContent = `${i + 1} ${songName}`;
-				this.$('#list').appendChild(songDiv);
+				let songLine = document.createElement('a');
+				songLine.textContent = `${i + 1} ${songName}`;
+				this.$('#list').appendChild(songLine);
+				songLine.addEventListener('click', () => this.emitSelectSong_(i));
 			});
 			this.filter_();
 		});
+	}
+
+	emitSelectSong_(index) {
+		this.dispatchEvent(new CustomEvent('select-song', {detail: index}));
 	}
 });

@@ -19,18 +19,18 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 	}
 
 	prevSong_() {
-		this.songList.then(songList => this.setSong_(this.seeker.getPrev()));
+		this.songList.then(songList => this.setSong(this.seeker.getPrev()));
 	}
 
 	nextSong_() {
-		this.songList.then(songList => this.setSong_(this.seeker.getNext()));
+		this.songList.then(songList => this.setSong(this.seeker.getNext()));
 	}
 
 	setShuffle_(shuffle) {
 		this.seeker.setShuffle(shuffle);
 	}
 
-	setSong_(index) {
+	setSong(index) {
 		this.songList.then(songList => {
 			this.$('#player').src = songList[index];
 			let numberText = `Playing ${index + 1} of ${songList.length}`;

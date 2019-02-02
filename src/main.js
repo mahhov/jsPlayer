@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // todo
-// select player song from clicking on song from list
 // way to delete songs from list and player frames, and refresh download frame status and player
 // notifications on download and song change
 // fix playlist panel button fa icons
