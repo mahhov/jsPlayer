@@ -15,3 +15,4 @@ document.addEventListener('DOMContentLoaded', () => {
 // fix playlist panel button fa icons
 // ui to have less refresh buttons, automatically refresh player and list on new download
 // ui to look good
+// consistent file capitalization

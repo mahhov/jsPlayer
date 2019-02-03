@@ -1,6 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/frame.html`, 'utf8');
 const XElement = require('../XElement');
 const storage = require('../../service/Storage');
+const shortcuts = require('../../service/shortcuts');
 
 customElements.define('x-frame', class Frame extends XElement {
 		constructor() {
@@ -24,6 +25,8 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
 			this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 
+			shortcuts.addListenerKeydown(this.handleKeypress_.bind(this));
+
 			this.onSelect_(0);
 		}
 
@@ -38,6 +41,13 @@ customElements.define('x-frame', class Frame extends XElement {
 
 		onRemoveSong_(name) {
 			storage.removeSong(name);
+		}
+
+		handleKeypress_(e) {
+			if (e.repeat)
+				return;
+			if (e.key >= 1 && e.key <= 3)
+				this.onSelect_(parseInt(e.key) - 1);
 		}
 	}
 );
