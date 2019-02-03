@@ -28,26 +28,46 @@
 	}
 
 	.side-controls {
+		display: flex;
 		width: 100px;
+		font-size: 15px;
+	}
+
+	#volume-bar {
 		font-size: 10px;
 	}
 
 	.right-side-controls {
-		text-align: right;
-		font-size: 15px;
+		justify-content: flex-end;
 	}
 
-	.pause-toggle {
+	#pause {
 		font-size: 25px;
 		text-align: center;
+	}
+
+	#mute *,
+	#shuffle * {
+		width: 25px;
+	}
+
+	#pause * {
 		width: 34px;
 	}
 
-	.shuffle * {
+	#pause *,
+	#mute *,
+	#shuffle * {
 		padding: 5px;
 	}
 
-	.shuffle [slot='toggle-off'] {
+	#mute {
+		margin-right: 5px;
+	}
+
+	#pause [slot='toggle-off'],
+	#mute [slot='toggle-off'],
+	#shuffle [slot='toggle-off'] {
 		color: white;
 		background-color: darkgray;
 	}
@@ -60,18 +80,22 @@
 	</div>
 	<div class="controls-container">
 		<div class="side-controls">
+			<x-toggle id="mute">
+				<button slot="toggle-on" class="fa fa-volume-up"></button>
+				<button slot="toggle-off" class="fa fa-volume-off"></button>
+			</x-toggle>
 			<x-progress-bar id="volume-bar"></x-progress-bar>
 		</div>
 		<div class="center-controls">
 			<button id="prev" class="fa fa-step-backward"></button>
-			<x-toggle id="pause" class="pause-toggle" checked>
+			<x-toggle id="pause" checked>
 				<button slot="toggle-on" class="fa fa-pause"></button>
 				<button slot="toggle-off" class="fa fa-play"></button>
 			</x-toggle>
 			<button id="next" class="fa fa-step-forward"></button>
 		</div>
 		<div class="side-controls right-side-controls">
-			<x-toggle id="shuffle" class="shuffle">
+			<x-toggle id="shuffle">
 				<button slot="toggle-on" class="fa fa-random"></button>
 				<button slot="toggle-off" class="fa fa-random"></button>
 			</x-toggle>

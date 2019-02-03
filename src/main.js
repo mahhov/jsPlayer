@@ -9,8 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // todo
-// numbers 123 to shortcut for frames
-// way to delete songs from list and player frames, and refresh download frame status and player
+// refresh download frame status and player and list when deleting song
 // notifications on download and song change
 // fix playlist panel button fa icons
 // ui to have less refresh buttons, automatically refresh player and list on new download
