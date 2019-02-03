@@ -47,6 +47,10 @@ customElements.define('x-song-line', class extends XElement {
 				this.removeAttribute('selected');
 		}
 
+		get text() {
+			return `${this.number} ${this.title}`;
+		}
+
 		attributeChangedCallback(name, oldValue, newValue) {
 			if (name === 'selected')
 				this.$('p').classList.toggle('selected', this.hasAttribute('selected'));

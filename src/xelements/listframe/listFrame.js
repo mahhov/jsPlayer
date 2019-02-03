@@ -18,7 +18,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 		let filterString = this.$('#search').value;
 		let filterRegex = new RegExp(filterString, 'i');
 		[...this.$('#list').children].forEach(songLine =>
-			songLine.hidden = filterString && !songLine.title.match(filterRegex)); // todo allow filtering over index as well
+			songLine.hidden = filterString && !songLine.text.match(filterRegex));
 	}
 
 	refresh_() {
