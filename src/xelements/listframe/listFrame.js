@@ -17,8 +17,8 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	filter_() {
 		let filterString = this.$('#search').value;
 		let filterRegex = new RegExp(filterString, 'i');
-		[...this.$('#list').children].forEach(song =>
-			song.hidden = filterString && !song.textContent.match(filterRegex));
+		[...this.$('#list').children].forEach(songLine =>
+			songLine.hidden = filterString && !songLine.title.match(filterRegex)); // todo allow filtering over index as well
 	}
 
 	refresh_() {
@@ -26,10 +26,12 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 			this.$('#count').textContent = songList.length;
 			XElement.clearChildren(this.$('#list'));
 			songList.forEach((songName, i) => {
-				let songLine = document.createElement('a');
-				songLine.textContent = `${i + 1} ${songName}`;
+				let songLine = document.createElement('x-song-line');
+				songLine.number = i + 1;
+				songLine.title = songName;
+				songLine.addEventListener('select', () => this.emitSelectSong_(i));
+				songLine.addEventListener('remove', () => this.emitRemoveSong_(i));
 				this.$('#list').appendChild(songLine);
-				songLine.addEventListener('click', () => this.emitSelectSong_(i));
 			});
 			this.filter_();
 		});
@@ -38,4 +40,9 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	emitSelectSong_(index) {
 		this.dispatchEvent(new CustomEvent('select-song', {detail: index}));
 	}
+
+	emitRemoveSong_(index) {
+		this.dispatchEvent(new CustomEvent('remove-song', {detail: index}));
+	}
 });
+// todo highlight selected song

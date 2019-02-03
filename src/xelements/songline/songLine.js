@@ -1,7 +1,7 @@
-const template = require('fs').readFileSync(`${__dirname}/songListItem.html`, 'utf8');
+const template = require('fs').readFileSync(`${__dirname}/songLine.html`, 'utf8');
 const XElement = require('../XElement');
 
-customElements.define('x-song-list-item', class extends XElement {
+customElements.define('x-song-line', class extends XElement {
 		static get observedAttributes() {
 			return ['number', 'title', 'selected'];
 		}
@@ -15,6 +15,9 @@ customElements.define('x-song-list-item', class extends XElement {
 				this.setAttribute('number', 0);
 			if (!this.hasAttribute('title'))
 				this.setAttribute('title', '');
+
+			this.$('.container').addEventListener('click', () => this.emitSelect_());
+			this.$('#remove').addEventListener('click', e => this.emitRemove_(e));
 		}
 
 		get number() {
@@ -49,6 +52,15 @@ customElements.define('x-song-list-item', class extends XElement {
 				this.$('p').classList.toggle('selected', this.hasAttribute('selected'));
 			else
 				this.$(`#${name}`).textContent = newValue;
+		}
+
+		emitSelect_() {
+			this.dispatchEvent(new CustomEvent('select'));
+		}
+
+		emitRemove_(e) {
+			e.stopPropagation();
+			this.dispatchEvent(new CustomEvent('remove'));
 		}
 	}
 );

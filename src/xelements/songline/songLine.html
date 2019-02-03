@@ -1,0 +1,26 @@
+<style>
+	.container {
+		padding: 3px;
+		cursor: pointer;
+	}
+
+	.container.selected {
+		background-color: var(--text-hover-color);
+	}
+
+	.container:hover {
+		background-color: var(--text-hover-color);
+		text-decoration: underline;
+	}
+
+	#title,
+	#remove {
+		margin-left: 10px;
+	}
+</style>
+
+<div class="container">
+	<span id="number"></span>
+	<span id="title"></span>
+	<button id="remove">[X]</button>
+</div>
