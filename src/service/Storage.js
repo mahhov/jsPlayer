@@ -33,6 +33,10 @@ let getSongList = async () => {
 	return fs.readdir(path.resolve(getSongDir()));
 };
 
+let getSong = songName => path.resolve(getSongDir(), songName);
+
+let removeSong = songName => fs.unlink(getSong(songName));
+
 let getPlayerSettings = async () => {
 	await prepareDir_();
 	return fs.readFile(path.resolve(STORAGE_DIR, PLAYER_SETTINGS))
@@ -46,4 +50,6 @@ let savePlayerSettings = async playerSettings => {
 		.catch(e => console.error('error saving player settings:', e));
 };
 
-module.exports = {getPlaylistList, savePlaylistList, getSongDir, getSongList, getPlayerSettings, savePlayerSettings};
+module.exports = {getPlaylistList, savePlaylistList, getSongDir, getSongList, getSong, removeSong, getPlayerSettings, savePlayerSettings};
+
+// todo caching

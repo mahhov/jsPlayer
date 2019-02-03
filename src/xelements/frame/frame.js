@@ -1,5 +1,6 @@
 const template = require('fs').readFileSync(`${__dirname}/frame.html`, 'utf8');
 const XElement = require('../XElement');
+const storage = require('../../service/Storage');
 
 customElements.define('x-frame', class Frame extends XElement {
 		constructor() {
@@ -35,9 +36,8 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.$('#player-frame').setSong(index);
 		}
 
-		onRemoveSong_(index) {
-			console.log('remove song')
-			// this.$('#player-frame').setSong(index);
+		onRemoveSong_(name) {
+			storage.removeSong(name);
 		}
 	}
 );

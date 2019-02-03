@@ -47,7 +47,7 @@ customElements.define('x-player', class Player extends XElement {
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		if (name === 'src') {
-			this.$('audio').src = path.resolve(storage.getSongDir(), newValue);
+			this.$('audio').src = storage.getSong(newValue);
 			this.play_();
 		}
 	}

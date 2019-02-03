@@ -42,7 +42,8 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	emitRemoveSong_(index) {
-		this.dispatchEvent(new CustomEvent('remove-song', {detail: index}));
+		storage.getSongList().then(songList =>
+			this.dispatchEvent(new CustomEvent('remove-song', {detail: songList[index]})));
 	}
 });
 // todo highlight selected song
