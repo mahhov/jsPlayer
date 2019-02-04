@@ -14,7 +14,6 @@ customElements.define('x-downloader-frame', class DownloaderFrame extends XEleme
 
 		this.$('#add-playlist').addEventListener('click', () => this.onAddPlaylist_());
 		this.$('#refresh-all').addEventListener('click', () => this.onRefreshAll_());
-		this.$('#playlist-id').addEventListener('keyup', e => e.stopPropagation());
 	}
 
 	onAddPlaylist_() {

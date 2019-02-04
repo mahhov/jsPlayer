@@ -10,7 +10,6 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	connectedCallback() {
 		this.$('#search').addEventListener('input', () => this.filter_());
 		this.$('#refresh').addEventListener('click', () => this.refresh_());
-		this.$('#search').addEventListener('keyup', e => e.stopPropagation());
 		this.refresh_();
 	}
 

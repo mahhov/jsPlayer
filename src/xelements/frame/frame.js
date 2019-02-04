@@ -44,8 +44,6 @@ customElements.define('x-frame', class Frame extends XElement {
 		}
 
 		handleKeypress_(e) {
-			if (e.repeat)
-				return;
 			if (e.key >= 1 && e.key <= 3)
 				this.onSelect_(parseInt(e.key) - 1);
 		}

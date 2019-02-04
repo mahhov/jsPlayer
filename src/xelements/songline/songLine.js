@@ -63,7 +63,7 @@ customElements.define('x-song-line', class extends XElement {
 		}
 
 		emitRemove_(e) {
-			e.stopPropagation();
+			e.stopPropagation(); // prevent emitSelect
 			this.dispatchEvent(new CustomEvent('remove'));
 		}
 	}

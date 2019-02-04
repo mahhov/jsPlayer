@@ -145,8 +145,6 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	handleKeypress_(e) {
-		if (e.repeat)
-			return;
 		switch (e.key) {
 			case 'ArrowLeft':
 				this.onPrev_();
