@@ -39,6 +39,7 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 			this.$('#player').src = songList[index];
 			let numberText = `Playing ${index + 1} of ${songList.length}`;
 			this.$('#status').textContent = `${numberText} ${songList[index]}`;
+			this.dispatchEvent(new CustomEvent('playing-song', {detail: index}));
 			new Notification(numberText, {body: songList[index]});
 		});
 	}

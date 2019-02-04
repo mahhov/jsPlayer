@@ -22,6 +22,7 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.selects_.forEach((select, i) => select.addEventListener('change', () => this.onSelect_(i)));
 
 			this.$('#player-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
+			this.$('#player-frame').addEventListener('playing-song', ({detail}) => this.onPlayingSong_(detail));
 			this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
 			this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 
@@ -41,6 +42,10 @@ customElements.define('x-frame', class Frame extends XElement {
 
 		onRemoveSong_(name) {
 			storage.removeSong(name);
+		}
+
+		onPlayingSong_(index) {
+			this.$('#list-frame').selectSong(index);
 		}
 
 		handleKeypress_(e) {

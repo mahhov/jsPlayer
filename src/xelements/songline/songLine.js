@@ -53,7 +53,7 @@ customElements.define('x-song-line', class extends XElement {
 
 		attributeChangedCallback(name, oldValue, newValue) {
 			if (name === 'selected')
-				this.$('p').classList.toggle('selected', this.hasAttribute('selected'));
+				this.$('.container').classList.toggle('selected', this.hasAttribute('selected'));
 			else
 				this.$(`#${name}`).textContent = newValue;
 		}
