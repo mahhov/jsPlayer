@@ -8,7 +8,7 @@ app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 
 app.on('ready', () => {
 	let window = new BrowserWindow({width: 1800, height: 1000});
-	window.webContents.openDevTools();
+	window.setMenu(null);
 	window.loadFile(path.resolve(__dirname, 'index.html'));
 
 	globalShortcut.register('MediaPreviousTrack', () => window.webContents.send('shortcutPrev'));
