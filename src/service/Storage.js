@@ -7,15 +7,15 @@ const DOWNLOAD_DIR = 'downloads';
 const PLAYER_SETTINGS = 'palyerSettings.json';
 
 let prepareDir_ = async () => {
-	await fs.mkdir(path.resolve(STORAGE_DIR)).catch(() => {});
-	await fs.mkdir(path.resolve(STORAGE_DIR, DOWNLOAD_DIR)).catch(() => {});
-	await fs.mkdir(path.resolve(STORAGE_DIR, DOWNLOAD_DIR)).catch(() => {});
+	await fs.mkdir(path.resolve(STORAGE_DIR)).catch(() => null);
+	await fs.mkdir(path.resolve(STORAGE_DIR, DOWNLOAD_DIR)).catch(() => null);
+	await fs.mkdir(path.resolve(STORAGE_DIR, DOWNLOAD_DIR)).catch(() => null);
 };
 
 let getPlaylistList = async () => {
 	await prepareDir_();
-	return fs.readFile(path.resolve(STORAGE_DIR, PLAYLIST_LIST)) // todo 'utf8'
-		.then(a => JSON.parse(a.toString()))
+	return fs.readFile(path.resolve(STORAGE_DIR, PLAYLIST_LIST), 'utf8')
+		.then(a => JSON.parse(a))
 		.catch(() => []);
 };
 
@@ -39,8 +39,8 @@ let removeSong = songName => fs.unlink(getSong(songName));
 
 let getPlayerSettings = async () => {
 	await prepareDir_();
-	return fs.readFile(path.resolve(STORAGE_DIR, PLAYER_SETTINGS)) // todo 'utf8'
-		.then(a => JSON.parse(a.toString()))
+	return fs.readFile(path.resolve(STORAGE_DIR, PLAYER_SETTINGS), 'utf8')
+		.then(a => JSON.parse(a))
 		.catch(() => ({}));
 };
 
