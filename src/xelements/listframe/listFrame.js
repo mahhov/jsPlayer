@@ -50,4 +50,3 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 			songLine.selected = i === index);
 	}
 });
-// todo highlight selected song

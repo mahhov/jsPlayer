@@ -13,16 +13,10 @@
   "author": "mahhov1",
   "license": "ISC",
   "devDependencies": {
-    "brfs": "^2.0.1",
-    "browserify": "^16.2.3",
-    "electron": "^4.0.0-beta.7",
-    "http-server": "^0.11.1",
-    "nodemon": "^1.18.5"
+    "electron": "^4.0.0-beta.7"
   },
   "dependencies": {
     "dwytpl": "^3.3.0",
-    "font-awesome": "^4.7.0",
-    "node-sass": "^4.9.4",
-    "shadow-dom-style-sharing": "^2.1.0"
+    "font-awesome": "^4.7.0"
   }
 }

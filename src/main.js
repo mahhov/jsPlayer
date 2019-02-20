@@ -4,8 +4,6 @@ require('./xelements/import');
 document.addEventListener('DOMContentLoaded', () => {
 	let $ = query =>
 		document.querySelector(query);
-
-	styleSharing.process(document);
 });
 
 // todo
