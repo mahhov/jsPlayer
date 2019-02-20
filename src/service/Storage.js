@@ -14,7 +14,7 @@ let prepareDir_ = async () => {
 
 let getPlaylistList = async () => {
 	await prepareDir_();
-	return fs.readFile(path.resolve(STORAGE_DIR, PLAYLIST_LIST))
+	return fs.readFile(path.resolve(STORAGE_DIR, PLAYLIST_LIST)) // todo 'utf8'
 		.then(a => JSON.parse(a.toString()))
 		.catch(() => []);
 };
@@ -39,7 +39,7 @@ let removeSong = songName => fs.unlink(getSong(songName));
 
 let getPlayerSettings = async () => {
 	await prepareDir_();
-	return fs.readFile(path.resolve(STORAGE_DIR, PLAYER_SETTINGS))
+	return fs.readFile(path.resolve(STORAGE_DIR, PLAYER_SETTINGS)) // todo 'utf8'
 		.then(a => JSON.parse(a.toString()))
 		.catch(() => ({}));
 };
