@@ -1,6 +1,5 @@
 const template = require('fs').readFileSync(`${__dirname}/downloaderFrame.html`, 'utf8');
 const XElement = require('../XElement');
-const styleSharing = require('shadow-dom-style-sharing');
 const storage = require('../../service/Storage');
 
 customElements.define('x-downloader-frame', class DownloaderFrame extends XElement {
@@ -23,7 +22,6 @@ customElements.define('x-downloader-frame', class DownloaderFrame extends XEleme
 
 	addPlaylistPanel_(playlistId) {
 		let playlistPanel = document.createElement('x-playlist-panel');
-		styleSharing.process(playlistPanel);
 		playlistPanel.playlistId = playlistId;
 
 		playlistPanel.addEventListener('download', ({detail: tracker}) => {

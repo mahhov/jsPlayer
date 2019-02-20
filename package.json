@@ -4,8 +4,7 @@
   "description": "electron app to play local media",
   "main": "build/electronStarter.js",
   "scripts": {
-    "build": "rm -rf build; cp -r src build; npm run build-scss; npm run build-font",
-    "build-scss": "node-sass styleScss/style.scss -o build/style",
+    "build": "rm -rf build; cp -r src build; npm run build-font",
     "build-font": "cp -r node_modules/font-awesome/fonts build/fonts",
     "start": "electron .",
     "dev": "npm run build; npm run start"
