@@ -11,7 +11,7 @@ customElements.define('x-toggle', class extends XElement {
 	}
 
 	connectedCallback() {
-		this.$('#checkbox').addEventListener('change', () => this.onChange_())
+		this.$('#checkbox').addEventListener('change', () => this.onChange_());
 	}
 
 	get checked() {
