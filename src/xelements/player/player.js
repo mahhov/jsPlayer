@@ -17,8 +17,7 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	connectedCallback() {
-		storage.getPlayerSettings().then(({volume, shuffle}) => {
-			this.setVolume(volume);
+		storage.getPlayerSettings().then(({shuffle}) => {
 			this.shuffleSet(shuffle);
 			this.onEnd_();
 		});
@@ -26,8 +25,6 @@ customElements.define('x-player', class Player extends XElement {
 		audio.audioTrack.setTimeListener((time, duration) => this.onTimeChange_(time, duration));
 		audio.audioTrack.setEndListener(() => this.onEnd_());
 		this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
-		this.$('#mute').addEventListener('change', () => this.muteToggle_());
-		this.$('#volume-bar').addEventListener('progress-set', ({detail}) => this.onSetVolume_(detail));
 		this.$('#prev').addEventListener('click', () => this.onPrev_());
 		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseSet_(detail));
 		this.$('#next').addEventListener('click', () => this.onEnd_());
@@ -63,26 +60,6 @@ customElements.define('x-player', class Player extends XElement {
 
 	onEnd_() {
 		this.dispatchEvent(new CustomEvent('next'));
-	}
-
-	onSetVolume_(volume) {
-		this.setVolume(volume);
-		this.savePlayerSettings_();
-	}
-
-	setVolume(volume = 0) {
-		volume = Math.round(volume * 20) / 20;
-
-		const THRESHOLD = .15;
-		if (volume < THRESHOLD)
-			volume = 0;
-		if (volume > 1 - THRESHOLD)
-			volume = 1;
-
-		this.$('#mute').checked = volume;
-		this.$('#volume-bar').progress = volume;
-		this.$('#volume-bar').preValue = Player.volumeFormat(volume);
-		// this.$('audio').volume = volume;
 	}
 
 	onSetTime_(time) {
@@ -130,17 +107,8 @@ customElements.define('x-player', class Player extends XElement {
 		audio.audioTrack.time += deltaS;
 	}
 
-	muteToggle_() {
-		// if (this.$('audio').volume) {
-		// 	this.unmuteVolume_ = this.$('audio').volume;
-		// 	this.onSetVolume_(0);
-		// } else
-		// 	this.onSetVolume_(this.unmuteVolume_ || 1);
-	}
-
 	savePlayerSettings_() {
 		storage.savePlayerSettings({
-			// volume: this.$('audio').volume,
 			shuffle: this.$('#shuffle').checked,
 		});
 	}
@@ -166,14 +134,7 @@ customElements.define('x-player', class Player extends XElement {
 			case '.':
 				this.seek_(SEEK_DELTA_S);
 				break;
-			case 'm':
-				this.muteToggle_();
-				break;
 		}
-	}
-
-	static volumeFormat(volume) {
-		return Player.num2str((volume * 100).toFixed(0), 2);
 	}
 
 	static timeFormat(seconds) {

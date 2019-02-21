@@ -12,11 +12,6 @@
 		height: 27px;
 	}
 
-	#volume-bar {
-		width: 55px;
-		height: 17px;
-	}
-
 	.controls-container {
 		margin-top: 10px;
 		display: flex;
@@ -36,10 +31,6 @@
 		font-size: 15px;
 	}
 
-	#volume-bar {
-		font-size: 10px;
-	}
-
 	.right-side-controls {
 		justify-content: flex-end;
 	}
@@ -49,7 +40,6 @@
 		text-align: center;
 	}
 
-	#mute *,
 	#shuffle * {
 		width: 25px;
 	}
@@ -59,17 +49,11 @@
 	}
 
 	#pause *,
-	#mute *,
 	#shuffle * {
 		padding: 5px;
 	}
 
-	#mute {
-		margin-right: 5px;
-	}
-
 	#pause [slot='toggle-off'],
-	#mute [slot='toggle-off'],
 	#shuffle [slot='toggle-off'] {
 		color: white;
 		background-color: darkgray;
@@ -81,13 +65,6 @@
 		<x-progress-bar id="time-bar" pre-value="0:00" post-value="0:00"></x-progress-bar>
 	</div>
 	<div class="controls-container">
-		<div class="side-controls">
-			<x-toggle id="mute">
-				<button slot="toggle-on" class="fa fa-volume-up"></button>
-				<button slot="toggle-off" class="fa fa-volume-off"></button>
-			</x-toggle>
-			<x-progress-bar id="volume-bar"></x-progress-bar>
-		</div>
 		<div class="center-controls">
 			<button id="prev" class="fa fa-step-backward"></button>
 			<x-toggle id="pause" checked>
