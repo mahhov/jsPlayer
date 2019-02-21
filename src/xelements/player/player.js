@@ -2,6 +2,7 @@ const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
 const XElement = require('../XElement');
 const path = require('path');
 const storage = require('../../service/Storage');
+const audio = require('../../service/audio');
 const shortcuts = require('../../service/shortcuts');
 
 const SEEK_DELTA_S = 10;
@@ -22,8 +23,8 @@ customElements.define('x-player', class Player extends XElement {
 			this.onEnd_();
 		});
 
-		this.$('audio').addEventListener('timeupdate', () => this.onTimeChange_());
-		this.$('audio').addEventListener('ended', () => this.onEnd_());
+		audio.audioTrack.setTimeListener((time, duration) => this.onTimeChange_(time, duration));
+		audio.audioTrack.setEndListener(() => this.onEnd_());
 		this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
 		this.$('#mute').addEventListener('change', () => this.muteToggle_());
 		this.$('#volume-bar').addEventListener('progress-set', ({detail}) => this.onSetVolume_(detail));
@@ -46,17 +47,17 @@ customElements.define('x-player', class Player extends XElement {
 		this.setAttribute('src', value);
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) {
+	async attributeChangedCallback(name, oldValue, newValue) {
 		if (name === 'src') {
-			this.$('audio').src = storage.getSong(newValue);
+			audio.audioTrack.audioData =
+				await audio.getAudioData((await storage.readSong(newValue)).buffer);
 			this.play_();
 		}
 	}
 
-	onTimeChange_() {
-		let {currentTime, duration} = this.$('audio');
-		this.$('#time-bar').progress = currentTime / duration;
-		this.$('#time-bar').preValue = Player.timeFormat(currentTime);
+	onTimeChange_(time, duration) {
+		this.$('#time-bar').progress = time / duration;
+		this.$('#time-bar').preValue = Player.timeFormat(time);
 		this.$('#time-bar').postValue = Player.timeFormat(duration);
 	}
 
@@ -81,16 +82,16 @@ customElements.define('x-player', class Player extends XElement {
 		this.$('#mute').checked = volume;
 		this.$('#volume-bar').progress = volume;
 		this.$('#volume-bar').preValue = Player.volumeFormat(volume);
-		this.$('audio').volume = volume;
+		// this.$('audio').volume = volume;
 	}
 
 	onSetTime_(time) {
-		this.$('audio').currentTime = time * this.$('audio').duration;
+		audio.audioTrack.time = time * audio.audioTrack.duration;
 	}
 
 	onPrev_() {
 		const PREVIOUS_SONG_THRESHOLD_S = 5;
-		if (this.$('audio').currentTime < PREVIOUS_SONG_THRESHOLD_S)
+		if (audio.audioTrack.time < PREVIOUS_SONG_THRESHOLD_S)
 			this.dispatchEvent(new CustomEvent('prev'));
 		else
 			this.onSetTime_(0);
@@ -98,7 +99,7 @@ customElements.define('x-player', class Player extends XElement {
 
 	onPauseSet_(play) {
 		if (!play)
-			this.$('audio').pause();
+			audio.audioTrack.pause();
 		else
 			this.play_();
 	}
@@ -122,24 +123,24 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	play_() {
-		this.$('audio').play().catch(e => console.error('err playing', e));
+		audio.audioTrack.play();
 	}
 
 	seek_(deltaS) {
-		this.$('audio').currentTime = this.$('audio').currentTime + deltaS;
+		audio.audioTrack.time += deltaS;
 	}
 
 	muteToggle_() {
-		if (this.$('audio').volume) {
-			this.unmuteVolume_ = this.$('audio').volume;
-			this.onSetVolume_(0);
-		} else
-			this.onSetVolume_(this.unmuteVolume_ || 1);
+		// if (this.$('audio').volume) {
+		// 	this.unmuteVolume_ = this.$('audio').volume;
+		// 	this.onSetVolume_(0);
+		// } else
+		// 	this.onSetVolume_(this.unmuteVolume_ || 1);
 	}
 
 	savePlayerSettings_() {
 		storage.savePlayerSettings({
-			volume: this.$('audio').volume,
+			// volume: this.$('audio').volume,
 			shuffle: this.$('#shuffle').checked,
 		});
 	}

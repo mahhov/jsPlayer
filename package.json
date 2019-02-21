@@ -2,7 +2,7 @@
   "name": "js-player",
   "version": "1.0.0",
   "description": "electron app to play local media",
-  "main": "build/electronStarter.js",
+  "main": "src/electronStarter.js",
   "scripts": {
     "build": "rm -rf build; cp -r src build; npm run build-font",
     "build-font": "cp -r node_modules/font-awesome/fonts build/fonts",
