@@ -2,6 +2,7 @@ require('./frame/frame');
 
 require('./playframe/PlayFrame');
 require('./player/player');
+require('./audiovisualizer/audioVisualizer');
 require('./progressbar/progressbar');
 
 require('./listframe/listFrame');
