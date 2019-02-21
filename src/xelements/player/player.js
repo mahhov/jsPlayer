@@ -46,9 +46,13 @@ customElements.define('x-player', class Player extends XElement {
 
 	async attributeChangedCallback(name, oldValue, newValue) {
 		if (name === 'src') {
-			audio.audioTrack.audioData =
-				await audio.getAudioData((await storage.readSong(newValue)).buffer);
-			this.play_();
+			this.onPauseSet_(false);
+			let audioData = await audio.getAudioData((await storage.readSong(newValue)).buffer);
+			if (newValue !== this.src)
+				return;
+			audio.audioTrack.audioData = audioData;
+			this.onSetTime_(0);
+			this.onPauseSet_(true);
 		}
 	}
 
@@ -74,14 +78,16 @@ customElements.define('x-player', class Player extends XElement {
 			this.onSetTime_(0);
 	}
 
+	// todo clearer naming (opposite)
 	onPauseSet_(play) {
 		if (!play)
 			audio.audioTrack.pause();
 		else
-			this.play_();
+			audio.audioTrack.play();
 	}
 
 	pauseToggle_() {
+		// todo perhaps use audioTrack as source of truth
 		this.onPauseSet_(this.$('#pause').checked = !this.$('#pause').checked);
 	}
 
@@ -97,10 +103,6 @@ customElements.define('x-player', class Player extends XElement {
 
 	shuffleToggle_() {
 		this.onShuffleSet_(this.$('#shuffle').checked = !this.$('#shuffle').checked);
-	}
-
-	play_() {
-		audio.audioTrack.play();
 	}
 
 	seek_(deltaS) {
