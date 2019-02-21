@@ -84,11 +84,11 @@ customElements.define('x-player', class Player extends XElement {
 			audio.audioTrack.pause();
 		else
 			audio.audioTrack.play();
+		this.$('#pause').checked = !audio.audioTrack.paused;
 	}
 
 	pauseToggle_() {
-		// todo perhaps use audioTrack as source of truth
-		this.onPauseSet_(this.$('#pause').checked = !this.$('#pause').checked);
+		this.onPauseSet_(audio.audioTrack.paused);
 	}
 
 	onShuffleSet_(shuffle) {
