@@ -1,6 +1,4 @@
 node_modules
 build
 .idea
-src/fonts
-src/style
 data
