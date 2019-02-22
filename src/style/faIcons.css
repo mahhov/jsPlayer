@@ -1,0 +1,16 @@
+/*
+	We have to do this because importing the giant font-awesome stylesheet for each shadow dom that requires it presents a performance issue.
+	This is especially true with the custom element x-song-line, which we create a 1500+ times for each x-list-frame refresh.
+*/
+
+/* todo use everywhere we use font awesome */
+
+.fa {
+	display: inline-block;
+	font-family: FontAwesome;
+	font-size: inherit;
+}
+
+.fa-remove:before {
+	content: "\f00d";
+}
