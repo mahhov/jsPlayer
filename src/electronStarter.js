@@ -1,10 +1,11 @@
 const path = require('path');
-const {app, BrowserWindow, globalShortcut} = require('electron');
+const {app, BrowserWindow, globalShortcut, powerSaveBlocker} = require('electron');
 
 // necessary for notifications
 app.setAppUserModelId(process.execPath);
 
-app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+// avoid display dimming and sleeping
+powerSaveBlocker.start('prevent-display-sleep');
 
 app.on('ready', () => {
 	let window = new BrowserWindow({width: 1800, height: 1000});
