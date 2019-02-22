@@ -11,7 +11,7 @@ customElements.define('x-progress-bar', class extends XElement {
 		}
 
 		connectedCallback() {
-			this.$('#progress').addEventListener('click', e => this.onProgressClick_(e))
+			this.addEventListener('click', e => this.onProgressClick_(e))
 		}
 
 		get preValue() {
@@ -46,7 +46,7 @@ customElements.define('x-progress-bar', class extends XElement {
 		}
 
 		onProgressClick_({offsetX}) {
-			let percentage = offsetX / this.$(`#progress`).clientWidth;
+			let percentage = offsetX / this.clientWidth;
 			this.dispatchEvent(new CustomEvent('progress-set', {detail: percentage}));
 		}
 	}
