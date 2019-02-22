@@ -40,7 +40,7 @@ customElements.define('x-progress-bar', class extends XElement {
 
 		attributeChangedCallback(name, oldValue, newValue) {
 			if (name === 'progress')
-				this.$('#progress-fill').style.width = newValue * 100 + '%';
+				this.$('#fill').style.width = newValue * 100 + '%';
 			else
 				this.$(`#${name}`).textContent = newValue;
 		}
