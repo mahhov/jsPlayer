@@ -22,7 +22,7 @@ customElements.define('x-player', class Player extends XElement {
 			this.onEnd_();
 		});
 
-		audio.audioTrack.setTimeListener((time, duration) => this.onTimeChange_(time, duration));
+		audio.audioTrack.setTimeListener(() => this.onTimeChange_());
 		audio.audioTrack.setEndListener(() => this.onEnd_());
 		this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
 		this.$('#prev').addEventListener('click', () => this.onPrev_());
@@ -56,10 +56,10 @@ customElements.define('x-player', class Player extends XElement {
 		}
 	}
 
-	onTimeChange_(time, duration) {
-		this.$('#time-bar').progress = time / duration;
-		this.$('#time-bar').preValue = Player.timeFormat(time);
-		this.$('#time-bar').postValue = Player.timeFormat(duration);
+	onTimeChange_() {
+		this.$('#time-bar').progress = audio.audioTrack.time / audio.audioTrack.duration;
+		this.$('#time-bar').preValue = Player.timeFormat(audio.audioTrack.time);
+		this.$('#time-bar').postValue = Player.timeFormat(audio.audioTrack.duration);
 	}
 
 	onEnd_() {
@@ -68,6 +68,7 @@ customElements.define('x-player', class Player extends XElement {
 
 	onSetTime_(time) {
 		audio.audioTrack.time = time * audio.audioTrack.duration;
+		this.onTimeChange_();
 	}
 
 	onPrev_() {
@@ -107,6 +108,7 @@ customElements.define('x-player', class Player extends XElement {
 
 	seek_(deltaS) {
 		audio.audioTrack.time += deltaS;
+		this.onTimeChange_();
 	}
 
 	savePlayerSettings_() {
