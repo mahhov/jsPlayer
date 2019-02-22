@@ -2,6 +2,7 @@ const template = require('fs').readFileSync(`${__dirname}/audioVisualizer.html`,
 const XElement = require('../XElement');
 const audio = require('../../service/audio');
 
+// todo externalize
 class Visualizer {
 	constructor(width, height, canvasCtx, barCount) {
 		this.width_ = width;
