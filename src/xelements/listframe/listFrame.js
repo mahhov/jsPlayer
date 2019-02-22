@@ -16,22 +16,24 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	filter_() {
 		let filterString = this.$('#search').value;
 		let filterRegex = new RegExp(filterString, 'i');
-		[...this.$('#list').children].forEach(songLine =>
+		[...this.$('#list-container').children].forEach(songLine =>
 			songLine.hidden = filterString && !songLine.text.match(filterRegex));
 	}
 
 	refresh_() {
 		storage.getSongList().then(songList => {
 			this.$('#count').textContent = songList.length;
-			XElement.clearChildren(this.$('#list'));
+			XElement.clearChildren(this.$('#list-container'));
+			let list = document.createElement('div');
 			songList.forEach((songName, i) => {
 				let songLine = document.createElement('x-song-line');
 				songLine.number = i + 1;
 				songLine.title = songName;
 				songLine.addEventListener('select', () => this.emitSelectSong_(i));
 				songLine.addEventListener('remove', () => this.emitRemoveSong_(i));
-				this.$('#list').appendChild(songLine);
+				list.appendChild(songLine);
 			});
+			this.$('#list-container').appendChild(list);
 			this.filter_();
 		});
 	}
@@ -46,7 +48,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	selectSong(index) {
-		[...this.$('#list').children].forEach((songLine, i) =>
+		[...this.$('#list-container').children].forEach((songLine, i) =>
 			songLine.selected = i === index);
 	}
 });
