@@ -3,14 +3,56 @@
 	This is especially true with the custom element x-song-line, which we create a 1500+ times for each x-list-frame refresh.
 */
 
-/* todo use everywhere we use font awesome */
-
 .fa {
 	display: inline-block;
 	font-family: FontAwesome;
 	font-size: inherit;
 }
 
+.fa-download:before {
+	content: "\f019";
+}
+
+.fa-list:before {
+	content: "\f03a";
+}
+
+.fa-music:before {
+	content: "\f001";
+}
+
+.fa-pause:before {
+	content: "\f04c";
+}
+
+.fa-play:before {
+	content: "\f04b";
+}
+
+.fa-plus:before {
+	content: "\f067";
+}
+
+.fa-random:before {
+	content: "\f074";
+}
+
+.fa-refresh:before {
+	content: "\f021";
+}
+
 .fa-remove:before {
 	content: "\f00d";
+}
+
+.fa-step-backward:before {
+	content: "\f048";
+}
+
+.fa-step-forward:before {
+	content: "\f051";
+}
+
+.fa-stop:before {
+	content: "\f04d";
 }
