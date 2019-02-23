@@ -16,8 +16,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	filter_() {
 		let filterString = this.$('#search').value;
 		let filterRegex = new RegExp(filterString, 'i');
-		[...this.$('#list-container').children].forEach(songLine =>
-			songLine.hidden = filterString && !songLine.text.match(filterRegex));
+		this.songLines_.forEach(songLine => songLine.hidden = filterString && !songLine.text.match(filterRegex));
 	}
 
 	refresh_() {
@@ -48,7 +47,10 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	selectSong(index) {
-		[...this.$('#list-container').children].forEach((songLine, i) =>
-			songLine.selected = i === index);
+		this.songLines_.forEach((songLine, i) => songLine.selected = i === index);
+	}
+
+	get songLines_() {
+		return [...this.$('#list-container').firstElementChild.children];
 	}
 });
