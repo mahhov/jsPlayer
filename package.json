@@ -4,15 +4,14 @@
   "description": "electron app to play local media",
   "main": "src/electronStarter.js",
   "scripts": {
-    "build": "rm -rf build; cp -r src build; npm run build-font",
-    "build-font": "cp -r node_modules/font-awesome/fonts build/fonts",
     "start": "electron .",
-    "dev": "npm run build; npm run start"
+    "package": " rm -rf package; mkdir package; cp -r src package; cp -r node_modules/font-awesome/fonts package/fonts; cp package.json package; cd package; npm i; electron-packager ."
   },
   "author": "mahhov1",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^4.0.0-beta.7"
+    "electron": "^4.0.0-beta.7",
+    "electron-packager": "^13.1.0"
   },
   "dependencies": {
     "dwytpl": "^3.3.0",
