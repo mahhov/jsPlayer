@@ -125,9 +125,6 @@ customElements.define('x-player', class Player extends XElement {
 			case 'ArrowRight':
 				this.onEnd_();
 				break;
-			case 'ArrowUp':
-				this.shuffleToggle_();
-				break;
 			case 'ArrowDown':
 			case ' ':
 				this.pauseToggle_();
