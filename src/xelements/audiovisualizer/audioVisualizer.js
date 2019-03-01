@@ -36,8 +36,9 @@ class Visualizer {
 	}
 
 	draw(values) {
-		this.smoothValues_ = this.smoothValues_.map((value, i) =>
-			value * this.smoothWeight + values[i] * (1 - this.smoothWeight));
+		this.smoothValues_ = this.smoothValues_
+			.map((value, i) => value * this.smoothWeight + values[i] * (1 - this.smoothWeight))
+			.map((value, i) => Math.max(value, values[i]));
 
 		this.canvasCtx_.fillStyle = Visualizer.rgb(...this.clearColor);
 		this.canvasCtx_.fillRect(0, 0, this.width_, this.height_);
