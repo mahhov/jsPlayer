@@ -1,16 +1,14 @@
 const path = require('path');
 const fs = require('fs').promises;
+const rootPath = require('env-paths')('js-player').data;
 
-const STORAGE_DIR = 'data';
+const STORAGE_DIR = rootPath;
 const PLAYLIST_LIST = 'playlistList.json';
 const DOWNLOAD_DIR = 'downloads';
 const PLAYER_SETTINGS = 'palyerSettings.json';
 
-let prepareDir_ = async () => {
-	await fs.mkdir(path.resolve(STORAGE_DIR)).catch(() => null);
-	await fs.mkdir(path.resolve(STORAGE_DIR, DOWNLOAD_DIR)).catch(() => null);
-	await fs.mkdir(path.resolve(STORAGE_DIR, DOWNLOAD_DIR)).catch(() => null);
-};
+let prepareDir_ = () =>
+	fs.mkdir(STORAGE_DIR, {recursive: true}).catch(() => null);
 
 let getPlaylistList = async () => {
 	await prepareDir_();
