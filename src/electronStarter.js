@@ -8,7 +8,7 @@ app.setAppUserModelId(process.execPath);
 powerSaveBlocker.start('prevent-display-sleep');
 
 app.on('ready', () => {
-	let window = new BrowserWindow({width: 1800, height: 1000});
+	let window = new BrowserWindow({width: 1800, height: 1000, webPreferences: {nodeIntegration: true}});
 	window.setMenu(null);
 	window.webContents.openDevTools();
 	window.loadFile(path.resolve(__dirname, 'index.html'));
