@@ -17,3 +17,5 @@ app.on('ready', () => {
 	globalShortcut.register('MediaNextTrack', () => window.webContents.send('shortcutNext'));
 	globalShortcut.register('MediaPlayPause', () => window.webContents.send('shortcutPause'));
 });
+
+app.once('window-all-closed', app.quit);
