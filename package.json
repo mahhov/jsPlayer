@@ -5,17 +5,28 @@
   "main": "src/electronStarter.js",
   "scripts": {
     "start": "electron .",
-    "package": " rm -rf package; mkdir package; cp -r src package; cp -r node_modules/font-awesome/fonts package/fonts; cp package.json package; cd package; npm i; electron-packager ."
+    "build": "rm -rf dist; electron-builder ."
   },
   "author": "mahhov1",
   "license": "ISC",
   "devDependencies": {
     "electron": "^4.1.1",
-    "electron-packager": "^13.1.0"
+    "electron-builder": "^20.39.0"
   },
   "dependencies": {
     "dwytpl": "^3.3.0",
     "env-paths": "^2.1.0",
     "font-awesome": "^4.7.0"
+  },
+  "build": {
+    "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
+    "files": [
+      "resources",
+      "src"
+    ],
+    "icon": "./resources/headphones-alt-solid-512.png",
+    "linux": {
+      "target": "AppImage"
+    }
   }
 }
