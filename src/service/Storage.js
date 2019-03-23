@@ -7,8 +7,10 @@ const PLAYLIST_LIST = 'playlistList.json';
 const DOWNLOAD_DIR = 'downloads';
 const PLAYER_SETTINGS = 'palyerSettings.json';
 
-let prepareDir_ = () =>
-	fs.mkdir(STORAGE_DIR, {recursive: true}).catch(() => null);
+let prepareDir_ = async () => {
+	await fs.mkdir(path.resolve(STORAGE_DIR)).catch(() => null);
+	await fs.mkdir(path.resolve(STORAGE_DIR, DOWNLOAD_DIR)).catch(() => null);
+};
 
 let getPlaylistList = async () => {
 	await prepareDir_();
