@@ -19,6 +19,7 @@
     "font-awesome": "^4.7.0"
   },
   "build": {
+    "asar": false,
     "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
     "files": [
       "resources",
