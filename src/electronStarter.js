@@ -1,5 +1,5 @@
 const path = require('path');
-const {app, BrowserWindow, globalShortcut, powerSaveBlocker} = require('electron');
+const {app, BrowserWindow, globalShortcut, powerSaveBlocker, ipcMain: ipc} = require('electron');
 
 // necessary for notifications
 app.setAppUserModelId(process.execPath);
@@ -12,7 +12,8 @@ app.on('ready', () => {
 	window.setMenu(null);
 	window.webContents.openDevTools();
 	window.loadFile(path.resolve(__dirname, 'index.html'));
-	// window.setFullScreen(true); todo fullscreen
+
+	ipc.on('fullscreen-request', (_, value) => window.setFullScreen(value));
 
 	globalShortcut.register('MediaPreviousTrack', () => window.webContents.send('shortcutPrev'));
 	globalShortcut.register('MediaNextTrack', () => window.webContents.send('shortcutNext'));
