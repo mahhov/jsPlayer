@@ -6,9 +6,9 @@ button {
 }
 
 button:hover {
-	background: #444;
+	background: var(--dark-gray);
 }
 
 button:active {
-	background: #888;
+	background: var(--light-gray);
 }

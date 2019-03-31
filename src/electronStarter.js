@@ -12,6 +12,7 @@ app.on('ready', () => {
 	window.setMenu(null);
 	window.webContents.openDevTools();
 	window.loadFile(path.resolve(__dirname, 'index.html'));
+	// window.setFullScreen(true); todo fullscreen
 
 	globalShortcut.register('MediaPreviousTrack', () => window.webContents.send('shortcutPrev'));
 	globalShortcut.register('MediaNextTrack', () => window.webContents.send('shortcutNext'));
