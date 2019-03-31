@@ -1,13 +1,14 @@
 button {
 	background: none;
+	color: white;
 	border: 0;
 	cursor: pointer;
 }
 
 button:hover {
-	background: #ddd;
+	background: #444;
 }
 
 button:active {
-	background: #ccc;
+	background: #888;
 }

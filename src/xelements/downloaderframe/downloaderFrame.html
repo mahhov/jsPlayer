@@ -6,6 +6,23 @@
 		display: contents;
 	}
 
+	.top {
+		display: flex;
+		margin-top: 15px;
+	}
+
+	.top > *:not(:last-child) {
+		margin-right: 15px;
+	}
+
+	input {
+		flex-grow: 1;
+		background: black;
+		border: 1px solid white;
+		color: white;
+		padding: 3px;
+	}
+
 	x-playlist-panel,
 	x-fixed-line-div {
 		margin-top: 15px;
@@ -20,7 +37,7 @@
 	}
 </style>
 
-<div>
+<div class="top">
 	<input id="playlist-id" consume-key>
 	<button id="add-playlist" class="fa fa-plus"></button>
 	<button id="refresh-all" class="fa fa-refresh"></button>
