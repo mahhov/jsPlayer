@@ -14,10 +14,19 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	filter_() {
-		// todo better filter
-		let filterString = this.$('#search').value;
+		// Ignoring case, each character of filterString must be present in the song line,
+		// either adjacent to the previous matched character, or at the start of a new word;
+		// except the first filter character, which can be matched mid-word.
+		let filterString = [...this.$('#search').value]
+			.map(char => char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // escape special regex characters
+			.join('(.*\\.)?');
 		let filterRegex = new RegExp(filterString, 'i');
-		this.songLines_.forEach(songLine => songLine.hidden = filterString && !songLine.text.match(filterRegex));
+
+		this.songLines_.forEach(songLine => {
+			let words = songLine.text.match(/[a-zA-Z]+|\d+|./g) || [];
+			let line = words.join('.');
+			songLine.hidden = filterString && !line.match(filterRegex);
+		});
 	}
 
 	refresh_() {
