@@ -14,18 +14,16 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	filter_() {
-		// Ignoring case, each character of filterString must be present in the song line,
-		// either adjacent to the previous matched character, or at the start of a new word;
-		// except the first filter character, which can be matched mid-word.
-		let filterString = [...this.$('#search').value]
-			.map(char => char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // escape special regex characters
-			.join('(.*\\.)?');
-		let filterRegex = new RegExp(filterString, 'i');
-
+		// Ignoring case and symbols, each word of the filterString
+		// must be included in the song line.
+		// Both are broken on spaces and symbols.
+		// Order of words does not matter.
+		// Separators may be omitted if full words are entered.
+		const charFilterRe = /[^a-zA-Z\d]/g;
+		let inputWords = this.$('#search').value.toLowerCase().split(charFilterRe);
 		this.songLines_.forEach(songLine => {
-			let words = songLine.text.match(/[a-zA-Z]+|\d+|./g) || [];
-			let line = words.join('.');
-			songLine.hidden = filterString && !line.match(filterRegex);
+			let songLineText = songLine.text.replace(charFilterRe, '').toLowerCase();
+			songLine.hidden = !inputWords.every(word => songLineText.includes(word));
 		});
 	}
 
