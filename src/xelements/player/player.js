@@ -26,7 +26,7 @@ customElements.define('x-player', class Player extends XElement {
 		audio.audioTrack.setEndListener(() => this.onEnd_());
 		this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
 		this.$('#prev').addEventListener('click', () => this.onPrev_());
-		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseSet_(detail));
+		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseSet_(!detail));
 		this.$('#next').addEventListener('click', () => this.onEnd_());
 		this.$('#shuffle').addEventListener('change', ({detail}) => this.onShuffleSet_(detail));
 
@@ -46,13 +46,13 @@ customElements.define('x-player', class Player extends XElement {
 
 	async attributeChangedCallback(name, oldValue, newValue) {
 		if (name === 'src') {
-			this.onPauseSet_(false);
+			this.onPauseSet_(true);
 			let audioData = await audio.getAudioData((await storage.readSong(newValue)).buffer);
 			if (newValue !== this.src)
 				return;
 			audio.audioTrack.audioData = audioData;
 			this.onSetTime_(0);
-			this.onPauseSet_(true);
+			this.onPauseSet_(false);
 		}
 	}
 
@@ -79,9 +79,8 @@ customElements.define('x-player', class Player extends XElement {
 			this.onSetTime_(0);
 	}
 
-	// todo clearer naming (opposite)
-	onPauseSet_(play) {
-		if (!play)
+	onPauseSet_(pause) {
+		if (pause)
 			audio.audioTrack.pause();
 		else
 			audio.audioTrack.play();
@@ -89,7 +88,7 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	pauseToggle_() {
-		this.onPauseSet_(audio.audioTrack.paused);
+		this.onPauseSet_(!audio.audioTrack.paused);
 	}
 
 	onShuffleSet_(shuffle) {
