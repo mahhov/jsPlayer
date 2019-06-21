@@ -27,7 +27,7 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
 			this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 
-			this.$('#fullscreen').addEventListener('change', ({detail}) => ipc.send('fullscreen-request', detail));
+			this.$('#fullscreen').addEventListener('change', () => this.onFullscreenChange_());
 
 			shortcuts.addListenerKeydown(this.handleKeypress_.bind(this));
 
@@ -37,6 +37,10 @@ customElements.define('x-frame', class Frame extends XElement {
 		onSelect_(index) {
 			this.selects_.forEach((item, i) => item.checked = i === index);
 			this.frames_.forEach((item, i) => item.classList.toggle('hidden-frame', i !== index));
+		}
+
+		onFullscreenChange_() {
+			ipc.send('fullscreen-request', this.$('#fullscreen').checked);
 		}
 
 		onSelectSong_(index) {
@@ -54,6 +58,10 @@ customElements.define('x-frame', class Frame extends XElement {
 		handleKeypress_(e) {
 			if (e.key >= 1 && e.key <= 3)
 				this.onSelect_(parseInt(e.key) - 1);
+			else if (e.key === 'f') {
+				this.$('#fullscreen').checked = !this.$('#fullscreen').checked;
+				this.onFullscreenChange_(this.$('#fullscreen').checked);
+			}
 		}
 	}
 );

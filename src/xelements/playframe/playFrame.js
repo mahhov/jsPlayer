@@ -12,8 +12,8 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 		this.$('#player').addEventListener('shuffle', ({detail}) => this.setShuffle_(detail));
-		this.$('#remove').addEventListener('click', () => this.emitRemove_())
-		/* todo rapidly clicking shuffle as the page is still loading causes wierd stuff to happen due to the async stuff here i assume */
+		this.$('#remove').addEventListener('click', () => this.emitRemove_());
+		/* todo rapidly clicking shuffle as the page is still loading causes weird stuff to happen due to the async stuff here i assume */
 		this.seeker = new Seeker();
 		storage.getSongList().then(songList => this.seeker.setSize(songList.length));
 	}
