@@ -5,7 +5,6 @@ class Seeker {
 	constructor() {
 		this.size = 0;
 		this.current = -1;
-		this.isShuffle = false;
 		this.shuffled = [];
 	}
 
@@ -15,13 +14,14 @@ class Seeker {
 
 	setShuffle(shuffle) {
 		if (shuffle)
-			this.shuffle();
-		else
-			this.current = this.getCurrent();
-		this.isShuffle = shuffle;
+			this.shuffle_();
+		else {
+			this.shuffled = [];
+			this.current = this.getCurrent_();
+		}
 	}
 
-	shuffle() {
+	shuffle_() {
 		this.shuffled = Array(this.size).fill(0).map((_, i) => i);
 		this.shuffled.forEach((_, i) => {
 			let j = randInt(i, this.size);
@@ -29,24 +29,20 @@ class Seeker {
 		});
 	}
 
-	lookup(index) {
-		return this.isShuffle ? this.shuffled[index] : index;
-	}
-
-	getCurrent() {
-		return this.lookup(this.current);
+	getCurrent_() {
+		return this.shuffled[this.current] !== undefined ? this.shuffled[this.current] : this.current;
 	}
 
 	getNext() {
 		if (++this.current === this.size)
 			this.current = 0;
-		return this.getCurrent();
+		return this.getCurrent_();
 	}
 
 	getPrev() {
 		if (--this.current === -1)
 			this.current = this.size - 1;
-		return this.getCurrent();
+		return this.getCurrent_();
 	}
 }
 
