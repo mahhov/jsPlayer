@@ -106,7 +106,7 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	seek_(deltaS) {
-		audio.audioTrack.time += deltaS;
+		audio.audioTrack.time = Math.min(audio.audioTrack.time + deltaS, audio.audioTrack.duration);
 		this.onTimeChange_();
 	}
 
