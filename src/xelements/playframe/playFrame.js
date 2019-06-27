@@ -21,11 +21,13 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		storage.getSongList().then(songList => this.setSong(this.seeker.getPrev()));
 	}
 
-	nextSong_() {
-		storage.getSongList().then(songList => this.setSong(this.seeker.getNext()));
+	async nextSong_() {
+		await storage.getSongList();
+		this.setSong(this.seeker.getNext());
 	}
 
-	setShuffle_(shuffle) {
+	async setShuffle_(shuffle) {
+		await storage.getSongList();
 		this.seeker.setShuffle(shuffle);
 	}
 
