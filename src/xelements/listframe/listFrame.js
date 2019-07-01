@@ -13,18 +13,28 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 		this.refresh_();
 	}
 
-	filter_() {
+	async filter_() {
 		// Ignoring case and symbols, each word of the filterString
 		// must be included in the song line.
 		// Both are broken on spaces and symbols.
 		// Order of words does not matter.
 		// Separators may be omitted if full words are entered.
+		let inputString = this.$('#search').value;
 		const charFilterRe = /[^a-zA-Z\d]/g;
-		let inputWords = this.$('#search').value.toLowerCase().split(charFilterRe);
-		this.songLines_.forEach(songLine => {
+		let inputWords = inputString.toLowerCase().split(charFilterRe);
+
+		let songLines = this.songLines_;
+		for (let i = 0; i < songLines.length; i++) {
+			let songLine = songLines[i];
 			let songLineText = songLine.text.replace(charFilterRe, '').toLowerCase();
 			songLine.hidden = !inputWords.every(word => songLineText.includes(word));
-		});
+
+			if (!(i % 1200)) {
+				await new Promise(resolve => setTimeout(resolve, 0));
+				if (inputString !== this.$('#search').value)
+					return;
+			}
+		}
 	}
 
 	refresh_() {
