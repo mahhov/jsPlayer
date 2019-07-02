@@ -16,8 +16,8 @@ class Seeker {
 		if (shuffle)
 			this.shuffle_();
 		else {
-			this.shuffled = [];
 			this.current = this.getCurrent_();
+			this.shuffled = [];
 		}
 	}
 
