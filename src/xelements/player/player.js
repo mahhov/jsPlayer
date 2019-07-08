@@ -1,6 +1,5 @@
 const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
 const XElement = require('../XElement');
-const path = require('path');
 const storage = require('../../service/Storage');
 const audio = require('../../service/audio');
 const shortcuts = require('../../service/shortcuts');
@@ -17,7 +16,7 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	connectedCallback() {
-		storage.getPlayerSettings().then(({shuffle}) => {
+		storage.playerSettings.then(({shuffle}) => {
 			this.shuffleSet(shuffle);
 			this.onEnd_();
 		});
@@ -111,9 +110,7 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	savePlayerSettings_() {
-		storage.savePlayerSettings({
-			shuffle: this.$('#shuffle').checked,
-		});
+		storage.playerSettings = {shuffle: this.$('#shuffle').checked};
 	}
 
 	handleKeypress_(e) {

@@ -8,7 +8,7 @@ customElements.define('x-downloader-frame', class DownloaderFrame extends XEleme
 	}
 
 	connectedCallback() {
-		storage.getPlaylistList().then(playlistList =>
+		storage.playlistList.then(playlistList =>
 			playlistList.forEach(playlist => this.addPlaylistPanel_(playlist)));
 
 		this.$('#add-playlist').addEventListener('click', () => this.onAddPlaylist_());
@@ -42,7 +42,7 @@ customElements.define('x-downloader-frame', class DownloaderFrame extends XEleme
 	}
 
 	savePlaylistList_() {
-		storage.savePlaylistList([...this.$('#playlist-panels-list').children].map(playlistPanel => playlistPanel.playlistId));
+		storage.playlistList = [...this.$('#playlist-panels-list').children].map(playlistPanel => playlistPanel.playlistId);
 	}
 
 	connectTracker(tracker) {

@@ -38,7 +38,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	refresh_() {
-		this.refreshPromise_ = storage.getSongList().then(async songList => {
+		this.refreshPromise_ = storage.songList.then(async songList => {
 			this.$('#count').textContent = songList.length;
 			XElement.clearChildren(this.$('#list-container'));
 			let list = document.createElement('div');
@@ -64,9 +64,9 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 		this.dispatchEvent(new CustomEvent('select-song', {detail: index}));
 	}
 
-	emitRemoveSong_(index) {
-		storage.getSongList().then(songList =>
-			this.dispatchEvent(new CustomEvent('remove-song', {detail: songList[index]})));
+	async emitRemoveSong_(index) {
+		let songList = await storage.songList;
+		this.dispatchEvent(new CustomEvent('remove-song', {detail: songList[index]}));
 	}
 
 	async selectSong(index = this.selectedIndex_) {

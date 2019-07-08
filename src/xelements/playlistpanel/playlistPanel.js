@@ -35,15 +35,15 @@ customElements.define('x-playlist-panel', class extends XElement {
 			this.refresh();
 		}
 
-		refresh() {
+		async refresh() {
 			this.playlist_ = new dwytpl.Playlist(this.playlistId);
 			this.syncher_ = new dwytpl.Syncher(this.playlist_);
-			this.syncher_.setDownloadDir(storage.getSongDir());
+			this.syncher_.setDownloadDir(storage.downloadDir);
 
-			this.playlist_.getOverview().then(({title, length}) => {
-				this.$('#title').textContent = title;
-				this.$('#count').textContent = length;
-			});
+			({
+				title: this.$('#title').textContent,
+				length: this.$('#count').textContent
+			} = this.playlist_.getOverview());
 			this.$('#playlist-id').textContent = this.playlistId;
 		}
 

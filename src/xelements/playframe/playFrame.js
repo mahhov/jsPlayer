@@ -14,20 +14,21 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.$('#player').addEventListener('shuffle', ({detail}) => this.setShuffle_(detail));
 		this.$('#remove').addEventListener('click', () => this.emitRemove_());
 		this.seeker = new Seeker();
-		storage.getSongList().then(songList => this.seeker.setSize(songList.length));
+		storage.songList.then(songList => this.seeker.setSize(songList.length));
 	}
 
-	prevSong_() {
-		storage.getSongList().then(() => this.setSong(this.seeker.getPrev()));
+	async prevSong_() {
+		await storage.songList;
+		this.setSong(this.seeker.getPrev())
 	}
 
 	async nextSong_() {
-		await storage.getSongList();
+		await storage.songList;
 		this.setSong(this.seeker.getNext());
 	}
 
 	async setShuffle_(shuffle) {
-		await storage.getSongList();
+		await storage.songList;
 		this.seeker.setShuffle(shuffle);
 	}
 
@@ -35,13 +36,12 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.dispatchEvent(new CustomEvent('remove-song', {detail: this.$('#player').src}));
 	}
 
-	setSong(index) {
-		storage.getSongList().then(songList => {
-			this.$('#player').src = songList[index];
-			let numberText = `Playing ${index + 1} of ${songList.length}`;
-			this.$('#status').textContent = `${numberText} ${songList[index]}`;
-			this.dispatchEvent(new CustomEvent('playing-song', {detail: index}));
-			new Notification(numberText, {body: songList[index]});
-		});
+	async setSong(index) {
+		let songList = await storage.songList;
+		this.$('#player').src = songList[index];
+		let numberText = `Playing ${index + 1} of ${songList.length}`;
+		this.$('#status').textContent = `${numberText} ${songList[index]}`;
+		this.dispatchEvent(new CustomEvent('playing-song', {detail: index}));
+		new Notification(numberText, {body: songList[index]});
 	}
 });

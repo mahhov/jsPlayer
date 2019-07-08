@@ -5,53 +5,75 @@ const rootPath = require('env-paths')('js-player').data;
 const STORAGE_DIR = rootPath;
 const PLAYLIST_LIST = 'playlistList.json';
 const DOWNLOAD_DIR = 'downloads';
-const PLAYER_SETTINGS = 'palyerSettings.json';
+const PLAYER_SETTINGS = 'playerSettings.json';
 
-let prepareDir_ = async () => {
-	await fs.mkdir(path.resolve(STORAGE_DIR)).catch(() => null);
-	await fs.mkdir(path.resolve(STORAGE_DIR, DOWNLOAD_DIR)).catch(() => null);
-};
+class Storage {
+	constructor(storageDir, playlistList, downloadDir, playerSettings) {
+		this.storageDir_ = path.resolve(storageDir);
+		this.playlistList_ = path.resolve(storageDir, playlistList);
+		this.downloadDir_ = path.resolve(storageDir, downloadDir);
+		this.playerSettings_ = path.resolve(storageDir, playerSettings);
 
-let getPlaylistList = async () => {
-	await prepareDir_();
-	return fs.readFile(path.resolve(STORAGE_DIR, PLAYLIST_LIST), 'utf8')
-		.then(a => JSON.parse(a))
-		.catch(() => []);
-};
+		this.prepareDir_();
+	}
 
-let savePlaylistList = async playlistList => {
-	await prepareDir_();
-	fs.writeFile(path.resolve(STORAGE_DIR, PLAYLIST_LIST), JSON.stringify(playlistList))
-		.catch(e => console.error('error saving playlist lists:', e));
-};
+	get downloadDir() {
+		return this.downloadDir_;
+	}
 
-// todo this should not be public?
-let getSongDir = () => path.resolve(STORAGE_DIR, DOWNLOAD_DIR);
+	prepareDir_() {
+		return this.prepareDirPromise_ = this.prepareDirPromise_ || new Promise(async resolve => {
+			await fs.mkdir(this.storageDir_).catch(() => null);
+			await fs.mkdir(this.downloadDir_).catch(() => null);
+			resolve();
+		});
+	}
 
-let getSongList = async () => {
-	await prepareDir_();
-	return fs.readdir(path.resolve(getSongDir()));
-};
+	get playlistList() {
+		return this.playlistListPromise_ = this.playlistListPromise_ ||
+			this.prepareDir_()
+				.then(() => fs.readFile(this.playlistList_, 'utf8'))
+				.then(a => JSON.parse(a))
+				.catch(() => []);
+	}
 
-let getSong = songName => path.resolve(getSongDir(), songName);
+	set playlistList(playlistList) {
+		this.prepareDir_()
+			.then(() => fs.writeFile(this.playlistList_, JSON.stringify(playlistList)))
+			.then(() => this.playlistListPromise_ = Promise.resolve(playlistList))
+			.catch(e => console.error('error saving playlist lists:', e));
+	}
 
-let removeSong = songName => fs.unlink(getSong(songName));
+	get songList() {
+		return this.songListPromise_ = this.songListPromise_ ||
+			this.prepareDir_().then(() => fs.readdir(this.downloadDir_));
+	}
 
-let readSong = songName => fs.readFile(path.resolve(getSongDir(), songName));
+	async removeSong(songName) {
+		await this.prepareDir_();
+		await fs.unlink(path.resolve(this.downloadDir_, songName));
+		this.songListPromise_ = Promise.resolve((await this.songListPromise_).filter(a => a === songName));
+	}
 
-let getPlayerSettings = async () => {
-	await prepareDir_();
-	return fs.readFile(path.resolve(STORAGE_DIR, PLAYER_SETTINGS), 'utf8')
-		.then(a => JSON.parse(a))
-		.catch(() => ({}));
-};
+	async readSong(songName) {
+		await this.prepareDir_();
+		return fs.readFile(path.resolve(this.downloadDir_, songName));
+	}
 
-let savePlayerSettings = async playerSettings => {
-	await prepareDir_();
-	fs.writeFile(path.resolve(STORAGE_DIR, PLAYER_SETTINGS), JSON.stringify(playerSettings))
-		.catch(e => console.error('error saving player settings:', e));
-};
+	get playerSettings() {
+		return this.playerSettingsPromise_ = this.playerSettingsPromise_ ||
+			this.prepareDir_()
+				.then(() => fs.readFile(this.playerSettings_, 'utf8'))
+				.then(a => JSON.parse(a))
+				.catch(() => ({}));
+	}
 
-module.exports = {getPlaylistList, savePlaylistList, getSongDir, getSongList, getSong, removeSong, readSong, getPlayerSettings, savePlayerSettings};
+	set playerSettings(playerSettings) {
+		this.prepareDir_()
+			.then(fs.writeFile(this.playerSettings_, JSON.stringify(playerSettings)))
+			.then(() => this.playerSettingsPromise_ = Promise.resolve(playerSettings))
+			.catch(e => console.error('error saving player settings:', e));
+	}
+}
 
-// todo caching
+module.exports = new Storage(STORAGE_DIR, PLAYLIST_LIST, DOWNLOAD_DIR, PLAYER_SETTINGS);
