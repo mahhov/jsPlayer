@@ -18,7 +18,7 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 	}
 
 	prevSong_() {
-		storage.getSongList().then(songList => this.setSong(this.seeker.getPrev()));
+		storage.getSongList().then(() => this.setSong(this.seeker.getPrev()));
 	}
 
 	async nextSong_() {
