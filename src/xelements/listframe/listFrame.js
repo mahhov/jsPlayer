@@ -46,7 +46,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 
 			for (let i in songList) {
 				let songLine = document.createElement('x-song-line');
-				songLine.number = i + 1;
+				songLine.number = parseInt(i) + 1;
 				songLine.title = songList[i];
 				songLine.addEventListener('select', () => this.emitSelectSong_(i));
 				songLine.addEventListener('remove', () => this.emitRemoveSong_(i));
