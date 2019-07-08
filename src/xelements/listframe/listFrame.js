@@ -10,6 +10,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	connectedCallback() {
 		this.$('#search').addEventListener('input', () => this.filter_());
 		this.$('#refresh').addEventListener('click', () => this.refresh_());
+		this.$('#limit').addEventListener('change', ({detail}) => this.limit_(detail));
 		this.refresh_();
 	}
 
@@ -72,6 +73,10 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	async selectSong(index = this.selectedIndex_) {
 		this.selectedIndex_ = index;
 		(await this.songLines_).forEach((songLine, i) => songLine.selected = i === index);
+	}
+
+	limit_(limit) {
+		this.$('#list-container').classList.toggle('limit', limit);
 	}
 
 	get songLines_() {

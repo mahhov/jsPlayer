@@ -16,6 +16,10 @@
 		margin-right: 15px;
 	}
 
+	.top x-toggle#limit [slot='toggle-off'] {
+		background-color: var(--dark-blue);
+	}
+
 	input {
 		flex-grow: 1;
 		background: black;
@@ -29,6 +33,10 @@
 		margin-top: 15px;
 		padding-right: 15px;
 	}
+
+	#list-container.limit div :nth-child(n+101) {
+		display: none;
+	}
 </style>
 
 <div>
@@ -36,7 +44,11 @@
 		<span><span id="count"></span> songs</span>
 		<input id="search" placeholder="search" consume-key>
 		<button id="refresh" class="fa fa-refresh"></button>
+		<x-toggle id="limit" checked>
+			<button slot="toggle-on" class="fa fa-ellipsis-v"></button>
+			<button slot="toggle-off" class="fa fa-ellipsis-v"></button>
+		</x-toggle>
 	</div>
 </div>
 
-<div id="list-container"></div>
+<div id="list-container" class="limit"></div>
