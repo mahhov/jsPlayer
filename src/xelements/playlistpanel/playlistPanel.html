@@ -5,6 +5,10 @@
 	:host {
 		display: block;
 	}
+
+	#buttons {
+		display: flex;
+	}
 </style>
 
 <div>
@@ -13,7 +17,7 @@
 <div>
 	<span id="playlist-id"></span>
 </div>
-<div>
+<div id="buttons">
 	<button id="refresh" class="fa fa-refresh"></button>
 	<x-toggle id="download-toggle">
 		<button slot="toggle-on" class="fa fa-stop"></button>

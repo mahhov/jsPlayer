@@ -1,6 +1,10 @@
 <style>
 	:host {
-		display: inline-block;
+		display: flex;
+	}
+
+	label {
+		display: flex;
 	}
 
 	input:checked ~ .toggle-off {
@@ -12,7 +16,7 @@
 	}
 </style>
 
-<label class="toggle">
+<label>
 	<input id="checkbox" type="checkbox" hidden>
 	<slot name="toggle-on" class="toggle-on"></slot>
 	<slot name="toggle-off" class="toggle-off"></slot>
