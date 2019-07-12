@@ -49,15 +49,15 @@ class Storage {
 			this.prepareDir_().then(() => fs.readdir(this.downloadDir_));
 	}
 
+	async readSong(songName) {
+		await this.prepareDir_();
+		return fs.readFile(path.resolve(this.downloadDir_, songName));
+	}
+
 	async removeSong(songName) {
 		await this.prepareDir_();
 		await fs.unlink(path.resolve(this.downloadDir_, songName));
 		this.songListPromise_ = Promise.resolve((await this.songListPromise_).filter(a => a === songName));
-	}
-
-	async readSong(songName) {
-		await this.prepareDir_();
-		return fs.readFile(path.resolve(this.downloadDir_, songName));
 	}
 
 	get playerSettings() {
