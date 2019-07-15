@@ -22,6 +22,7 @@ customElements.define('x-frame', class Frame extends XElement {
 
 			this.selects_.forEach((select, i) => select.addEventListener('change', () => this.onSelect_(i)));
 
+			this.$('#player-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
 			this.$('#player-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 			this.$('#player-frame').addEventListener('playing-song', ({detail}) => this.onPlayingSong_(detail));
 			this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
@@ -45,6 +46,10 @@ customElements.define('x-frame', class Frame extends XElement {
 
 		onSelectSong_(index) {
 			this.$('#player-frame').setSong(index);
+		}
+
+		onFavoriteSong_(name, favorite) {
+			storage.setSongFavorite(name, favorite);
 		}
 
 		onRemoveSong_(name) {

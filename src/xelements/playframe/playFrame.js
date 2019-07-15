@@ -12,6 +12,7 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 		this.$('#player').addEventListener('shuffle', ({detail}) => this.setShuffle_(detail));
+		this.$('#favorite').addEventListener('change', () => this.emitFavorite_());
 		this.$('#remove').addEventListener('click', () => this.emitRemove_());
 		this.seeker = new Seeker();
 		storage.songList.then(songList => this.seeker.setSize(songList.length));
@@ -32,16 +33,22 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.seeker.setShuffle(shuffle);
 	}
 
+	emitFavorite_() {
+		this.dispatchEvent(new CustomEvent('favorite-song', {detail: {name: this.$('#player').src, favorite: this.$('#favorite').checked}}));
+	}
+
 	emitRemove_() {
 		this.dispatchEvent(new CustomEvent('remove-song', {detail: this.$('#player').src}));
 	}
 
 	async setSong(index) {
 		let songList = await storage.songList;
-		this.$('#player').src = songList[index];
+		let name = songList[index];
+		this.$('#player').src = name;
+		this.$('#favorite').checked = await storage.isSongFavorite(name);
 		let numberText = `Playing ${index + 1} of ${songList.length}`;
-		this.$('#status').textContent = `${numberText} ${songList[index]}`;
+		this.$('#status').textContent = `${numberText} ${name}`;
 		this.dispatchEvent(new CustomEvent('playing-song', {detail: index}));
-		new Notification(numberText, {body: songList[index]});
+		new Notification(numberText, {body: name});
 	}
 });

@@ -11,12 +11,21 @@
 
 	div {
 		margin-top: 30px;
+		display: flex;
+	}
+
+	div > *:not(:last-child) {
+		margin-right: 15px;
 	}
 </style>
 
 <x-player id="player"></x-player>
 
 <div>
+	<x-toggle id="favorite">
+		<button slot="toggle-on" class="fa fa-star"></button>
+		<button slot="toggle-off" class="fa fa-star-o"></button>
+	</x-toggle>
 	<span id="status"></span>
 	<button id="remove" class="fa fa-remove"></button>
 </div>

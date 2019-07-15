@@ -64,3 +64,11 @@
 .fa-ellipsis-v:before {
 	content: "\f142";
 }
+
+.fa-star:before {
+	content: "\f005";
+}
+
+.fa-star-o:before {
+	content: "\f006";
+}

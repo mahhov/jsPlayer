@@ -2,16 +2,19 @@ const path = require('path');
 const fs = require('fs').promises;
 const rootPath = require('env-paths')('js-player').data;
 
+console.log(rootPath);
 const STORAGE_DIR = rootPath;
 const PLAYLIST_LIST = 'playlistList.json';
 const DOWNLOAD_DIR = 'downloads';
+const FAVORITES = 'favorites.json';
 const PLAYER_SETTINGS = 'playerSettings.json';
 
 class Storage {
-	constructor(storageDir, playlistList, downloadDir, playerSettings) {
+	constructor(storageDir, playlistList, downloadDir, favorites, playerSettings) {
 		this.storageDir_ = path.resolve(storageDir);
 		this.playlistList_ = path.resolve(storageDir, playlistList);
 		this.downloadDir_ = path.resolve(storageDir, downloadDir);
+		this.favorites_ = path.resolve(storageDir, favorites);
 		this.playerSettings_ = path.resolve(storageDir, playerSettings);
 
 		this.prepareDir_();
@@ -60,6 +63,36 @@ class Storage {
 		this.songListPromise_ = Promise.resolve((await this.songListPromise_).filter(a => a === songName));
 	}
 
+	get favorites() {
+		return this.favoritesPromise_ = this.favoritesPromise_ ||
+			this.prepareDir_()
+				.then(() => fs.readFile(this.favorites_, 'utf8'))
+				.then(a => JSON.parse(a))
+				.catch(() => ([]));
+	}
+
+	set favorites(favorites) {
+		this.prepareDir_()
+			.then(fs.writeFile(this.favorites_, JSON.stringify(favorites)))
+			.then(() => this.favoritesPromise_ = Promise.resolve(favorites))
+			.catch(e => console.error('error saving favorites:', e));
+	}
+
+	async isSongFavorite(name) {
+		return (await this.favorites).includes(name);
+	}
+
+	async setSongFavorite(name, favorite) {
+		let favorites = await this.favorites;
+		if (favorite === favorites.includes(name))
+			return;
+		if (favorite)
+			favorites.push(name);
+		else
+			favorites = favorites.filter(favorite => favorite !== name);
+		this.favorites = favorites;
+	}
+
 	get playerSettings() {
 		return this.playerSettingsPromise_ = this.playerSettingsPromise_ ||
 			this.prepareDir_()
@@ -76,4 +109,4 @@ class Storage {
 	}
 }
 
-module.exports = new Storage(STORAGE_DIR, PLAYLIST_LIST, DOWNLOAD_DIR, PLAYER_SETTINGS);
+module.exports = new Storage(STORAGE_DIR, PLAYLIST_LIST, DOWNLOAD_DIR, FAVORITES, PLAYER_SETTINGS);
