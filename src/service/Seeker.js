@@ -13,6 +13,7 @@ class Seeker {
 	}
 
 	setShuffle(shuffle) {
+		// todo unshuffling doesn't update continue off current song
 		if (shuffle)
 			this.shuffle_();
 		else {

@@ -2,28 +2,35 @@
 	@import url("./style/faIcons.css");
 	@import url("./style/button.css");
 
-	.container {
+	#container {
+		display: flex;
 		padding: 3px;
 		cursor: pointer;
 	}
 
-	.container:hover {
+	#container:hover {
 		background-color: var(--light-blue);
 	}
 
-	.container.selected {
+	#container.selected {
 		background-color: var(--dark-blue);
 	}
 
+	#number {
+		margin-right: 15px;
+	}
 
-	#title,
-	#remove {
-		margin-left: 10px;
+	#title {
+		margin-right: 10px;
 	}
 </style>
 
-<div class="container">
+<div id="container">
 	<span id="number"></span>
 	<span id="title"></span>
+	<x-toggle id="favorite">
+		<button slot="toggle-on" class="fa fa-star"></button>
+		<button slot="toggle-off" class="fa fa-star-o"></button>
+	</x-toggle>
 	<button id="remove" class="fa fa-remove"></button>
 </div>

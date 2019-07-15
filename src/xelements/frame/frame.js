@@ -26,6 +26,7 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.$('#player-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 			this.$('#player-frame').addEventListener('playing-song', ({detail}) => this.onPlayingSong_(detail));
 			this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
+			this.$('#list-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
 			this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 
 			this.$('#fullscreen').addEventListener('change', () => this.onFullscreenChange_());

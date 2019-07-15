@@ -25,7 +25,8 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 				songLine.number = parseInt(i) + 1;
 				songLine.title = songList[i];
 				songLine.addEventListener('select', () => this.emitSelectSong_(i));
-				songLine.addEventListener('remove', () => this.emitRemoveSong_(i));
+				songLine.addEventListener('favorite', () => this.emitFavoriteSong_(songList[i]));
+				songLine.addEventListener('remove', () => this.emitRemoveSong_(songList[i]));
 				list.appendChild(songLine);
 
 				if (!(i % 1200))
@@ -72,9 +73,13 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 		this.dispatchEvent(new CustomEvent('select-song', {detail: index}));
 	}
 
-	async emitRemoveSong_(index) {
-		let songList = await storage.songList;
-		this.dispatchEvent(new CustomEvent('remove-song', {detail: songList[index]}));
+	emitFavoriteSong_(name) {
+		// todo updating here doesn't update player frame and vice versa
+		this.dispatchEvent(new CustomEvent('favorite-song', {detail: name}));
+	}
+
+	emitRemoveSong_(name) {
+		this.dispatchEvent(new CustomEvent('remove-song', {detail: name}));
 	}
 
 	get songLines_() {

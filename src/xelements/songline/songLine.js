@@ -3,7 +3,7 @@ const XElement = require('../XElement');
 
 customElements.define('x-song-line', class extends XElement {
 		static get observedAttributes() {
-			return ['number', 'title', 'selected'];
+			return ['number', 'title', 'favorited', 'selected'];
 		}
 
 		constructor() {
@@ -16,8 +16,9 @@ customElements.define('x-song-line', class extends XElement {
 			if (!this.hasAttribute('title'))
 				this.setAttribute('title', '');
 
-			this.$('.container').addEventListener('click', () => this.emitSelect_());
+			this.$('#favorite').addEventListener('change', e => this.emitFavorite_(e));
 			this.$('#remove').addEventListener('click', e => this.emitRemove_(e));
+			this.$('#container').addEventListener('click', () => this.emitSelect_());
 		}
 
 		get number() {
@@ -36,6 +37,17 @@ customElements.define('x-song-line', class extends XElement {
 			this.setAttribute('title', value);
 		}
 
+		get favorited() {
+			return this.hasAttribute('favorited');
+		}
+
+		set favorited(value) {
+			if (value)
+				this.setAttribute('favorited', '');
+			else
+				this.removeAttribute('favorited');
+		}
+
 		get selected() {
 			return this.hasAttribute('selected');
 		}
@@ -52,19 +64,31 @@ customElements.define('x-song-line', class extends XElement {
 		}
 
 		attributeChangedCallback(name, oldValue, newValue) {
-			if (name === 'selected')
-				this.$('.container').classList.toggle('selected', this.hasAttribute('selected'));
-			else
-				this.$(`#${name}`).textContent = newValue;
+			switch (name) {
+				case 'favorited':
+					this.$('#favorite').checked = this.hasAttribute('selected');
+					break;
+				case 'selected':
+					this.$('#container').classList.toggle('selected', this.hasAttribute('selected'));
+					break;
+				default:
+					this.$(`#${name}`).textContent = newValue;
+			}
 		}
 
-		emitSelect_() {
-			this.dispatchEvent(new CustomEvent('select'));
+		emitFavorite_(e) {
+			e.stopPropagation(); // prevent emitSelect todo not working
+			this.dispatchEvent(new CustomEvent('favorite', {detail: this.$('#favorite').checked}));
 		}
 
 		emitRemove_(e) {
 			e.stopPropagation(); // prevent emitSelect
 			this.dispatchEvent(new CustomEvent('remove'));
+		}
+
+		emitSelect_() {
+			this.dispatchEvent(new CustomEvent('select'));
+			// todo not updating "i of n" text and favorite star
 		}
 	}
 );
