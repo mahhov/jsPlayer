@@ -21,8 +21,9 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 			let list = document.createElement('div');
 
 			for (let i in songList) {
+				i = parseInt(i);
 				let songLine = document.createElement('x-song-line');
-				songLine.number = parseInt(i) + 1;
+				songLine.number = i + 1;
 				songLine.title = songList[i];
 				songLine.addEventListener('select', () => this.emitSelectSong_(i));
 				songLine.addEventListener('favorite', () => this.emitFavoriteSong_(songList[i]));
