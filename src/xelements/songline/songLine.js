@@ -77,7 +77,6 @@ customElements.define('x-song-line', class extends XElement {
 		}
 
 		emitFavorite_(e) {
-			e.stopPropagation(); // prevent emitSelect todo not working
 			this.favorited = this.$('#favorite').checked;
 			this.dispatchEvent(new CustomEvent('favorite', {detail: this.$('#favorite').checked}));
 		}
