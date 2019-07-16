@@ -66,7 +66,7 @@ customElements.define('x-song-line', class extends XElement {
 		attributeChangedCallback(name, oldValue, newValue) {
 			switch (name) {
 				case 'favorited':
-					this.$('#favorite').checked = this.hasAttribute('selected');
+					this.$('#favorite').checked = this.hasAttribute('favorited');
 					break;
 				case 'selected':
 					this.$('#container').classList.toggle('selected', this.hasAttribute('selected'));
@@ -78,6 +78,7 @@ customElements.define('x-song-line', class extends XElement {
 
 		emitFavorite_(e) {
 			e.stopPropagation(); // prevent emitSelect todo not working
+			this.favorited = this.$('#favorite').checked;
 			this.dispatchEvent(new CustomEvent('favorite', {detail: this.$('#favorite').checked}));
 		}
 

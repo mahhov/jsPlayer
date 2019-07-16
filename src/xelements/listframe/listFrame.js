@@ -26,7 +26,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 				songLine.number = i + 1;
 				songLine.title = songList[i];
 				songLine.addEventListener('select', () => this.emitSelectSong_(i));
-				songLine.addEventListener('favorite', () => this.emitFavoriteSong_(songList[i]));
+				songLine.addEventListener('favorite', () => this.emitFavoriteSong_(songList[i], songLine.favorited));
 				songLine.addEventListener('remove', () => this.emitRemoveSong_(songList[i]));
 				list.appendChild(songLine);
 
@@ -35,6 +35,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 			}
 			this.$('#list-container').appendChild(list);
 			this.filter_();
+			this.updateFavoriteSong_();
 			this.selectSong();
 		});
 	}
@@ -65,6 +66,10 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 		}
 	}
 
+	async updateFavoriteSong_() {
+		(await this.songLines_).forEach(async (songLine, i) => songLine.favorited = await storage.isSongFavorite(songLine.title));
+	}
+
 	async selectSong(index = this.selectedIndex_) {
 		this.selectedIndex_ = index;
 		(await this.songLines_).forEach((songLine, i) => songLine.selected = i === index);
@@ -74,9 +79,9 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 		this.dispatchEvent(new CustomEvent('select-song', {detail: index}));
 	}
 
-	emitFavoriteSong_(name) {
+	emitFavoriteSong_(name, favorite) {
 		// todo updating here doesn't update player frame and vice versa
-		this.dispatchEvent(new CustomEvent('favorite-song', {detail: name}));
+		this.dispatchEvent(new CustomEvent('favorite-song', {detail: {name, favorite}}));
 	}
 
 	emitRemoveSong_(name) {
