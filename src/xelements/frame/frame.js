@@ -11,7 +11,7 @@ customElements.define('x-frame', class Frame extends XElement {
 
 		connectedCallback() {
 			this.frames_ = [
-				this.$('#player-frame'),
+				this.$('#play-frame'),
 				this.$('#list-frame'),
 				this.$('#downloader-frame')];
 
@@ -22,9 +22,9 @@ customElements.define('x-frame', class Frame extends XElement {
 
 			this.selects_.forEach((select, i) => select.addEventListener('change', () => this.onSelect_(i)));
 
-			this.$('#player-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
-			this.$('#player-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
-			this.$('#player-frame').addEventListener('playing-song', ({detail}) => this.onPlayingSong_(detail));
+			this.$('#play-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
+			this.$('#play-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
+			this.$('#play-frame').addEventListener('playing-song', ({detail}) => this.onPlayingSong_(detail));
 			this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
 			this.$('#list-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
 			this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
@@ -46,7 +46,7 @@ customElements.define('x-frame', class Frame extends XElement {
 		}
 
 		onSelectSong_(index) {
-			this.$('#player-frame').setSong(index);
+			this.$('#play-frame').setSong(index);
 		}
 
 		onFavoriteSong_(name, favorite) {
