@@ -41,9 +41,9 @@ class Storage {
 	}
 
 	set playlistList(playlistList) {
+		this.playlistListPromise_ = Promise.resolve(playlistList);
 		this.prepareDir_()
 			.then(() => fs.writeFile(this.playlistList_, JSON.stringify(playlistList)))
-			.then(() => this.playlistListPromise_ = Promise.resolve(playlistList))
 			.catch(e => console.error('error saving playlist lists:', e));
 	}
 
@@ -58,9 +58,9 @@ class Storage {
 	}
 
 	async removeSong(songName) {
+		this.songListPromise_ = Promise.resolve((await this.songListPromise_).filter(a => a === songName));
 		await this.prepareDir_();
 		await fs.unlink(path.resolve(this.downloadDir_, songName));
-		this.songListPromise_ = Promise.resolve((await this.songListPromise_).filter(a => a === songName));
 	}
 
 	get favorites() {
@@ -72,9 +72,9 @@ class Storage {
 	}
 
 	set favorites(favorites) {
+		this.favoritesPromise_ = Promise.resolve(favorites);
 		this.prepareDir_()
-			.then(fs.writeFile(this.favorites_, JSON.stringify(favorites)))
-			.then(() => this.favoritesPromise_ = Promise.resolve(favorites))
+			.then(() => fs.writeFile(this.favorites_, JSON.stringify(favorites)))
 			.catch(e => console.error('error saving favorites:', e));
 	}
 
@@ -102,9 +102,9 @@ class Storage {
 	}
 
 	set playerSettings(playerSettings) {
+		this.playerSettingsPromise_ = Promise.resolve(playerSettings);
 		this.prepareDir_()
-			.then(fs.writeFile(this.playerSettings_, JSON.stringify(playerSettings)))
-			.then(() => this.playerSettingsPromise_ = Promise.resolve(playerSettings))
+			.then(() => fs.writeFile(this.playerSettings_, JSON.stringify(playerSettings)))
 			.catch(e => console.error('error saving player settings:', e));
 	}
 }
