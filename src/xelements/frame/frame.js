@@ -49,8 +49,10 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.$('#play-frame').setSong(index);
 		}
 
-		onFavoriteSong_(name, favorite) {
-			storage.setSongFavorite(name, favorite);
+		async onFavoriteSong_(name, favorite) {
+			await storage.setSongFavorite(name, favorite);
+			this.$('#play-frame').updateFavoriteStatus();
+			this.$('#list-frame').updateFavoriteStatus();
 		}
 
 		onRemoveSong_(name) {

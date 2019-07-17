@@ -35,7 +35,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 			}
 			this.$('#list-container').appendChild(list);
 			this.filter_();
-			this.updateFavoriteSong_();
+			this.updateFavoriteStatus();
 			this.selectSong();
 		});
 	}
@@ -66,8 +66,9 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 		}
 	}
 
-	async updateFavoriteSong_() {
-		(await this.songLines_).forEach(async (songLine, i) => songLine.favorited = await storage.isSongFavorite(songLine.title));
+	async updateFavoriteStatus() {
+		(await this.songLines_).forEach(async (songLine, i) =>
+			songLine.favorited = await storage.isSongFavorite(songLine.title));
 	}
 
 	async selectSong(index = this.selectedIndex_) {

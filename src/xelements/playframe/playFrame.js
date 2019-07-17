@@ -33,6 +33,10 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.seeker.setShuffle(shuffle);
 	}
 
+	async updateFavoriteStatus() {
+		this.$('#favorite').checked = await storage.isSongFavorite(this.$('#player').src);
+	}
+
 	emitFavorite_() {
 		this.dispatchEvent(new CustomEvent('favorite-song', {detail: {name: this.$('#player').src, favorite: this.$('#favorite').checked}}));
 	}
@@ -45,7 +49,7 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		let songList = await storage.songList;
 		let name = songList[index];
 		this.$('#player').src = name;
-		this.$('#favorite').checked = await storage.isSongFavorite(name);
+		this.updateFavoriteStatus();
 		let numberText = `Playing ${index + 1} of ${songList.length}`;
 		this.$('#status').textContent = `${numberText} ${name}`;
 		this.dispatchEvent(new CustomEvent('playing-song', {detail: index}));
