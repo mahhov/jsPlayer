@@ -14,7 +14,7 @@ class Storage {
 		this.storageDir_ = path.resolve(storageDir);
 		this.playlistList_ = path.resolve(storageDir, playlistList);
 		this.downloadDir_ = path.resolve(storageDir, downloadDir);
-		this.favorites_ = path.resolve(storageDir, favorites);
+		this.favoritesPath_ = path.resolve(storageDir, favorites);
 		this.playerSettings_ = path.resolve(storageDir, playerSettings);
 
 		this.prepareDir_();
@@ -63,34 +63,24 @@ class Storage {
 		await fs.unlink(path.resolve(this.downloadDir_, songName));
 	}
 
-	get favorites() {
+	get favorites_() {
 		return this.favoritesPromise_ = this.favoritesPromise_ ||
 			this.prepareDir_()
-				.then(() => fs.readFile(this.favorites_, 'utf8'))
+				.then(() => fs.readFile(this.favoritesPath_, 'utf8'))
 				.then(a => JSON.parse(a))
-				.catch(() => ([]));
-	}
-
-	set favorites(favorites) {
-		this.favoritesPromise_ = Promise.resolve(favorites);
-		this.prepareDir_()
-			.then(() => fs.writeFile(this.favorites_, JSON.stringify(favorites)))
-			.catch(e => console.error('error saving favorites:', e));
+				.catch(() => ({}));
 	}
 
 	async isSongFavorite(name) {
-		return (await this.favorites).includes(name);
+		return (await this.favorites_)[name];
 	}
 
 	async setSongFavorite(name, favorite) {
-		let favorites = await this.favorites;
-		if (favorite === favorites.includes(name))
-			return;
-		if (favorite)
-			favorites.push(name);
-		else
-			favorites = favorites.filter(favorite => favorite !== name);
-		this.favorites = favorites;
+		let favorites = await this.favorites_;
+		favorites[name] = favorite;
+		this.prepareDir_()
+			.then(() => fs.writeFile(this.favoritesPath_, JSON.stringify(favorites)))
+			.catch(e => console.error('error saving favorites:', e));
 	}
 
 	get playerSettings() {
