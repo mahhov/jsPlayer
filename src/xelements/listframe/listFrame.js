@@ -10,6 +10,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	connectedCallback() {
 		this.$('#refresh').addEventListener('click', () => this.refresh_());
 		this.$('#search').addEventListener('input', () => this.filter_());
+		this.$('#favorite').addEventListener('change', () => this.filter_());
 		this.$('#limit').addEventListener('change', () => this.filter_());
 		this.refresh_();
 	}
@@ -56,6 +57,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 			let songLine = songLines[i];
 			let songLineText = songLine.text.replace(charFilterRe, '').toLowerCase();
 			songLine.hidden = !inputWords.every(word => songLineText.includes(word))
+				|| this.$('#favorite').checked && !songLine.favorited
 				|| this.$('#limit').checked && ++count > 100;
 
 			if (!(i % 1200)) {
