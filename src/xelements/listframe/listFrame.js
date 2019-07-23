@@ -9,73 +9,70 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 
 	connectedCallback() {
 		this.$('#refresh').addEventListener('click', () => this.refresh_());
-		this.$('#search').addEventListener('input', () => this.filter_());
-		this.$('#favorite').addEventListener('change', () => this.filter_());
-		this.$('#limit').addEventListener('change', () => this.filter_());
-		this.refresh_();
+		this.$('#search').addEventListener('input', () => this.refresh_());
+		this.$('#favorite').addEventListener('change', () => this.refresh_());
+		this.$('#limit').addEventListener('change', () => this.refresh_());
+		// no need to refresh_(), as selectSong will be called
 	}
 
-	refresh_() {
+	async refresh_() {
+		await this.refreshPromise_;
 		this.refreshPromise_ = storage.songList.then(async songList => {
+			let songLines = [...this.$('#list-container').children];
 			this.$('#count').textContent = songList.length;
-			XElement.clearChildren(this.$('#list-container'));
-			let list = document.createElement('div');
 
-			for (let i in songList) {
-				i = parseInt(i);
-				let songLine = document.createElement('x-song-line');
+			// Ignoring case and symbols, each word of the filterString
+			// must be included in the song line.
+			// Both are broken on spaces and symbols.
+			// Order of words does not matter.
+			// Separators may be omitted if full words are entered.
+			let inputString = this.$('#search').value;
+			const charFilterRe = /[^a-zA-Z\d]/g;
+			let inputWords = inputString.toLowerCase().split(charFilterRe);
+
+			let songLineCount = 0;
+			for (let i = 0; i < songList.length; i++) {
+				let title = songList[i];
+
+				let songLineText = title.replace(charFilterRe, '').toLowerCase();
+
+				let filter = !inputWords.every(word => songLineText.includes(word))
+					|| this.$('#favorite').checked && !await storage.isSongFavorite(title)
+					|| this.$('#limit').checked && songLineCount > 99;
+				if (filter)
+					continue;
+
+				let songLine;
+				if (songLineCount < songLines.length) {
+					songLine = songLines[songLineCount];
+					songLine.classList.remove('hidden');
+				} else {
+					songLine = document.createElement('x-song-line');
+					songLine.addEventListener('select', ({path: [songLine]}) => this.emitSelectSong_(songLine.number - 1));
+					songLine.addEventListener('favorite', ({path: [songLine]}) => this.emitFavoriteSong_(songLine.title, songLine.favorited));
+					songLine.addEventListener('remove', ({path: [songLine]}) => this.emitRemoveSong_(songLine.title));
+					this.$('#list-container').appendChild(songLine);
+				}
+				songLineCount++;
+
 				songLine.number = i + 1;
-				songLine.title = songList[i];
-				songLine.addEventListener('select', () => this.emitSelectSong_(i));
-				songLine.addEventListener('favorite', () => this.emitFavoriteSong_(songList[i], songLine.favorited));
-				songLine.addEventListener('remove', () => this.emitRemoveSong_(songList[i]));
-				list.appendChild(songLine);
-
-				if (!(i % 1200))
-					await new Promise(resolve => setTimeout(resolve, 0));
+				songLine.title = title;
+				songLine.favorited = await storage.isSongFavorite(title);
+				songLine.selected = i === this.selectedIndex_;
 			}
-			this.$('#list-container').appendChild(list);
-			this.filter_();
-			this.updateFavoriteStatus();
-			this.selectSong();
+
+			for (; songLineCount < songLines.length; songLineCount++)
+				songLines[songLineCount].classList.add('hidden');
 		});
 	}
 
-	async filter_() {
-		// Ignoring case and symbols, each word of the filterString
-		// must be included in the song line.
-		// Both are broken on spaces and symbols.
-		// Order of words does not matter.
-		// Separators may be omitted if full words are entered.
-		let inputString = this.$('#search').value;
-		const charFilterRe = /[^a-zA-Z\d]/g;
-		let inputWords = inputString.toLowerCase().split(charFilterRe);
-
-		let songLines = await this.songLines_;
-		let count = 0;
-		for (let i in songLines) {
-			let songLine = songLines[i];
-			let songLineText = songLine.text.replace(charFilterRe, '').toLowerCase();
-			songLine.hidden = !inputWords.every(word => songLineText.includes(word))
-				|| this.$('#favorite').checked && !songLine.favorited
-				|| this.$('#limit').checked && ++count > 100;
-
-			if (!(i % 1200)) {
-				await new Promise(resolve => setTimeout(resolve, 0));
-				if (inputString !== this.$('#search').value)
-					return;
-			}
-		}
+	updateFavoriteStatus() {
+		this.refresh_();
 	}
 
-	async updateFavoriteStatus() {
-		(await this.songLines_).forEach(async (songLine, i) =>
-			songLine.favorited = await storage.isSongFavorite(songLine.title));
-	}
-
-	async selectSong(index = this.selectedIndex_) {
+	selectSong(index = this.selectedIndex_) {
 		this.selectedIndex_ = index;
-		(await this.songLines_).forEach((songLine, i) => songLine.selected = i === index);
+		this.refresh_();
 	}
 
 	emitSelectSong_(index) {
@@ -89,10 +86,5 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 
 	emitRemoveSong_(name) {
 		this.dispatchEvent(new CustomEvent('remove-song', {detail: name}));
-	}
-
-	get songLines_() {
-		return this.refreshPromise_.then(() =>
-			[...this.$('#list-container').firstElementChild.children]);
 	}
 });
