@@ -45,7 +45,9 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.dispatchEvent(new CustomEvent('remove-song', {detail: this.$('#player').src}));
 	}
 
-	async setSong(index) {
+	async setSong(index, skipTo) {
+		if (skipTo)
+			this.seeker.skipTo(index);
 		let songList = await storage.songList;
 		let name = songList[index];
 		this.$('#player').src = name;

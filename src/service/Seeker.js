@@ -13,10 +13,10 @@ class Seeker {
 	}
 
 	setShuffle(shuffle) {
-		// todo unshuffling doesn't update continue off current song
-		if (shuffle)
+		if (shuffle) {
 			this.shuffle_();
-		else {
+			this.skipTo();
+		} else {
 			this.current = this.getCurrent_();
 			this.shuffled = [];
 		}
@@ -32,6 +32,15 @@ class Seeker {
 
 	getCurrent_() {
 		return this.shuffled[this.current] !== undefined ? this.shuffled[this.current] : this.current;
+	}
+
+	getIndex_(current) {
+		let index = this.shuffled.indexOf(current);
+		return index === -1 ? current : index;
+	}
+
+	skipTo(current = this.current) {
+		this.current = this.getIndex_(current);
 	}
 
 	getNext() {

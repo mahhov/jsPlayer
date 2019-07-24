@@ -46,7 +46,7 @@ customElements.define('x-frame', class Frame extends XElement {
 		}
 
 		onSelectSong_(index) {
-			this.$('#play-frame').setSong(index);
+			this.$('#play-frame').setSong(index, true);
 		}
 
 		async onFavoriteSong_(name, favorite) {
