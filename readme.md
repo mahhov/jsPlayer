@@ -2,7 +2,9 @@
 
 Media player, browser, and syncher (with youtube) as a standalone desktop app (electron).
 
-![player.gif](./screenshots/player.gif)
+![player_hardwell.gif](./screenshots/player_hardwell.gif)
+
+![player_steve_aoki.gif](./screenshots/player_steve_aoki.gif)
 
 ![list.gif](./screenshots/list.gif)
 
