@@ -1,11 +1,12 @@
 {
   "name": "js-player",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "electron app to play local media",
   "main": "src/electronStarter.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder ."
+    "build": "electron-builder .",
+    "ship": "git push && build --win --linux -p always"
   },
   "author": "mahhov1",
   "license": "ISC",
