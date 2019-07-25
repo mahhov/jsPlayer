@@ -80,7 +80,6 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	emitFavoriteSong_(name, favorite) {
-		// todo updating here doesn't update player frame and vice versa
 		this.dispatchEvent(new CustomEvent('favorite-song', {detail: {name, favorite}}));
 	}
 

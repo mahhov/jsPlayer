@@ -72,3 +72,7 @@
 .fa-star-o:before {
 	content: "\f006";
 }
+
+.fa-external-link:before {
+	content: "\f08e";
+}

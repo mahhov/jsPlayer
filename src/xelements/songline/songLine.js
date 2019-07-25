@@ -1,3 +1,4 @@
+const {shell} = require('electron');
 const template = require('fs').readFileSync(`${__dirname}/songLine.html`, 'utf8');
 const XElement = require('../XElement');
 
@@ -16,7 +17,8 @@ customElements.define('x-song-line', class extends XElement {
 			if (!this.hasAttribute('title'))
 				this.setAttribute('title', '');
 
-			this.$('#favorite').addEventListener('change', e => this.emitFavorite_(e));
+			this.$('#favorite').addEventListener('change', () => this.emitFavorite_());
+			this.$('#link').addEventListener('click', e => this.openLink_(e));
 			this.$('#remove').addEventListener('click', e => this.emitRemove_(e));
 			this.$('#container').addEventListener('click', () => this.emitSelect_());
 		}
@@ -76,9 +78,15 @@ customElements.define('x-song-line', class extends XElement {
 			}
 		}
 
-		emitFavorite_(e) {
+		emitFavorite_() {
 			this.favorited = this.$('#favorite').checked;
 			this.dispatchEvent(new CustomEvent('favorite', {detail: this.$('#favorite').checked}));
+		}
+
+		openLink_(e) {
+			e.stopPropagation(); // prevent emitSelect
+			let id = this.title.match(/-([^.]*)./)[1];
+			shell.openExternal(`https://www.youtube.com/watch?v=${id}`);
 		}
 
 		emitRemove_(e) {
@@ -88,7 +96,6 @@ customElements.define('x-song-line', class extends XElement {
 
 		emitSelect_() {
 			this.dispatchEvent(new CustomEvent('select'));
-			// todo not updating "i of n" text and favorite star
 		}
 	}
 );
