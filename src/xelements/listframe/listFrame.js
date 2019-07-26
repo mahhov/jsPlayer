@@ -1,6 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/listFrame.html`, 'utf8');
 const XElement = require('../XElement');
 const storage = require('../../service/Storage');
+const {shell} = require('electron');
 
 customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	constructor() {
@@ -9,6 +10,7 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 
 	connectedCallback() {
 		this.$('#refresh').addEventListener('click', () => this.refresh_());
+		this.$('#link').addEventListener('click', () => this.link_());
 		this.$('#search').addEventListener('input', () => this.refresh_());
 		this.$('#favorite').addEventListener('change', () => this.refresh_());
 		this.$('#limit').addEventListener('change', () => this.refresh_());
@@ -64,6 +66,10 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 			for (; songLineCount < songLines.length; songLineCount++)
 				songLines[songLineCount].classList.add('hidden');
 		});
+	}
+
+	link_() {
+		shell.openExternal(storage.downloadDir);
 	}
 
 	updateFavoriteStatus() {

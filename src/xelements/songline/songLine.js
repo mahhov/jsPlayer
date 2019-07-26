@@ -1,6 +1,6 @@
-const {shell} = require('electron');
 const template = require('fs').readFileSync(`${__dirname}/songLine.html`, 'utf8');
 const XElement = require('../XElement');
+const {shell} = require('electron');
 
 customElements.define('x-song-line', class extends XElement {
 		static get observedAttributes() {
