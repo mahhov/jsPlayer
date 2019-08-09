@@ -92,7 +92,7 @@ customElements.define('x-player', class Player extends XElement {
 
 	onShuffleSet_(shuffle) {
 		this.shuffleSet(shuffle);
-		this.savePlayerSettings_();
+		storage.addPlayerSettings({shuffle: this.$('#shuffle').checked});
 	}
 
 	shuffleSet(shuffle) {
@@ -107,10 +107,6 @@ customElements.define('x-player', class Player extends XElement {
 	seek_(deltaS) {
 		audio.audioTrack.time = Math.min(audio.audioTrack.time + deltaS, audio.audioTrack.duration);
 		this.onTimeChange_();
-	}
-
-	savePlayerSettings_() {
-		storage.playerSettings = {shuffle: this.$('#shuffle').checked};
 	}
 
 	handleKeypress_(e) {

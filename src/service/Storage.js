@@ -91,6 +91,10 @@ class Storage {
 				.catch(() => ({}));
 	}
 
+	async addPlayerSettings(playerSettings) {
+		this.playerSettings = {...await this.playerSettings, ...playerSettings};
+	}
+
 	set playerSettings(playerSettings) {
 		this.playerSettingsPromise_ = Promise.resolve(playerSettings);
 		this.prepareDir_()

@@ -10,6 +10,11 @@ customElements.define('x-frame', class Frame extends XElement {
 		}
 
 		connectedCallback() {
+			storage.playerSettings.then(({fullscreen}) => {
+				if (fullscreen)
+					this.toggleFullscreen_();
+			});
+
 			this.frames_ = [
 				this.$('#play-frame'),
 				this.$('#list-frame'),
@@ -43,6 +48,12 @@ customElements.define('x-frame', class Frame extends XElement {
 
 		onFullscreenChange_() {
 			ipc.send('fullscreen-request', this.$('#fullscreen').checked);
+			storage.addPlayerSettings({fullscreen: this.$('#fullscreen').checked});
+		}
+
+		toggleFullscreen_() {
+			this.$('#fullscreen').checked = !this.$('#fullscreen').checked;
+			this.onFullscreenChange_();
 		}
 
 		onSelectSong_(index) {
@@ -66,10 +77,8 @@ customElements.define('x-frame', class Frame extends XElement {
 		handleKeypress_(e) {
 			if (e.key >= 1 && e.key <= 3)
 				this.onSelect_(parseInt(e.key) - 1);
-			else if (e.key === 'f') {
-				this.$('#fullscreen').checked = !this.$('#fullscreen').checked;
-				this.onFullscreenChange_(this.$('#fullscreen').checked);
-			}
+			else if (e.key === 'f')
+				this.toggleFullscreen_()
 		}
 	}
 );
