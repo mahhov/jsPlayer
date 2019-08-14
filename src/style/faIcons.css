@@ -9,8 +9,20 @@
 	font-size: inherit;
 }
 
+.fa-arrows-alt:before {
+	content: "\f0b2";
+}
+
 .fa-download:before {
 	content: "\f019";
+}
+
+.fa-ellipsis-v:before {
+	content: "\f142";
+}
+
+.fa-external-link:before {
+	content: "\f08e";
 }
 
 .fa-list:before {
@@ -45,6 +57,14 @@
 	content: "\f00d";
 }
 
+.fa-star:before {
+	content: "\f005";
+}
+
+.fa-star-o:before {
+	content: "\f006";
+}
+
 .fa-step-backward:before {
 	content: "\f048";
 }
@@ -55,24 +75,4 @@
 
 .fa-stop:before {
 	content: "\f04d";
-}
-
-.fa-arrows-alt:before {
-	content: "\f0b2";
-}
-
-.fa-ellipsis-v:before {
-	content: "\f142";
-}
-
-.fa-star:before {
-	content: "\f005";
-}
-
-.fa-star-o:before {
-	content: "\f006";
-}
-
-.fa-external-link:before {
-	content: "\f08e";
 }
