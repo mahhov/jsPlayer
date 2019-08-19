@@ -12,3 +12,10 @@ button:hover {
 button:active {
 	background: var(--light-gray);
 }
+
+input {
+	background: black;
+	border: 1px solid white;
+	color: white;
+	padding: 3px;
+}
