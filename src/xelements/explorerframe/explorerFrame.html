@@ -1,22 +1,43 @@
 <style>
 	@import url("./style/faIcons.css");
-	@import url("./style/button.css");
+	@import url("./style/elements.css");
 
 	:host {
 		display: flex;
 		flex-direction: column;
 	}
 
-	#summary,
-	#list > div {
-		border: 1px solid white;
+	:host > * {
+		margin-top: 15px;
+	}
+
+	.top {
+		display: flex;
+	}
+
+	.top > *:not(:last-child) {
+		margin-right: 15px;
+	}
+
+	input {
+		flex-grow: 1;
+	}
+
+	#list {
+		display: flex;
+		flex-direction: column;
+		flex-basis: 0;
+		flex-grow: 1;
+		overflow: auto;
 	}
 </style>
 
-<input id="search" placeholder="search" consume-key>
-<button id="search-button">search</button>
-<button id="clear-button">clear</button>
-<div id="summary">
+<div class="top">
+	<input id="search" placeholder="search" consume-key>
+	<button id="search-button" class="fa fa-search-plus"></button>
+	<button id="clear-button" class="fa fa-remove"></button>
+</div>
+<div class="summary">
 	<div id="summary-line-one"></div>
 	<div id="summary-line-two"></div>
 </div>

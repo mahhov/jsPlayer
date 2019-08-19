@@ -61,6 +61,10 @@
 	content: "\f002";
 }
 
+ .fa-search-plus:before {
+	content: "\f00e";
+}
+
 .fa-star:before {
 	content: "\f005";
 }

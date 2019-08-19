@@ -44,6 +44,7 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 			let container = document.createElement('div');
 			container.appendChild(name);
 			container.appendChild(status);
+			container.classList.add('line');
 			this.$('#list').appendChild(container);
 		});
 	}
