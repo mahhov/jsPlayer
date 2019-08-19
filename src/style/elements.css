@@ -19,3 +19,16 @@ input {
 	color: white;
 	padding: 3px;
 }
+
+.line {
+	padding: 3px;
+	cursor: pointer;
+}
+
+.line:hover {
+	background-color: var(--light-blue);
+}
+
+.line.selected {
+	background-color: var(--dark-blue);
+}
