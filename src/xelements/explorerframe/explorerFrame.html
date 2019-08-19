@@ -1,0 +1,22 @@
+<style>
+	@import url("./style/faIcons.css");
+	@import url("./style/button.css");
+
+	:host {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#summary,
+	#list > div {
+		border: 1px solid white;
+	}
+</style>
+
+<input id="search" placeholder="search" consume-key>
+<button id="search-button">search</button>
+<div id="summary">
+	<div id="summary-line-one"></div>
+	<div id="summary-line-two"></div>
+</div>
+<div id="list"></div>

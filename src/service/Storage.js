@@ -6,14 +6,16 @@ console.log(rootPath);
 const STORAGE_DIR = rootPath;
 const PLAYLIST_LIST = 'playlistList.json';
 const DOWNLOAD_DIR = 'downloads';
+const EXPLORER_DOWNLOAD_DIR = 'tempDownloads';
 const FAVORITES = 'favorites.json';
 const PLAYER_SETTINGS = 'playerSettings.json';
 
 class Storage {
-	constructor(storageDir, playlistList, downloadDir, favorites, playerSettings) {
+	constructor(storageDir, playlistList, downloadDir, explorerDownloadDir, favorites, playerSettings) {
 		this.storageDir_ = path.resolve(storageDir);
 		this.playlistList_ = path.resolve(storageDir, playlistList);
 		this.downloadDir_ = path.resolve(storageDir, downloadDir);
+		this.explorerDownloadDir_ = path.resolve(storageDir, explorerDownloadDir);
 		this.favoritesPath_ = path.resolve(storageDir, favorites);
 		this.playerSettings_ = path.resolve(storageDir, playerSettings);
 
@@ -22,6 +24,10 @@ class Storage {
 
 	get downloadDir() {
 		return this.downloadDir_;
+	}
+
+	get explorerDownloadDir() {
+		return this.explorerDownloadDir_;
 	}
 
 	prepareDir_() {
@@ -103,4 +109,4 @@ class Storage {
 	}
 }
 
-module.exports = new Storage(STORAGE_DIR, PLAYLIST_LIST, DOWNLOAD_DIR, FAVORITES, PLAYER_SETTINGS);
+module.exports = new Storage(STORAGE_DIR, PLAYLIST_LIST, DOWNLOAD_DIR, EXPLORER_DOWNLOAD_DIR, FAVORITES, PLAYER_SETTINGS);

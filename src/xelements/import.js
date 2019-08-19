@@ -12,4 +12,6 @@ require('./downloaderframe/downloaderFrame');
 require('./playlistpanel/playlistPanel');
 require('./fixedlinesdiv/fixedLinesDiv');
 
+require('./explorerframe/explorerFrame');
+
 require('./toggle/toggle');

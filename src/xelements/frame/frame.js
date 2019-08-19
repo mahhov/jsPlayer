@@ -18,12 +18,16 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.frames_ = [
 				this.$('#play-frame'),
 				this.$('#list-frame'),
-				this.$('#downloader-frame')];
+				this.$('#downloader-frame'),
+				this.$('#explorer-frame'),
+			];
 
 			this.selects_ = [
 				this.$('#player-select'),
 				this.$('#list-select'),
-				this.$('#downloader-select')];
+				this.$('#downloader-select'),
+				this.$('#explorer-select'),
+			];
 
 			this.selects_.forEach((select, i) => select.addEventListener('change', () => this.onSelect_(i)));
 
@@ -33,6 +37,7 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
 			this.$('#list-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
 			this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
+			// todo on explorer frame start playing, stop playing player frame, and vice versa
 
 			this.$('#fullscreen').addEventListener('change', () => this.onFullscreenChange_());
 
@@ -75,7 +80,7 @@ customElements.define('x-frame', class Frame extends XElement {
 		}
 
 		handleKeypress_(e) {
-			if (e.key >= 1 && e.key <= 3)
+			if (e.key >= 1 && e.key <= this.frames_.length)
 				this.onSelect_(parseInt(e.key) - 1);
 			else if (e.key === 'f')
 				this.toggleFullscreen_()
