@@ -2,7 +2,7 @@ const template = require('fs').readFileSync(`${__dirname}/frame.html`, 'utf8');
 const XElement = require('../XElement');
 const storage = require('../../service/Storage');
 const shortcuts = require('../../service/shortcuts');
-const {ipcRenderer: ipc} = require('electron');
+const {ipcRenderer: ipc, shell} = require('electron');
 
 customElements.define('x-frame', class Frame extends XElement {
 		constructor() {
@@ -32,10 +32,11 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.selects_.forEach((select, i) => select.addEventListener('change', () => this.onSelect_(i)));
 
 			this.$('#play-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
-			this.$('#play-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
+			this.$('#play-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));
 			this.$('#play-frame').addEventListener('playing-song', ({detail}) => this.onPlayingSong_(detail));
 			this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
 			this.$('#list-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
+			this.$('#list-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));
 			this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 			// todo on explorer frame start playing, stop playing player frame, and vice versa
 
@@ -69,6 +70,11 @@ customElements.define('x-frame', class Frame extends XElement {
 			await storage.setSongFavorite(name, favorite);
 			this.$('#play-frame').updateFavoriteStatus();
 			this.$('#list-frame').updateFavoriteStatus();
+		}
+
+		onLinkSong_(name) {
+			let id = name.match(/-([^.]*)./)[1];
+			shell.openExternal(`https://www.youtube.com/watch?v=${id}`);
 		}
 
 		onRemoveSong_(name) {

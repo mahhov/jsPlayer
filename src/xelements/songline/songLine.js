@@ -1,6 +1,5 @@
 const template = require('fs').readFileSync(`${__dirname}/songLine.html`, 'utf8');
 const XElement = require('../XElement');
-const {shell} = require('electron');
 
 customElements.define('x-song-line', class extends XElement {
 		static get observedAttributes() {
@@ -18,7 +17,7 @@ customElements.define('x-song-line', class extends XElement {
 				this.setAttribute('title', '');
 
 			this.$('#favorite').addEventListener('change', () => this.emitFavorite_());
-			this.$('#link').addEventListener('click', e => this.openLink_(e));
+			this.$('#link').addEventListener('click', e => this.emitLink_(e));
 			this.$('#remove').addEventListener('click', e => this.emitRemove_(e));
 			this.$('#container').addEventListener('click', () => this.emitSelect_());
 		}
@@ -83,10 +82,9 @@ customElements.define('x-song-line', class extends XElement {
 			this.dispatchEvent(new CustomEvent('favorite', {detail: this.$('#favorite').checked}));
 		}
 
-		openLink_(e) {
+		emitLink_(e) {
 			e.stopPropagation(); // prevent emitSelect
-			let id = this.title.match(/-([^.]*)./)[1];
-			shell.openExternal(`https://www.youtube.com/watch?v=${id}`);
+			this.dispatchEvent(new CustomEvent('link'));
 		}
 
 		emitRemove_(e) {

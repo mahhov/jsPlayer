@@ -50,9 +50,10 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 					songLine.classList.remove('hidden');
 				} else {
 					songLine = document.createElement('x-song-line');
-					songLine.addEventListener('select', ({path: [songLine]}) => this.emitSelectSong_(songLine.number - 1));
-					songLine.addEventListener('favorite', ({path: [songLine]}) => this.emitFavoriteSong_(songLine.title, songLine.favorited));
-					songLine.addEventListener('remove', ({path: [songLine]}) => this.emitRemoveSong_(songLine.title));
+					songLine.addEventListener('select', () => this.emitSelectSong_(songLine.number - 1));
+					songLine.addEventListener('favorite', () => this.emitFavoriteSong_(songLine.title, songLine.favorited));
+					songLine.addEventListener('link', () => this.emitLinkSong_(songLine.title));
+					songLine.addEventListener('remove', () => this.emitRemoveSong_(songLine.title));
 					this.$('#list-container').appendChild(songLine);
 				}
 				songLineCount++;
@@ -87,6 +88,10 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 
 	emitFavoriteSong_(name, favorite) {
 		this.dispatchEvent(new CustomEvent('favorite-song', {detail: {name, favorite}}));
+	}
+
+	emitLinkSong_(name) {
+		this.dispatchEvent(new CustomEvent('link-song', {detail: name}));
 	}
 
 	emitRemoveSong_(name) {

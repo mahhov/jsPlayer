@@ -13,7 +13,7 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 		this.$('#player').addEventListener('shuffle', ({detail}) => this.setShuffle_(detail));
 		this.$('#favorite').addEventListener('change', () => this.emitFavorite_());
-		this.$('#remove').addEventListener('click', () => this.emitRemove_());
+		this.$('#link').addEventListener('click', () => this.emitLink_());
 		this.seeker = new Seeker();
 		storage.songList.then(songList => this.seeker.setSize(songList.length));
 	}
@@ -41,8 +41,8 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.dispatchEvent(new CustomEvent('favorite-song', {detail: {name: this.$('#player').src, favorite: this.$('#favorite').checked}}));
 	}
 
-	emitRemove_() {
-		this.dispatchEvent(new CustomEvent('remove-song', {detail: this.$('#player').src}));
+	emitLink_() {
+		this.dispatchEvent(new CustomEvent('link-song', {detail: this.$('#player').src}));
 	}
 
 	async setSong(index, skipTo) {
