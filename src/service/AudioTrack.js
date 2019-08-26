@@ -1,12 +1,19 @@
-const BAR_COUNT = 32 * 4;
+const BAR_COUNT = 32 * 4; // todo duplicate constant, also defined in audioVisualizer
 
 class AudioTrack {
-	constructor(audioCtx, analyzer) {
-		this.audioCtx_ = audioCtx;
-		this.analyzer_ = analyzer;
+	constructor() {
+		this.audioCtx_ = new AudioContext();
+		this.analyzer = this.audioCtx_.createAnalyser();
+		this.analyzer.fftSize = BAR_COUNT * 2;
 		this.paused_ = true;
 		this.offsetTime_ = 0;
+	}
 
+	readAudioData(fileBuffer) {
+		return this.audioCtx_.decodeAudioData(fileBuffer);
+		// todo check if we can read and set audio data in 1 function.
+		// Currently, we have 2 functions because we want to check in between that the audio is still relevant
+		// E.g. the user didn't selected another audio while we were reading the audio data.
 	}
 
 	set audioData(audioData) {
@@ -33,7 +40,7 @@ class AudioTrack {
 		this.source_ = this.audioCtx_.createBufferSource();
 		this.source_.buffer = this.audioData_;
 		this.source_.connect(this.audioCtx_.destination);
-		this.source_.connect(this.analyzer_);
+		this.source_.connect(this.analyzer);
 		this.source_.start(0, this.offsetTime_);
 		this.offsetTime_ -= this.audioCtx_.currentTime;
 
@@ -80,12 +87,4 @@ class AudioTrack {
 	}
 }
 
-let audioCtx = new AudioContext();
-let audioAnalyzer = audioCtx.createAnalyser();
-audioAnalyzer.fftSize = BAR_COUNT * 2;
-
-let audioTrack = new AudioTrack(audioCtx, audioAnalyzer);
-
-let getAudioData = fileBuffer => audioCtx.decodeAudioData(fileBuffer);
-
-module.exports = {audioTrack, audioAnalyzer, getAudioData};
+module.exports = AudioTrack;

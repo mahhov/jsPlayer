@@ -1,7 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
 const XElement = require('../XElement');
 const storage = require('../../service/Storage');
-const audio = require('../../service/audio');
+const AudioTrack = require('../../service/AudioTrack');
 const shortcuts = require('../../service/shortcuts');
 
 const SEEK_DELTA_S = 10;
@@ -21,13 +21,16 @@ customElements.define('x-player', class Player extends XElement {
 			this.onEnd_();
 		});
 
-		audio.audioTrack.setTimeListener(() => this.onTimeChange_());
-		audio.audioTrack.setEndListener(() => this.onEnd_());
+		this.audioTrack_ = new AudioTrack();
+		this.audioTrack_.setTimeListener(() => this.onTimeChange_());
+		this.audioTrack_.setEndListener(() => this.onEnd_());
 		this.$('#time-bar').addEventListener('progress-set', ({detail}) => this.onSetTime_(detail));
 		this.$('#prev').addEventListener('click', () => this.onPrev_());
 		this.$('#pause').addEventListener('change', ({detail}) => this.onPauseSet_(!detail));
 		this.$('#next').addEventListener('click', () => this.onEnd_());
 		this.$('#shuffle').addEventListener('change', ({detail}) => this.onShuffleSet_(detail));
+
+		this.$('#visualizer').analyzer = this.audioTrack_.analyzer;
 
 		shortcuts.addListenerKeydown(this.handleKeypress_.bind(this));
 		shortcuts.addListenerGlobalPrev(() => this.onPrev_());
@@ -46,19 +49,19 @@ customElements.define('x-player', class Player extends XElement {
 	async attributeChangedCallback(name, oldValue, newValue) {
 		if (name === 'src') {
 			this.onPauseSet_(true);
-			let audioData = await audio.getAudioData((await storage.readSong(newValue)).buffer);
+			let audioData = await this.audioTrack_.readAudioData((await storage.readSong(newValue)).buffer);
 			if (newValue !== this.src)
 				return;
-			audio.audioTrack.audioData = audioData;
+			this.audioTrack_.audioData = audioData;
 			this.onSetTime_(0);
 			this.onPauseSet_(false);
 		}
 	}
 
 	onTimeChange_() {
-		this.$('#time-bar').progress = audio.audioTrack.time / audio.audioTrack.duration;
-		this.$('#time-bar').preValue = Player.timeFormat(audio.audioTrack.time);
-		this.$('#time-bar').postValue = Player.timeFormat(audio.audioTrack.duration);
+		this.$('#time-bar').progress = this.audioTrack_.time / this.audioTrack_.duration;
+		this.$('#time-bar').preValue = Player.timeFormat(this.audioTrack_.time);
+		this.$('#time-bar').postValue = Player.timeFormat(this.audioTrack_.duration);
 	}
 
 	onEnd_() {
@@ -66,13 +69,13 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	onSetTime_(time) {
-		audio.audioTrack.time = time * audio.audioTrack.duration;
+		this.audioTrack_.time = time * this.audioTrack_.duration;
 		this.onTimeChange_();
 	}
 
 	onPrev_() {
 		const PREVIOUS_SONG_THRESHOLD_S = 5;
-		if (audio.audioTrack.time < PREVIOUS_SONG_THRESHOLD_S)
+		if (this.audioTrack_.time < PREVIOUS_SONG_THRESHOLD_S)
 			this.dispatchEvent(new CustomEvent('prev'));
 		else
 			this.onSetTime_(0);
@@ -80,14 +83,14 @@ customElements.define('x-player', class Player extends XElement {
 
 	onPauseSet_(pause) {
 		if (pause)
-			audio.audioTrack.pause();
+			this.audioTrack_.pause();
 		else
-			audio.audioTrack.play();
-		this.$('#pause').checked = !audio.audioTrack.paused;
+			this.audioTrack_.play();
+		this.$('#pause').checked = !this.audioTrack_.paused;
 	}
 
 	pauseToggle_() {
-		this.onPauseSet_(!audio.audioTrack.paused);
+		this.onPauseSet_(!this.audioTrack_.paused);
 	}
 
 	onShuffleSet_(shuffle) {
@@ -105,7 +108,7 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	seek_(deltaS) {
-		audio.audioTrack.time = Math.min(audio.audioTrack.time + deltaS, audio.audioTrack.duration);
+		this.audioTrack_.time = Math.min(this.audioTrack_.time + deltaS, this.audioTrack_.duration);
 		this.onTimeChange_();
 	}
 
