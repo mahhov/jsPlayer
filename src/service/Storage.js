@@ -60,7 +60,11 @@ class Storage {
 
 	async readSong(songName) {
 		await this.prepareDir_();
-		return fs.readFile(path.resolve(this.downloadDir_, songName));
+		try {
+			return await fs.readFile(path.resolve(this.downloadDir_, songName));
+		} catch {
+			return fs.readFile(path.resolve(this.explorerDownloadDir_, songName))
+		}
 	}
 
 	async removeSong(songName) {

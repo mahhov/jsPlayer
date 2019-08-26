@@ -12,6 +12,9 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 		this.$('#search-button').addEventListener('click', () => this.query_());
 		this.$('#clear-button').addEventListener('click', () => this.clear_());
 
+		this.$('#player').addEventListener('prev', () => this.prevSong_());
+		this.$('#player').addEventListener('next', () => this.nextSong_());
+
 		this.clear_();
 	}
 
@@ -45,8 +48,21 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 			container.appendChild(name);
 			container.appendChild(status);
 			container.classList.add('line');
+			container.addEventListener('click', () =>
+				this.setSong_(video.getFileName_()));
 			this.$('#list').appendChild(container);
 		});
+	}
+
+	async prevSong_() {
+	}
+
+	async nextSong_() {
+	}
+
+	async setSong_(name) {
+		console.log('play', name);
+		this.$('#player').src = name;
 	}
 });
 
