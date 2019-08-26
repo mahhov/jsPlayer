@@ -47,7 +47,7 @@ class Visualizer {
 		this.canvasCtx_.fillRect(0, 0, this.width_, this.height_);
 
 		values.forEach((value, i) => {
-			let gradiant = i / values.length;
+			let gradient = i / values.length;
 			let barHeight = value * this.maxBarHeight_ + this.minBarHeight_;
 			let left = i * this.barSpace_ + this.xMargin_ + (this.barSpace_ - this.barWidth_) / 2;
 			let top = this.height_ - barHeight - this.yMargin_;
@@ -56,14 +56,14 @@ class Visualizer {
 			let blurHeight = barHeight * this.blur;
 
 			if (smoothHeight > 0) {
-				this.canvasCtx_.fillStyle = Visualizer.averageColor(this.leftSmoothColor, this.rightSmoothColor, gradiant);
+				this.canvasCtx_.fillStyle = Visualizer.averageColor(this.leftSmoothColor, this.rightSmoothColor, gradient);
 				this.canvasCtx_.fillRect(left, top - smoothHeight, this.barWidth_, smoothHeight);
 			}
 
-			this.canvasCtx_.fillStyle = Visualizer.averageColor(this.leftColor, this.rightColor, gradiant);
+			this.canvasCtx_.fillStyle = Visualizer.averageColor(this.leftColor, this.rightColor, gradient);
 			this.canvasCtx_.fillRect(left, top, this.barWidth_, barHeight);
 
-			this.canvasCtx_.fillStyle = Visualizer.averageColor(this.leftLowSmoothColor, this.rightLowSmoothColor, gradiant);
+			this.canvasCtx_.fillStyle = Visualizer.averageColor(this.leftLowSmoothColor, this.rightLowSmoothColor, gradient);
 			this.canvasCtx_.fillRect(left, top + barHeight - lowSmoothHeight, this.barWidth_, lowSmoothHeight);
 
 			this.canvasCtx_.fillStyle = Visualizer.rgb(...this.blurColor);
