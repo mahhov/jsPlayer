@@ -40,18 +40,19 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 
 		XElement.clearChildren(this.$('#list'));
 		this.search_.getVideos().each(video => {
-			let name = document.createElement('div');
-			name.textContent = video.getName_();
-			let status = document.createElement('div');
-			video.status.stream.each(statusText => status.textContent = statusText);
-			let container = document.createElement('div');
-			container.appendChild(name);
-			container.appendChild(status);
-			container.classList.add('line');
-			container.addEventListener('click', () =>
-				this.setSong_(video.getFileName_()));
-			this.$('#list').appendChild(container);
+			let line = document.createElement('x-downloading-song-line');
+			line.title = video.getName_();
+			video.status.stream.each(statusText => line.status = statusText);
+			line.addEventListener('select', () =>
+				this.selectLine_(line, video));
+			this.$('#list').appendChild(line);
 		});
+	}
+
+	selectLine_(line, video) {
+		this.$('#list').forEach(lineI =>
+			line.selected = lineI === line);
+		this.setSong_(video.getFileName_())
 	}
 
 	async prevSong_() {
@@ -61,7 +62,6 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 	}
 
 	async setSong_(name) {
-		console.log('play', name);
 		this.$('#player').src = name;
 	}
 });
