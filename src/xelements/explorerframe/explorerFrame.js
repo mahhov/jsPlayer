@@ -25,6 +25,7 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 
 	clear_() {
 		if (this.syncher_) {
+			this.search_.videos.disconnect();
 			this.syncher_.stopDownload();
 			this.syncher_.tracker.summary.disconnect();
 		}
