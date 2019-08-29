@@ -59,8 +59,8 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 	}
 
 	selectLine_(line, video) {
-		this.$('#list').forEach(lineI =>
-			line.selected = lineI === line);
+		[...this.$('#list').children].forEach(lineI =>
+			lineI.selected = lineI === line);
 		this.setSong_(video.getFileName_())
 	}
 
