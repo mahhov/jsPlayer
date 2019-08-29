@@ -71,7 +71,11 @@ class AudioTrack {
 	}
 
 	get time() {
-		return this.paused_ ? this.offsetTime_ : this.offsetTime_ + this.audioCtx_.currentTime;
+		return this.audioCtx_ ?
+			this.paused_ ?
+				this.offsetTime_ :
+				this.offsetTime_ + this.audioCtx_.currentTime :
+			0;
 	}
 
 	set time(time) {
@@ -83,7 +87,7 @@ class AudioTrack {
 	}
 
 	get duration() {
-		return this.audioData_.duration;
+		return this.audioData_ ? this.audioData_.duration : 0;
 	}
 }
 
