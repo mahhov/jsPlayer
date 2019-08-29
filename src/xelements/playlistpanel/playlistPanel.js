@@ -1,6 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/playlistPanel.html`, 'utf8');
 const XElement = require('../XElement');
 const dwytpl = require('dwytpl');
+const playlistCache = require('../../service/playlistCache');
 const storage = require('../../service/Storage');
 
 customElements.define('x-playlist-panel', class extends XElement {
@@ -36,7 +37,7 @@ customElements.define('x-playlist-panel', class extends XElement {
 		}
 
 		async refresh() {
-			this.playlist_ = new dwytpl.Playlist(this.playlistId);
+			this.playlist_ = playlistCache.getUncachedPlaylist(this.playlistId);
 			this.syncher_ = new dwytpl.Syncher(this.playlist_);
 			this.syncher_.setDownloadDir(storage.downloadDir);
 

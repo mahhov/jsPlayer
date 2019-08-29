@@ -1,6 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/explorerFrame.html`, 'utf8');
 const XElement = require('../XElement');
 const dwytpl = require('dwytpl');
+const playlistCache = require('../../service/playlistCache');
 const storage = require('../../service/Storage');
 
 customElements.define('x-explorer-frame', class DownloaderFrame extends XElement {
@@ -39,10 +40,17 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 		});
 
 		XElement.clearChildren(this.$('#list'));
-		this.search_.getVideos().each(video => {
+		this.search_.videos.each(async video => {
 			let line = document.createElement('x-downloading-song-line');
 			line.title = video.getName_();
 			video.status.stream.each(statusText => line.status = statusText);
+			(await storage.playlistList)
+				.map(playlistId => playlistCache.getPlaylist(playlistId))
+				.map(playlist => playlist.includesVideo(video.id_))
+				.forEach(async check => {
+					if (await check)
+						line.inPlaylist = true;
+				});
 			line.addEventListener('select', () =>
 				this.selectLine_(line, video));
 			this.$('#list').appendChild(line);

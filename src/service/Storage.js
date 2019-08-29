@@ -38,7 +38,7 @@ class Storage {
 		});
 	}
 
-	get playlistList() {
+	get playlistList() { // todo rename listList to lists. likewise songList
 		return this.playlistListPromise_ = this.playlistListPromise_ ||
 			this.prepareDir_()
 				.then(() => fs.readFile(this.playlistList_, 'utf8'))
