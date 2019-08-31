@@ -1,3 +1,4 @@
+// Deprecated, use XElement2
 class XElement extends HTMLElement {
 	constructor(htmlString) {
 		super();
