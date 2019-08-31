@@ -1,12 +1,12 @@
 const template = require('fs').readFileSync(`${__dirname}/explorerFrame.html`, 'utf8');
-const XElement = require('../XElement');
+const XElement = require('../XElement2');
 const dwytpl = require('dwytpl');
 const playlistCache = require('../../service/playlistCache');
 const storage = require('../../service/Storage');
 
 customElements.define('x-explorer-frame', class DownloaderFrame extends XElement {
-	constructor() {
-		super(template);
+	static get htmlTemplate() {
+		return template;
 	}
 
 	connectedCallback() {
