@@ -3,7 +3,7 @@ const XElement = require('../XElement');
 
 customElements.define('x-downloading-song-line', class extends XElement {
 		static get observedAttributes() {
-			return ['title', 'status', 'selected', 'in-playlist'];
+			return ['title', 'status', 'playlist-status', 'download-status', 'play-status'];
 		}
 
 		constructor() {
@@ -15,6 +15,13 @@ customElements.define('x-downloading-song-line', class extends XElement {
 				this.setAttribute('title', '');
 			if (!this.hasAttribute('status'))
 				this.setAttribute('status', '');
+			// todo initialize to null
+			// if (!this.hasAttribute('playlist-status'))
+			// 	this.removeAttribute('playlist-status');
+			// if (!this.hasAttribute('download-status'))
+			// 	this.removeAttribute('download-status');
+			// if (!this.hasAttribute('play-status'))
+			// 	this.removeAttribute('play-status');
 
 			this.$('#container').addEventListener('click', () => this.emitSelect_());
 		}
@@ -35,26 +42,37 @@ customElements.define('x-downloading-song-line', class extends XElement {
 			this.setAttribute('status', value);
 		}
 
-		get selected() {
-			return this.hasAttribute('selected');
+		get playlistStatus() {
+			return this.getAttribute('playlist-status'); // todo return true, false, null rather than 'true', 'false', null
 		}
 
-		set selected(value) {
-			if (value)
-				this.setAttribute('selected', '');
+		set playlistStatus(value) {
+			if (value === null)
+				this.removeAttribute('playlist-status');
 			else
-				this.removeAttribute('selected');
+				this.setAttribute('playlist-status', value);
 		}
 
-		get inPlaylist() {
-			return this.hasAttribute('in-playlist');
+		get downloadStatus() {
+			return this.getAttribute('download-status');
 		}
 
-		set inPlaylist(value) {
-			if (value)
-				this.setAttribute('in-playlist', '');
+		set downloadStatus(value) {
+			if (value === null)
+				this.removeAttribute('download-status');
 			else
-				this.removeAttribute('in-playlist');
+				this.setAttribute('download-status', value);
+		}
+
+		get playStatus() {
+			return this.getAttribute('play-status');
+		}
+
+		set playStatus(value) {
+			if (value === null)
+				this.removeAttribute('play-status');
+			else
+				this.setAttribute('play-status', value);
 		}
 
 		attributeChangedCallback(name, oldValue, newValue) {
@@ -65,11 +83,21 @@ customElements.define('x-downloading-song-line', class extends XElement {
 				case 'status':
 					this.$(`#status`).textContent = newValue;
 					break;
-				case 'selected':
-					this.$('#container').classList.toggle('selected', this.hasAttribute('selected'));
+				case 'playlist-status':
+					this.$('#container').classList.toggle('playlist-added', newValue === 'true');
+					this.$('#container').classList.toggle('playlist-not-added', newValue === 'false');
+					this.$('#container').classList.toggle('playlist-undetermined', newValue === null);
 					break;
-				case 'in-playlist':
-					this.$('#container').classList.toggle('in-playlist', this.hasAttribute('in-playlist'));
+				case 'download-status':
+					this.$('#container').classList.toggle('download-success', newValue === 'true');
+					this.$('#container').classList.toggle('download-fail', newValue === 'false');
+					this.$('#container').classList.toggle('download-undetermined', newValue === null);
+					break;
+				case 'play-status':
+					this.$('#container').classList.toggle('selected', newValue === 'true'); // for element.css
+					this.$('#container').classList.toggle('play-playing', newValue === 'true'); // for consistency
+					this.$('#container').classList.toggle('play-played', newValue === 'false');
+					this.$('#container').classList.toggle('play-unplayed', newValue === null);
 					break;
 			}
 		}

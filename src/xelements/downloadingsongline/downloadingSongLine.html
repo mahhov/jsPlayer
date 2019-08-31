@@ -7,7 +7,8 @@
 		/*flex-direction: column;*/
 	}
 
-	#container.in-playlist {
+	#container.playlist-added,
+	#container.play-played {
 		color: var(--light-gray)
 	}
 
@@ -15,8 +16,20 @@
 		display: flex;
 	}
 
-	#title {
+	.top > *:not(:last-child) {
 		margin-right: 15px;
+	}
+
+	#container:not(.playlist-undetermined) .fa-list {
+		display: none;
+	}
+
+	#container.download-success .fa-download {
+		display: none
+	}
+
+	#container.download-fail .fa-download {
+		color: var(--red);
 	}
 </style>
 
@@ -24,6 +37,8 @@
 	<div class="top">
 		<div id="title"></div>
 		<button id="add" class="fa fa-plus"></button>
+		<span class="fa fa-list"></span>
+		<span class="fa fa-download"></span>
 	</div>
 	<div id="status"></div>
 </div>
