@@ -1,13 +1,13 @@
 const template = require('fs').readFileSync(`${__dirname}/toggle.html`, 'utf8');
-const XElement = require('../XElement');
+const XElement = require('../XElement2');
 
 customElements.define('x-toggle', class extends XElement {
-	static get observedAttributes() {
-		return ['checked'];
+	static get attributeTypes() {
+		return {checked: true};
 	}
 
-	constructor() {
-		super(template);
+	static get htmlTemplate() {
+		return template;
 	}
 
 	connectedCallback() {
@@ -15,19 +15,8 @@ customElements.define('x-toggle', class extends XElement {
 		this.$('label').addEventListener('click', e => e.stopPropagation());
 	}
 
-	get checked() {
-		return this.hasAttribute('checked');
-	}
-
 	set checked(value) {
-		if (value)
-			this.setAttribute('checked', '');
-		else
-			this.removeAttribute('checked');
-	}
-
-	attributeChangedCallback(name, oldValue, newValue) {
-		this.$('#checkbox').checked = newValue === '';
+		this.$('#checkbox').checked = value;
 	}
 
 	onChange_() {
