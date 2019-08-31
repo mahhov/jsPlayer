@@ -10,7 +10,8 @@ class XElement extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return Object.keys(this.attributeTypes);
+		return Object.keys(this.attributeTypes)
+			.map(name => XElement.propToAttribName(name));
 	}
 
 	constructor() {
@@ -20,7 +21,7 @@ class XElement extends HTMLElement {
 
 		let properties = Object.getOwnPropertyDescriptors(Object.getPrototypeOf(this));
 		Object.entries(this.constructor.attributeTypes).forEach(([name, boolean]) => {
-			let attribName = name.replace(/[A-Z]/g, a => `_${a.toLowerCase()}`);
+			let attribName = XElement.propToAttribName(name);
 			Object.defineProperty(this, `${name}_`, properties[name]);
 			Object.defineProperty(this, name, boolean ? {
 				get: () => this.hasAttribute(attribName),
@@ -36,10 +37,11 @@ class XElement extends HTMLElement {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
+		let propName = XElement.attribToPropName(name);
 		if (this.constructor.attributeTypes[name])
-			this[`${name}_`] = this.hasAttribute(name);
+			this[`${propName}_`] = this.hasAttribute(name);
 		else
-			this[`${name}_`] = newValue;
+			this[`${propName}_`] = newValue;
 	}
 
 	$(query) {
@@ -53,6 +55,14 @@ class XElement extends HTMLElement {
 	static clearChildren(element) {
 		while (element.firstChild)
 			element.removeChild(element.firstChild);
+	}
+
+	static propToAttribName(name) {
+		return name.replace(/[A-Z]/g, a => `-${a.toLowerCase()}`);
+	}
+
+	static attribToPropName(name) {
+		return name.replace(/-(.)/g, (_, a) => a.toUpperCase());
 	}
 }
 
