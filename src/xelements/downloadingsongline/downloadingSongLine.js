@@ -38,6 +38,7 @@ customElements.define('x-downloading-song-line', class extends XElement {
 		}
 
 		set downloadStatus(value) {
+			this.$('#container').classList.toggle('disabled', value !== 'true'); // for element.css
 			this.$('#container').classList.toggle('download-success', value === 'true');
 			this.$('#container').classList.toggle('download-fail', value === 'false');
 			this.$('#container').classList.toggle('download-undetermined', value === 'undetermined');
@@ -45,7 +46,7 @@ customElements.define('x-downloading-song-line', class extends XElement {
 
 		set playStatus(value) {
 			this.$('#container').classList.toggle('selected', value === 'true'); // for element.css
-			this.$('#container').classList.toggle('play-playing', value === 'true'); // for consistency
+			this.$('#container').classList.toggle('play-playing', value === 'true');
 			this.$('#container').classList.toggle('play-played', value === 'false');
 			this.$('#container').classList.toggle('play-unplayed', value === 'undetermined');
 		}

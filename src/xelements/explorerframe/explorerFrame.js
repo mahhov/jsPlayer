@@ -4,6 +4,13 @@ const dwytpl = require('dwytpl');
 const playlistCache = require('../../service/playlistCache');
 const storage = require('../../service/Storage');
 
+let promiseSome = (promises, predicate = a => a) =>
+	new Promise(resolve => {
+		promises.forEach(promise =>
+			promise.then(a => predicate(a) && resolve(true)));
+		Promise.all(promises).then(() => resolve(false));
+	});
+
 customElements.define('x-explorer-frame', class DownloaderFrame extends XElement {
 	static get htmlTemplate() {
 		return template;
@@ -45,22 +52,27 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 			let line = document.createElement('x-downloading-song-line');
 			line.title = video.getName_();
 			video.status.stream.each(statusText => line.status = statusText);
-			(await storage.playlistList)
-				.map(playlistId => playlistCache.getPlaylist(playlistId))
-				.map(playlist => playlist.includesVideo(video.id_))
-				.forEach(async check => {
-					if (await check)
-						line.inPlaylist = true;
-				});
 			line.addEventListener('select', () =>
 				this.selectLine_(line, video));
 			this.$('#list').appendChild(line);
+			video.status.promise
+				.then(() => line.downloadStatus = 'true')
+				.catch(() => line.downloadStatus = 'false');
+			line.playlistStatus =
+				await promiseSome((await storage.playlistList)
+					.map(playlistId => playlistCache.getPlaylist(playlistId))
+					.map(playlist => playlist.includesVideo(video.id_)));
 		});
 	}
 
 	selectLine_(line, video) {
-		[...this.$('#list').children].forEach(lineI =>
-			lineI.selected = lineI === line);
+		if (line.downloadStatus !== 'true')
+			return;
+		[...this.$('#list').children].forEach(lineI => {
+			if (lineI.playStatus === 'true')
+				lineI.playStatus = 'false';
+		});
+		line.playStatus = 'true';
 		this.setSong_(video.getFileName_())
 	}
 
@@ -78,9 +90,6 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 // todo
 // styling
 // keyboard shortcuts
-// click to play
 // auto play
 // add
 // remove
-// indicate which already added
-// add

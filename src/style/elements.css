@@ -22,6 +22,9 @@ input {
 
 .line {
 	padding: 3px;
+}
+
+.line:not(.disabled) {
 	cursor: pointer;
 }
 
