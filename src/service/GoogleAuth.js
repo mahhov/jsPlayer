@@ -29,12 +29,11 @@ class GoogleAuth {
 			token_type: 'Bearer'
 		}
 	*/
-	constructor(credentialsPath, tokensPath, scope, redirectUri) {
+	constructor(credentialsPath, tokensPath, scope) {
 		this.credentials_ = GoogleAuth.readJson_(credentialsPath, true).installed;
 		this.tokens_ = GoogleAuth.readJson_(tokensPath);
 		this.tokensPath_ = tokensPath;
 		this.scope_ = scope;
-		this.redirectUri_ = redirectUri;
 	}
 
 	static readJson_(jsonPath, reportErrors) {
@@ -46,22 +45,30 @@ class GoogleAuth {
 		}
 	}
 
-	openConsentScreen_(endpoint) {
+	openConsentScreen_() {
 		/* override */
 		// return Promise<string redirectUrl>
+	}
+
+	getConsentScreenEndpoint_(redirectUri) {
+		this.redirectUri_ = redirectUri;
+		return `${this.credentials_.auth_uri}?client_id=${this.credentials_.client_id}&redirect_uri=${redirectUri}&response_type=code&scope=${this.scope_}`;
 	}
 
 	async getToken() {
 		if (this.token_)
 			return this.token_;
 		if (this.tokens_)
-			return this.refreshToken_(this.tokens_.refresh_token);
-		let code = await this.requestCode_();
-		this.tokens_ = await this.requestToken_(code);
-		fs.writeFile(this.tokensPath_, JSON.stringify(this.tokens_, null, 2), err => {
-			if (err)
-				throw err;
-		});
+			this.tokens_ = await this.refreshToken_(this.tokens_.refresh_token);
+		else {
+			let code = await this.requestCode_();
+			this.tokens_ = await this.requestToken_(code);
+			fs.writeFile(this.tokensPath_, JSON.stringify(this.tokens_, null, 2),
+				err => {
+					if (err)
+						throw err;
+				});
+		}
 		return this.token_ = this.tokens_.access_token;
 	}
 
@@ -71,10 +78,7 @@ class GoogleAuth {
 	}
 
 	async requestCode_() {
-		let consentEndpoint =
-			`${this.credentials_.auth_uri}?client_id=${this.credentials_.client_id}&redirect_uri=${this.redirectUri_}&response_type=code&scope=${this.scope_}`
-				.replace(/&/g, '^&');
-		let redirectUrl = await this.openConsentScreen_(consentEndpoint);
+		let redirectUrl = await this.openConsentScreen_();
 		return url.parse(redirectUrl, true).query.code;
 	}
 
