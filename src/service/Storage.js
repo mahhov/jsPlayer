@@ -30,6 +30,10 @@ class Storage {
 		return this.explorerDownloadDir_;
 	}
 
+	getStoragePath(p) {
+		return path.resolve(this.storageDir_, p);
+	}
+
 	prepareDir_() {
 		return this.prepareDirPromise_ = this.prepareDirPromise_ || new Promise(async resolve => {
 			await fs.mkdir(this.storageDir_).catch(() => null);
