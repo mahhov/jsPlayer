@@ -1,9 +1,13 @@
 const template = require('fs').readFileSync(`${__dirname}/downloadingSongLine.html`, 'utf8');
 const XElement = require('../XElement2');
+const playlistCache = require('../../service/playlistCache');
+const authYoutubeApi = require('../../service/authYoutubeApi');
+const storage = require('../../service/Storage');
 
 customElements.define('x-downloading-song-line', class extends XElement {
 		static get attributeTypes() {
 			return {
+				videoId: false,
 				title: false,
 				status: false,
 				playlistStatus: false,
@@ -17,10 +21,29 @@ customElements.define('x-downloading-song-line', class extends XElement {
 		}
 
 		connectedCallback() {
-			this.playlistStatus = 'undetermined';
-			this.downloadStatus = 'undetermined';
-			this.playStatus = 'undetermined';
+			// todo move default initializations to XElement2
+			if (this.playlistStatus === null)
+				this.playlistStatus = 'undetermined';
+			if (this.downloadStatus === null)
+				this.downloadStatus = 'undetermined';
+			if (this.playStatus === null)
+				this.playStatus = 'undetermined';
+			this.$('#add').addEventListener('click', e => this.add_(e));
+			this.$('#remove').addEventListener('click', e => this.remove_(e));
 			this.$('#container').addEventListener('click', () => this.emitSelect_());
+		}
+
+		async checkPlaylistStatus_() {
+			let playlistItemIdsPromises = (await storage.playlistList).map(playlistId =>
+				authYoutubeApi.includes(playlistId, this.videoId));
+			this.playlistItemIds_ = (await Promise.all(playlistItemIdsPromises)).flat();
+			this.playlistStatus = !!this.playlistItemIds_.length;
+			console.log('checkPlaylistStatus_', this.videoId, this.playlistStatus, this.playlistItemIds_);
+		}
+
+		set videoId(value) {
+			this.playlistStatus = 'undetermined';
+			this.checkPlaylistStatus_();
 		}
 
 		set title(value) {
@@ -51,8 +74,27 @@ customElements.define('x-downloading-song-line', class extends XElement {
 			this.$('#container').classList.toggle('play-unplayed', value === 'undetermined');
 		}
 
+		// todo retry add/remove on failure
+		// todo hide add/remove button when already added/not-added
+		async add_(e) {
+			e.stopPropagation(); // prevent emitSelect
+			this.playlistStatus = 'undetermined';
+			// todo allow adding to any playlist
+			await authYoutubeApi.add('PLameShrvoeYfp54xeNPK1fGxd2a7IzqU2', this.videoId);
+			this.checkPlaylistStatus_();
+		}
+
+		async remove_(e) {
+			e.stopPropagation(); // prevent emitSelect
+			this.playlistStatus = 'undetermined';
+			// todo bug with youtube api not allowing removing multiple instances of same video simultaneously
+			await Promise.all(this.playlistItemIds_.map(playlistItemId => authYoutubeApi.remove(playlistItemId)));
+			this.checkPlaylistStatus_();
+		}
+
 		emitSelect_() {
-			this.dispatchEvent(new CustomEvent('select'));
+			if (this.downloadStatus === 'true')
+				this.dispatchEvent(new CustomEvent('select'));
 		}
 	}
 );

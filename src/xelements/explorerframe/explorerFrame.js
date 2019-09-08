@@ -1,15 +1,7 @@
 const template = require('fs').readFileSync(`${__dirname}/explorerFrame.html`, 'utf8');
 const XElement = require('../XElement2');
 const dwytpl = require('dwytpl');
-const playlistCache = require('../../service/playlistCache');
 const storage = require('../../service/Storage');
-
-let promiseSome = (promises, predicate = a => a) =>
-	new Promise(resolve => {
-		promises.forEach(promise =>
-			promise.then(a => predicate(a) && resolve(true)));
-		Promise.all(promises).then(() => resolve(false));
-	});
 
 customElements.define('x-explorer-frame', class DownloaderFrame extends XElement {
 	static get htmlTemplate() {
@@ -50,24 +42,18 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 		XElement.clearChildren(this.$('#list'));
 		this.search_.videos.each(async video => {
 			let line = document.createElement('x-downloading-song-line');
+			line.videoId = video.id_;
 			line.title = video.getName_();
 			video.status.stream.each(statusText => line.status = statusText);
-			line.addEventListener('select', () =>
-				this.selectLine_(line, video));
-			this.$('#list').appendChild(line);
 			video.status.promise
 				.then(() => line.downloadStatus = 'true')
 				.catch(() => line.downloadStatus = 'false');
-			line.playlistStatus =
-				await promiseSome((await storage.playlistList)
-					.map(playlistId => playlistCache.getPlaylist(playlistId))
-					.map(playlist => playlist.includesVideo(video.id_)));
+			this.$('#list').appendChild(line);
+			line.addEventListener('select', () => this.selectLine_(line, video));
 		});
 	}
 
 	selectLine_(line, video) {
-		if (line.downloadStatus !== 'true')
-			return;
 		[...this.$('#list').children].forEach(lineI => {
 			if (lineI.playStatus === 'true')
 				lineI.playStatus = 'false';
@@ -93,3 +79,4 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 // auto play
 // add
 // remove
+// confirm add/remove
