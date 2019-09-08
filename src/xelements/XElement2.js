@@ -22,7 +22,7 @@ class XElement extends HTMLElement {
 		let properties = Object.getOwnPropertyDescriptors(Object.getPrototypeOf(this));
 		Object.entries(this.constructor.attributeTypes).forEach(([name, boolean]) => {
 			let attribName = XElement.propToAttribName(name);
-			Object.defineProperty(this, `${name}_`, properties[name]);
+			Object.defineProperty(this, `${name}_`, properties[name] || {set: () => 0});
 			Object.defineProperty(this, name, boolean ? {
 				get: () => this.hasAttribute(attribName),
 				set: value => value ?
