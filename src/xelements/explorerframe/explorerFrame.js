@@ -10,7 +10,6 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 
 	connectedCallback() {
 		this.$('#search-button').addEventListener('click', () => this.query_());
-		this.$('#clear-button').addEventListener('click', () => this.clear_());
 
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
@@ -19,6 +18,7 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 	}
 
 	query_() {
+		this.clear_();
 		this.search_.query(this.$('#search').value);
 	}
 
@@ -77,6 +77,4 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 // styling
 // keyboard shortcuts
 // auto play
-// add
-// remove
 // confirm add/remove

@@ -38,7 +38,6 @@ customElements.define('x-downloading-song-line', class extends XElement {
 				authYoutubeApi.includes(playlistId, this.videoId));
 			this.playlistItemIds_ = (await Promise.all(playlistItemIdsPromises)).flat();
 			this.playlistStatus = !!this.playlistItemIds_.length;
-			console.log('checkPlaylistStatus_', this.videoId, this.playlistStatus, this.playlistItemIds_);
 		}
 
 		set videoId(value) {
