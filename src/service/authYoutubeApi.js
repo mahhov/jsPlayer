@@ -1,6 +1,6 @@
 const http = require('http');
 const axios = require('axios');
-const GoogleAuth = require('./GoogleAuth');
+const GoogleAuth = require('google-oauth2-x');
 const storage = require('./Storage');
 const {shell} = require('electron');
 
