@@ -6,11 +6,6 @@ const {shell} = require('electron');
 
 const API_ENDPOINT = 'https://www.googleapis.com/youtube/v3';
 
-let endpoint = (path, params = {}) => `${API_ENDPOINT}/${path}?${queryParams(params)}`;
-
-const queryParams = (params = {}) =>
-	Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&');
-
 class AuthYoutubeApi extends GoogleAuth {
 	openConsentScreen_() {
 		return new Promise(resolve => {
@@ -25,16 +20,14 @@ class AuthYoutubeApi extends GoogleAuth {
 		});
 	}
 
+	// todo why is this being called twice per video
 	async includes(playlistId, videoId) {
-		return (await axios.get(
-			endpoint('playlistItems', {part: 'snippet', playlistId, videoId}),
-			{headers: await this.getHeaders_()}))
+		return (await this.twoTryRequest_('get', {part: 'snippet', playlistId, videoId}))
 			.data.items.map(item => item.id);
 	}
 
-	async add(playlistId, videoId) {
-		return axios.post(
-			endpoint('playlistItems', {part: 'snippet'}),
+	add(playlistId, videoId) {
+		return this.twoTryRequest_('post', {part: 'snippet'},
 			{
 				snippet: {
 					playlistId,
@@ -43,14 +36,28 @@ class AuthYoutubeApi extends GoogleAuth {
 						kind: 'youtube#video',
 					}
 				}
-			},
-			{headers: await this.getHeaders_()});
+			});
 	};
 
-	async remove(videoPlaylistItemId) {
-		return axios.delete(
-			endpoint('playlistItems', {id: videoPlaylistItemId}),
-			{headers: await this.getHeaders_()});
+	remove(videoPlaylistItemId) {
+		return this.twoTryRequest_('delete', {id: videoPlaylistItemId});
+	}
+
+	async twoTryRequest_(method, params = {}, body = undefined) {
+		let paramsString = Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&');
+		let request = {
+			method,
+			url: `${API_ENDPOINT}/playlistItems?${paramsString}`,
+			headers: await this.getHeaders_(),
+			data: body,
+		};
+		try {
+			return await axios(request);
+		} catch (e) {
+			this.getRefreshedToken();
+			request.headers = await this.getHeaders_();
+			return await axios(request);
+		}
 	}
 
 	async getHeaders_() {
@@ -61,6 +68,7 @@ class AuthYoutubeApi extends GoogleAuth {
 	}
 }
 
+// todo correct paths
 module.exports = new AuthYoutubeApi(
 	'resources/googleCredentials.json',
 	storage.getStoragePath('googleTokens.json'),
