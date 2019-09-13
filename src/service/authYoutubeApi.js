@@ -73,5 +73,3 @@ module.exports = new AuthYoutubeApi(
 	'resources/googleCredentials.json',
 	storage.getStoragePath('googleTokens.json'),
 	'https://www.googleapis.com/auth/youtube');
-
-// todo if request fails, try with refresh token. If refreshed token also fails, try with new code.
