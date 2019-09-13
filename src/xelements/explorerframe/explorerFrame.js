@@ -31,7 +31,7 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 
 		this.search_ = new dwytpl.Search(this.playlistId);
 		this.syncher_ = new dwytpl.Syncher(this.search_);
-		this.syncher_.setDownloadDir(storage.explorerDownloadDir);
+		this.syncher_.setDownloadDir(storage.explorerDownloadDir, [storage.downloadDir]);
 		this.syncher_.download();
 
 		this.syncher_.tracker.summary.each(summaryText => {
@@ -78,3 +78,12 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 // keyboard shortcuts
 // auto play
 // confirm add/remove
+// explorer 401 on no search results
+// ability to remove from playlist from list frame
+// dim add/remove buttons too
+// download fail
+// explorer frame to display selected backgr ound for currently playing on refresh
+// button to clear explorer download dir
+
+// todo test
+// explorer and download frames to share cache and download frame to move from explorer dir
