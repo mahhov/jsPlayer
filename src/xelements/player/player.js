@@ -1,5 +1,5 @@
 const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
-const XElement = require('../XElement');
+const XElement = require('../XElement2');
 const storage = require('../../service/Storage');
 const AudioTrack = require('../../service/AudioTrack');
 const shortcuts = require('../../service/shortcuts');
@@ -7,12 +7,12 @@ const shortcuts = require('../../service/shortcuts');
 const SEEK_DELTA_S = 10;
 
 customElements.define('x-player', class Player extends XElement {
-	static get observedAttributes() {
-		return ['src'];
+	static get attributeTypes() {
+		return {src: false};
 	}
 
-	constructor() {
-		super(template);
+	static get htmlTemplate() {
+		return template;
 	}
 
 	connectedCallback() {
@@ -38,24 +38,17 @@ customElements.define('x-player', class Player extends XElement {
 		shortcuts.addListenerGlobalPause(() => this.pauseToggle_());
 	}
 
-	get src() {
-		return this.getAttribute('src');
-	}
-
 	set src(value) {
-		this.setAttribute('src', value);
-	}
-
-	async attributeChangedCallback(name, oldValue, newValue) {
-		if (name === 'src') {
-			this.onPauseSet_(true);
-			let audioData = await this.audioTrack_.readAudioData((await storage.readSong(newValue)).buffer);
-			if (newValue !== this.src)
-				return;
-			this.audioTrack_.audioData = audioData;
-			this.onSetTime_(0);
-			this.onPauseSet_(false);
-		}
+		this.onPauseSet_(true);
+		storage.readSong(value)
+			.then(({buffer}) => this.audioTrack_.readAudioData(buffer))
+			.then(audioData => {
+				if (value !== this.src)
+					return;
+				this.audioTrack_.audioData = audioData;
+				this.onSetTime_(0);
+				this.onPauseSet_(false);
+			});
 	}
 
 	onTimeChange_() {
@@ -101,10 +94,6 @@ customElements.define('x-player', class Player extends XElement {
 	shuffleSet(shuffle) {
 		this.dispatchEvent(new CustomEvent('shuffle', {detail: shuffle}));
 		this.$('#shuffle').checked = shuffle;
-	}
-
-	shuffleToggle_() {
-		this.onShuffleSet_(this.$('#shuffle').checked = !this.$('#shuffle').checked);
 	}
 
 	seek_(deltaS) {

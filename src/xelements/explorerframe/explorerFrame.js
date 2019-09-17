@@ -68,7 +68,7 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 	async nextSong_() {
 	}
 
-	async setSong_(name) {
+	setSong_(name) {
 		this.$('#player').src = name;
 	}
 });
