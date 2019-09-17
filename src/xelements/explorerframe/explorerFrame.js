@@ -84,6 +84,3 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 // download fail
 // explorer frame to display selected backgr ound for currently playing on refresh
 // button to clear explorer download dir
-
-// todo test
-// explorer and download frames to share cache and download frame to move from explorer dir
