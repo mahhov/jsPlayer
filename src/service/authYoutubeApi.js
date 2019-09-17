@@ -54,14 +54,14 @@ class AuthYoutubeApi extends GoogleAuth {
 		try {
 			return await axios(request);
 		} catch (e) {
-			this.getRefreshedToken();
+			await this.getRefreshedToken();
 			request.headers = await this.getHeaders_();
 			return await axios(request);
 		}
 	}
 
 	async getHeaders_() {
-		return this.headers_ = this.headers_ || {
+		return {
 			Authorization: `Bearer ${await this.getToken()}`,
 			'Content-Type': 'application/json',
 		};
