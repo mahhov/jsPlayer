@@ -14,10 +14,8 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 
 	connectedCallback() {
 		this.$('#search-button').addEventListener('click', () => this.query_());
-
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
-
 		this.clear_();
 	}
 
@@ -67,17 +65,13 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 				lineI.playStatus = 'false';
 		});
 		line.playStatus = 'true';
-		this.setSong_(video.getFileName_())
+		this.$('#player').src = video.getFileName_();
 	}
 
 	async prevSong_() {
 	}
 
 	async nextSong_() {
-	}
-
-	setSong_(name) {
-		this.$('#player').src = name;
 	}
 });
 
@@ -92,3 +86,7 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 // download fail
 // explorer frame to display selected backgr ound for currently playing on refresh
 // button to clear explorer download dir
+// freeze on search
+// remove from playlists when removing from list frame
+// remove remove button from play frame
+// downloading songs added from explorer frame not happening
