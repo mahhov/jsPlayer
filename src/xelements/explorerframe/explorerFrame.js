@@ -4,6 +4,10 @@ const dwytpl = require('dwytpl');
 const storage = require('../../service/Storage');
 
 customElements.define('x-explorer-frame', class DownloaderFrame extends XElement {
+	static get attributeTypes() {
+		return {playerFocus: true};
+	}
+
 	static get htmlTemplate() {
 		return template;
 	}
@@ -15,6 +19,10 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 
 		this.clear_();
+	}
+
+	set playerFocus(value) {
+		this.$('#player').focus = value;
 	}
 
 	query_() {

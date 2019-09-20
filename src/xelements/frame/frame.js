@@ -50,6 +50,10 @@ customElements.define('x-frame', class Frame extends XElement {
 		onSelect_(index) {
 			this.selects_.forEach((item, i) => item.checked = i === index);
 			this.frames_.forEach((item, i) => item.classList.toggle('hidden-frame', i !== index));
+
+			let explorerFrameSelected = this.frames_[index] === this.$('#explorer-frame');
+			this.$('#play-frame').playerFocus = !explorerFrameSelected;
+			this.$('#explorer-frame').playerFocus = explorerFrameSelected;
 		}
 
 		onFullscreenChange_() {

@@ -8,7 +8,7 @@ const SEEK_DELTA_S = 10;
 
 customElements.define('x-player', class Player extends XElement {
 	static get attributeTypes() {
-		return {src: false};
+		return {src: false, focus: true};
 	}
 
 	static get htmlTemplate() {
@@ -51,6 +51,10 @@ customElements.define('x-player', class Player extends XElement {
 			});
 	}
 
+	set focus(value) {
+		this.focus_ = value;
+	}
+
 	onTimeChange_() {
 		this.$('#time-bar').progress = this.audioTrack_.time / this.audioTrack_.duration;
 		this.$('#time-bar').preValue = Player.timeFormat(this.audioTrack_.time);
@@ -77,8 +81,10 @@ customElements.define('x-player', class Player extends XElement {
 	onPauseSet_(pause) {
 		if (pause)
 			this.audioTrack_.pause();
-		else
+		else {
 			this.audioTrack_.play();
+			this.dispatchEvent(new CustomEvent('player-play', {composed: true}));
+		}
 		this.$('#pause').checked = !this.audioTrack_.paused;
 	}
 
@@ -102,6 +108,9 @@ customElements.define('x-player', class Player extends XElement {
 	}
 
 	handleKeypress_(e) {
+		if (!this.focus_)
+			return;
+
 		switch (e.key) {
 			case 'ArrowLeft':
 				this.onPrev_();

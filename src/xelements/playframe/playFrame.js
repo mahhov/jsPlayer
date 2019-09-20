@@ -4,6 +4,10 @@ const storage = require('../../service/Storage');
 const Seeker = require('../../service/Seeker');
 
 customElements.define('x-play-frame', class DownloaderFrame extends XElement {
+	static get attributeTypes() {
+		return {playerFocus: true};
+	}
+
 	static get htmlTemplate() {
 		return template;
 	}
@@ -16,6 +20,10 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.$('#link').addEventListener('click', () => this.emitLink_());
 		this.seeker = new Seeker();
 		storage.songList.then(songList => this.seeker.setSize(songList.length));
+	}
+
+	set playerFocus(value) {
+		this.$('#player').focus = value;
 	}
 
 	async prevSong_() {
