@@ -19,7 +19,7 @@
     "dwytpl": "^3.3.3",
     "env-paths": "^2.1.0",
     "font-awesome": "^4.7.0",
-    "google-oauth2-x": "^1.0.0"
+    "google-oauth2-x": "^1.0.2"
   },
   "build": {
     "asar": false,
