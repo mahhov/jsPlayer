@@ -11,7 +11,7 @@ class XElement extends HTMLElement {
 
 	static get observedAttributes() {
 		return Object.keys(this.attributeTypes)
-			.map(name => XElement.propToAttribName(name));
+			.map(propName => XElement.propToAttribName(propName));
 	}
 
 	constructor() {
@@ -20,10 +20,10 @@ class XElement extends HTMLElement {
 		this.shadowRoot.innerHTML = this.constructor.htmlTemplate;
 
 		let properties = Object.getOwnPropertyDescriptors(Object.getPrototypeOf(this));
-		Object.entries(this.constructor.attributeTypes).forEach(([name, boolean]) => {
-			let attribName = XElement.propToAttribName(name);
-			Object.defineProperty(this, `${name}_`, properties[name] || {set: () => 0});
-			Object.defineProperty(this, name, boolean ? {
+		Object.entries(this.constructor.attributeTypes).forEach(([propName, boolean]) => {
+			let attribName = XElement.propToAttribName(propName);
+			Object.defineProperty(this, XElement.setterName(propName), properties[propName] || {set: () => 0});
+			Object.defineProperty(this, propName, boolean ? {
 				get: () => this.hasAttribute(attribName),
 				set: value => value ?
 					this.setAttribute(attribName, '') :
@@ -36,12 +36,12 @@ class XElement extends HTMLElement {
 
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) {
-		let propName = XElement.attribToPropName(name);
-		if (this.constructor.attributeTypes[name])
-			this[`${propName}_`] = this.hasAttribute(name);
+	attributeChangedCallback(attribName, oldValue, newValue) {
+		let propName = XElement.attribToPropName(attribName);
+		if (this.constructor.attributeTypes[propName])
+			this[XElement.setterName(propName)] = this.hasAttribute(attribName);
 		else
-			this[`${propName}_`] = newValue;
+			this[XElement.setterName(propName)] = newValue;
 	}
 
 	$(query) {
@@ -57,12 +57,16 @@ class XElement extends HTMLElement {
 			element.removeChild(element.firstChild);
 	}
 
-	static propToAttribName(name) {
-		return name.replace(/[A-Z]/g, a => `-${a.toLowerCase()}`);
+	static propToAttribName(propName) {
+		return propName.replace(/[A-Z]/g, a => `-${a.toLowerCase()}`);
 	}
 
-	static attribToPropName(name) {
-		return name.replace(/-(.)/g, (_, a) => a.toUpperCase());
+	static attribToPropName(attribname) {
+		return attribname.replace(/-(.)/g, (_, a) => a.toUpperCase());
+	}
+
+	static setterName(propName) {
+		return `xel2_${propName}_`;
 	}
 }
 
