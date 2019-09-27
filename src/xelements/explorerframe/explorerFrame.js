@@ -23,6 +23,10 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 		this.$('#player').focus = value;
 	}
 
+	stopPlay() {
+		this.$('#player').stopPlay();
+	}
+
 	query_() {
 		this.clear_();
 		this.search_.query(this.$('#search').value);

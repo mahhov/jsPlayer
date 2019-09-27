@@ -26,6 +26,10 @@ customElements.define('x-play-frame', class DownloaderFrame extends XElement {
 		this.$('#player').focus = value;
 	}
 
+	stopPlay() {
+		this.$('#player').stopPlay();
+	}
+
 	async prevSong_() {
 		await storage.songList;
 		this.setSong(this.seeker.getPrev())

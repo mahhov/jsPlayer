@@ -92,6 +92,10 @@ customElements.define('x-player', class Player extends XElement {
 		this.onPauseSet_(!this.audioTrack_.paused);
 	}
 
+	stopPlay() {
+		this.onPauseSet_(true);
+	}
+
 	onShuffleSet_(shuffle) {
 		this.shuffleSet(shuffle);
 		storage.addPlayerSettings({shuffle: this.$('#shuffle').checked});

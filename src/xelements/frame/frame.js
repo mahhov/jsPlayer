@@ -34,10 +34,12 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.$('#play-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
 			this.$('#play-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));
 			this.$('#play-frame').addEventListener('playing-song', ({detail}) => this.onPlayingSong_(detail));
+			this.$('#play-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#explorer-frame')));
 			this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
 			this.$('#list-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
 			this.$('#list-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));
 			this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
+			this.$('#explorer-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#play-frame')));
 			// todo on explorer frame start playing, stop playing player frame, and vice versa
 
 			this.$('#fullscreen').addEventListener('change', () => this.onFullscreenChange_());
@@ -87,6 +89,10 @@ customElements.define('x-frame', class Frame extends XElement {
 
 		onPlayingSong_(index) {
 			this.$('#list-frame').selectSong(index);
+		}
+
+		onPlayerPlay_(notifyFrame) {
+			notifyFrame.stopPlay();
 		}
 
 		handleKeypress_(e) {
