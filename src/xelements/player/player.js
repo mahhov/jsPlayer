@@ -33,9 +33,9 @@ customElements.define('x-player', class Player extends XElement {
 		this.$('#visualizer').analyzer = this.audioTrack_.analyzer;
 
 		shortcuts.addListenerKeydown(this.handleKeypress_.bind(this));
-		shortcuts.addListenerGlobalPrev(() => this.onPrev_());
-		shortcuts.addListenerGlobalNext(() => this.onEnd_());
-		shortcuts.addListenerGlobalPause(() => this.pauseToggle_());
+		shortcuts.addListenerGlobalPrev(() => this.focus_ && this.onPrev_());
+		shortcuts.addListenerGlobalNext(() => this.focus_ && this.onEnd_());
+		shortcuts.addListenerGlobalPause(() => this.focus_ && this.pauseToggle_());
 	}
 
 	set src(value) {
