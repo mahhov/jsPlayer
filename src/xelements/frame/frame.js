@@ -40,7 +40,6 @@ customElements.define('x-frame', class Frame extends XElement {
 			this.$('#list-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));
 			this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 			this.$('#explorer-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#play-frame')));
-			// todo on explorer frame start playing, stop playing player frame, and vice versa
 
 			this.$('#fullscreen').addEventListener('change', () => this.onFullscreenChange_());
 

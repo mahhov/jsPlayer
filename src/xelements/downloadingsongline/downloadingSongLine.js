@@ -74,7 +74,6 @@ customElements.define('x-downloading-song-line', class extends XElement {
 		}
 
 		// todo retry add/remove on failure
-		// todo hide add/remove button when already added/not-added
 		async add_(e) {
 			e.stopPropagation(); // prevent emitSelect
 			this.playlistStatus = 'undetermined';

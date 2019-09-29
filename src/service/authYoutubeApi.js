@@ -20,7 +20,6 @@ class AuthYoutubeApi extends GoogleAuth {
 		});
 	}
 
-	// todo why is this being called twice per video
 	async includes(playlistId, videoId) {
 		return (await this.twoTryRequest_('get', {part: 'snippet', playlistId, videoId}))
 			.data.items.map(item => item.id);
