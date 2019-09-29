@@ -44,7 +44,7 @@ customElements.define('x-playlist-panel', class extends XElement {
 			({
 				title: this.$('#title').textContent,
 				length: this.$('#count').textContent
-			} = this.playlist_.getOverview());
+			} = await this.playlist_.getOverview());
 			this.$('#playlist-id').textContent = this.playlistId;
 		}
 
