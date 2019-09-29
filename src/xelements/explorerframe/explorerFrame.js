@@ -13,6 +13,7 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 	}
 
 	connectedCallback() {
+		this.$('#search').addEventListener('change', () => this.query_());
 		this.$('#search-button').addEventListener('click', () => this.query_());
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
@@ -81,16 +82,12 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 
 // todo
 // styling
-// keyboard shortcuts
-// auto play
 // confirm add/remove
-// explorer 401 on no search results
-// ability to remove from playlist from list frame
-// dim add/remove buttons too
 // download fail
-// explorer frame to display selected backgr ound for currently playing on refresh
+// explorer frame to display selected background for currently playing on refresh
 // button to clear explorer download dir
 // freeze on search
-// remove from playlists when removing from list frame
 // remove remove button from play frame
 // downloading songs added from explorer frame not happening
+// remove from playlists when removing from list frame
+// removing from explorer frame should also remove from playlist frame and downloads
