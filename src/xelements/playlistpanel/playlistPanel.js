@@ -53,7 +53,7 @@ customElements.define('x-playlist-panel', class extends XElement {
 		}
 
 		stopDownload() {
-			this.syncher_.stopDownload();
+			this.syncher_.stopDownload(true);
 		}
 
 		onRemove_() {
