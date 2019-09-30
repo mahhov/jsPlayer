@@ -38,8 +38,7 @@ customElements.define('x-playlist-panel', class extends XElement {
 
 		async refresh() {
 			this.playlist_ = playlistCache.getUncachedPlaylist(this.playlistId);
-			this.syncher_ = new dwytpl.Syncher(this.playlist_);
-			this.syncher_.setDownloadDir(storage.downloadDir, [storage.explorerDownloadDir], true);
+			this.syncher_ = new dwytpl.Syncher(this.playlist_, storage.downloadDir, [storage.explorerDownloadDir], true);
 
 			({
 				title: this.$('#title').textContent,

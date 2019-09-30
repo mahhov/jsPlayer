@@ -40,9 +40,8 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 			this.syncher_.tracker.summary.disconnect();
 		}
 
-		this.search_ = new dwytpl.Search(this.playlistId);
-		this.syncher_ = new dwytpl.Syncher(this.search_);
-		this.syncher_.setDownloadDir(storage.explorerDownloadDir, [storage.downloadDir]);
+		this.search_ = new dwytpl.Search();
+		this.syncher_ = new dwytpl.Syncher(this.search_, storage.explorerDownloadDir, [storage.downloadDir]);
 		this.syncher_.download();
 
 		this.syncher_.tracker.summary.each(summaryText => {
