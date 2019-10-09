@@ -38,6 +38,7 @@ class Storage {
 		return this.prepareDirPromise_ = this.prepareDirPromise_ || new Promise(async resolve => {
 			await fs.mkdir(this.storageDir_).catch(() => null);
 			await fs.mkdir(this.downloadDir_).catch(() => null);
+			await fs.mkdir(this.explorerDownloadDir_).catch(() => null);
 			resolve();
 		});
 	}
