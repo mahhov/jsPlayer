@@ -1,5 +1,5 @@
 const template = require('fs').readFileSync(`${__dirname}/playFrame.html`, 'utf8');
-const XElement = require('../XElement2');
+const XElement = require('xx-element');
 const storage = require('../../service/Storage');
 const Seeker = require('../../service/Seeker');
 

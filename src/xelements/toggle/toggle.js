@@ -1,5 +1,5 @@
 const template = require('fs').readFileSync(`${__dirname}/toggle.html`, 'utf8');
-const XElement = require('../XElement2');
+const XElement = require('xx-element');
 
 customElements.define('x-toggle', class extends XElement {
 	static get attributeTypes() {

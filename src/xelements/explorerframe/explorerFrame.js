@@ -1,5 +1,5 @@
 const template = require('fs').readFileSync(`${__dirname}/explorerFrame.html`, 'utf8');
-const XElement = require('../XElement2');
+const XElement = require('xx-element');
 const dwytpl = require('dwytpl');
 const storage = require('../../service/Storage');
 

@@ -1,5 +1,5 @@
 const template = require('fs').readFileSync(`${__dirname}/downloadingSongLine.html`, 'utf8');
-const XElement = require('../XElement2');
+const XElement = require('xx-element');
 const playlistCache = require('../../service/playlistCache');
 const authYoutubeApi = require('../../service/authYoutubeApi');
 const storage = require('../../service/Storage');
