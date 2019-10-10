@@ -1,6 +1,6 @@
 const template = require('fs').readFileSync(`${__dirname}/playFrame.html`, 'utf8');
 const XElement = require('xx-element');
-const storage = require('../../service/Storage');
+const storage = require('../../service/storage');
 const Seeker = require('../../service/Seeker');
 
 customElements.define('x-play-frame', class DownloaderFrame extends XElement {

@@ -2,7 +2,7 @@ const template = require('fs').readFileSync(`${__dirname}/downloadingSongLine.ht
 const XElement = require('xx-element');
 const playlistCache = require('../../service/playlistCache');
 const authYoutubeApi = require('../../service/authYoutubeApi');
-const storage = require('../../service/Storage');
+const storage = require('../../service/storage');
 
 customElements.define('x-downloading-song-line', class extends XElement {
 		static get attributeTypes() {

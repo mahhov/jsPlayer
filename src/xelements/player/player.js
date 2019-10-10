@@ -1,6 +1,6 @@
 const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
 const XElement = require('xx-element');
-const storage = require('../../service/Storage');
+const storage = require('../../service/storage');
 const AudioTrack = require('../../service/AudioTrack');
 const shortcuts = require('../../service/shortcuts');
 

@@ -2,7 +2,7 @@ const template = require('fs').readFileSync(`${__dirname}/playlistPanel.html`, '
 const XElement = require('../XElement');
 const dwytpl = require('dwytpl');
 const playlistCache = require('../../service/playlistCache');
-const storage = require('../../service/Storage');
+const storage = require('../../service/storage');
 
 customElements.define('x-playlist-panel', class extends XElement {
 		static get observedAttributes() {

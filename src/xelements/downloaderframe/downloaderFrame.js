@@ -1,6 +1,6 @@
 const template = require('fs').readFileSync(`${__dirname}/downloaderFrame.html`, 'utf8');
 const XElement = require('../XElement');
-const storage = require('../../service/Storage');
+const storage = require('../../service/storage');
 
 customElements.define('x-downloader-frame', class DownloaderFrame extends XElement {
 	constructor() {

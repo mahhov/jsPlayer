@@ -1,6 +1,6 @@
 const template = require('fs').readFileSync(`${__dirname}/frame.html`, 'utf8');
 const XElement = require('../XElement');
-const storage = require('../../service/Storage');
+const storage = require('../../service/storage');
 const shortcuts = require('../../service/shortcuts');
 const {ipcRenderer: ipc, shell} = require('electron');
 

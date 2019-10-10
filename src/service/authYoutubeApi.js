@@ -1,7 +1,7 @@
 const http = require('http');
 const axios = require('axios');
 const GoogleAuth = require('google-oauth2-x');
-const storage = require('./Storage');
+const storage = require('./storage');
 const {shell} = require('electron');
 
 const API_ENDPOINT = 'https://www.googleapis.com/youtube/v3';
