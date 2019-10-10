@@ -30,6 +30,17 @@ class Storage {
 		return this.explorerDownloadDir_;
 	}
 
+	// uncached
+	get explorerDirCount() {
+		return fs.readdir(this.explorerDownloadDir_)
+			.then(files => files.length);
+	}
+
+	async clearExplorerDownloadDir() {
+		(await fs.readdir(this.explorerDownloadDir_))
+			.forEach(file => fs.unlink(path.resolve(this.explorerDownloadDir_, file)));
+	}
+
 	getStoragePath(p) {
 		return path.resolve(this.storageDir_, p);
 	}

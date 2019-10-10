@@ -19,6 +19,11 @@
 		margin-right: 15px;
 	}
 
+	.count-dir-wrap {
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
 	input {
 		flex-grow: 1;
 	}
@@ -37,6 +42,9 @@
 </style>
 
 <div class="top">
+	<span class="count-dir-wrap"><span id="count-dir">100</span> songs</span>
+	<button id="link-dir" class="fa fa-external-link"></button>
+	<button id="clear-dir" class="fa fa-remove"></button>
 	<input id="search" placeholder="search" consume-key>
 	<button id="search-button" class="fa fa-search-plus"></button>
 	<button id="clear-button" class="fa fa-remove"></button>

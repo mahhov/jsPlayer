@@ -2,6 +2,7 @@ const template = require('fs').readFileSync(`${__dirname}/explorerFrame.html`, '
 const XElement = require('xx-element');
 const dwytpl = require('dwytpl');
 const storage = require('../../service/Storage');
+const {shell} = require('electron');
 
 customElements.define('x-explorer-frame', class DownloaderFrame extends XElement {
 	static get attributeTypes() {
@@ -13,7 +14,9 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 	}
 
 	connectedCallback() {
-		this.$('#search').addEventListener('change', () => this.query_());
+		this.$('#link-dir').addEventListener('click', () => this.linkDir_());
+		this.$('#clear-dir').addEventListener('click', () => this.clearDir_());
+		this.$('#search').addEventListener('keydown', e => e.key === 'Enter' && this.query_());
 		this.$('#search-button').addEventListener('click', () => this.query_());
 		this.$('#clear-button').addEventListener('click', () => this.clear_());
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
@@ -29,9 +32,23 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 		this.$('#player').stopPlay();
 	}
 
+	async updateCountDir_() {
+		this.$('#count-dir').textContent = await storage.explorerDirCount;
+	}
+
+	linkDir_() {
+		shell.openExternal(storage.explorerDownloadDir);
+	}
+
+	async clearDir_() {
+		await storage.clearExplorerDownloadDir();
+		this.updateCountDir_();
+	}
+
 	query_() {
 		this.clear_();
-		this.search_.query(this.$('#search').value);
+		if (this.$('#search').value)
+			this.search_.query(this.$('#search').value);
 	}
 
 	clear_() {
@@ -48,6 +65,7 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 		this.syncher_.tracker.summary.each(summaryText => {
 			this.$('#summary-line-one').textContent = summaryText[0];
 			this.$('#summary-line-two').textContent = summaryText[1];
+			this.updateCountDir_();
 		});
 
 		XElement.clearChildren(this.$('#list'));

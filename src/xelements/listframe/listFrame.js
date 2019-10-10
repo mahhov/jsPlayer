@@ -98,3 +98,5 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 		this.dispatchEvent(new CustomEvent('remove-song', {detail: name}));
 	}
 });
+
+// todo refresh not working until entire app refreshed
