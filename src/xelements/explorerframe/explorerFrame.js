@@ -15,6 +15,7 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 	connectedCallback() {
 		this.$('#search').addEventListener('change', () => this.query_());
 		this.$('#search-button').addEventListener('click', () => this.query_());
+		this.$('#clear-button').addEventListener('click', () => this.clear_());
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 		this.clear_();
@@ -90,3 +91,5 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 // downloading songs added from explorer frame not happening
 // remove from playlists when removing from list frame
 // removing from explorer frame should also remove from playlist frame and downloads
+// display temp dir count and add a clear button
+// copyable text without underscores
