@@ -84,7 +84,7 @@ class Storage {
 	}
 
 	async removeSong(songName) {
-		this.songListPromise_ = Promise.resolve((await this.songListPromise_).filter(a => a !== songName));
+		this.songListPromise_ = Promise.resolve((await this.songList).filter(a => a !== songName));
 		await this.prepareDir_();
 		await fs.unlink(path.resolve(this.downloadDir_, songName));
 	}
