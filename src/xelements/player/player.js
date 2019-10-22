@@ -1,12 +1,12 @@
-const template = require('fs').readFileSync(`${__dirname}/player.html`, 'utf8');
-const XElement = require('xx-element');
+const {importUtil, XElement} = require('xx-element');
+const {template, name} = importUtil(__filename);
 const storage = require('../../service/storage');
 const AudioTrack = require('../../service/AudioTrack');
 const shortcuts = require('../../service/shortcuts');
 
 const SEEK_DELTA_S = 10;
 
-customElements.define('x-player', class Player extends XElement {
+customElements.define(name, class Player extends XElement {
 	static get attributeTypes() {
 		return {src: false, focus: true};
 	}

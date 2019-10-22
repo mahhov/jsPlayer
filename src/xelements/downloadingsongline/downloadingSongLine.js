@@ -1,10 +1,10 @@
-const template = require('fs').readFileSync(`${__dirname}/downloadingSongLine.html`, 'utf8');
-const XElement = require('xx-element');
+const {importUtil, XElement} = require('xx-element');
+const {template, name} = importUtil(__filename);
 const playlistCache = require('../../service/playlistCache');
 const authYoutubeApi = require('../../service/authYoutubeApi');
 const storage = require('../../service/storage');
 
-customElements.define('x-downloading-song-line', class extends XElement {
+customElements.define(name, class extends XElement {
 		static get attributeTypes() {
 			return {
 				videoId: false,
@@ -78,7 +78,7 @@ customElements.define('x-downloading-song-line', class extends XElement {
 			e.stopPropagation(); // prevent emitSelect
 			this.playlistStatus = 'undetermined';
 			// todo allow adding to any playlist
-			await authYoutubeApi.add('PLameShrvoeYfp54xeNPK1fGxd2a7IzqU2', this.videoId);
+			await authYoutubeApi.add('PLameShrvoeYdaXeCaQoiFwXhlEu25USlc', this.videoId);
 			this.checkPlaylistStatus_();
 		}
 

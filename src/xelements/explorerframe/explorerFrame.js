@@ -1,10 +1,10 @@
-const template = require('fs').readFileSync(`${__dirname}/explorerFrame.html`, 'utf8');
-const XElement = require('xx-element');
+const {importUtil, XElement} = require('xx-element');
+const {template, name} = importUtil(__filename);
 const dwytpl = require('dwytpl');
 const storage = require('../../service/storage');
 const {shell} = require('electron');
 
-customElements.define('x-explorer-frame', class DownloaderFrame extends XElement {
+customElements.define(name, class extends XElement {
 	static get attributeTypes() {
 		return {playerFocus: true};
 	}
@@ -111,3 +111,6 @@ customElements.define('x-explorer-frame', class DownloaderFrame extends XElement
 // removing from explorer frame should also remove from playlist frame and downloads
 // display temp dir count and add a clear button
 // copyable text without underscores
+// error playing songs in non-temp dir
+// delay in adding/removing to playlist to show
+// error sometimes on load regarding file not found

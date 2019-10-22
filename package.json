@@ -20,7 +20,7 @@
     "env-paths": "^2.1.0",
     "font-awesome": "^4.7.0",
     "google-oauth2-x": "^1.0.2",
-    "xx-element": "^1.0.0"
+    "xx-element": "^1.3.0"
   },
   "build": {
     "asar": false,

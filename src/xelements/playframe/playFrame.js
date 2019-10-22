@@ -1,9 +1,9 @@
-const template = require('fs').readFileSync(`${__dirname}/playFrame.html`, 'utf8');
-const XElement = require('xx-element');
+const {importUtil, XElement} = require('xx-element');
+const {template, name} = importUtil(__filename);
 const storage = require('../../service/storage');
 const Seeker = require('../../service/Seeker');
 
-customElements.define('x-play-frame', class DownloaderFrame extends XElement {
+customElements.define(name, class extends XElement {
 	static get attributeTypes() {
 		return {playerFocus: true};
 	}
