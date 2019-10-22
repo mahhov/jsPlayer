@@ -47,7 +47,7 @@ customElements.define('x-progress-bar', class extends XElement {
 
 		onProgressClick_({offsetX}) {
 			let percentage = offsetX / this.clientWidth;
-			this.dispatchEvent(new CustomEvent('progress-set', {detail: percentage}));
+			this.emit('progress-set', percentage);
 		}
 	}
 );

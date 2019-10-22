@@ -62,7 +62,7 @@ customElements.define(name, class Player extends XElement {
 	}
 
 	onEnd_() {
-		this.dispatchEvent(new CustomEvent('next'));
+		this.emit('next');
 	}
 
 	onSetTime_(time) {
@@ -73,7 +73,7 @@ customElements.define(name, class Player extends XElement {
 	onPrev_() {
 		const PREVIOUS_SONG_THRESHOLD_S = 5;
 		if (this.audioTrack_.time < PREVIOUS_SONG_THRESHOLD_S)
-			this.dispatchEvent(new CustomEvent('prev'));
+			this.emit('prev');
 		else
 			this.onSetTime_(0);
 	}
@@ -83,7 +83,7 @@ customElements.define(name, class Player extends XElement {
 			this.audioTrack_.pause();
 		else {
 			this.audioTrack_.play();
-			this.dispatchEvent(new CustomEvent('player-play', {composed: true}));
+			this.emit('player-play', null, {composed: true});
 		}
 		this.$('#pause').checked = !this.audioTrack_.paused;
 	}
@@ -102,7 +102,7 @@ customElements.define(name, class Player extends XElement {
 	}
 
 	shuffleSet(shuffle) {
-		this.dispatchEvent(new CustomEvent('shuffle', {detail: shuffle}));
+		this.emit('shuffle', shuffle);
 		this.$('#shuffle').checked = shuffle;
 	}
 

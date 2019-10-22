@@ -79,21 +79,21 @@ customElements.define('x-song-line', class extends XElement {
 
 		emitFavorite_() {
 			this.favorited = this.$('#favorite').checked;
-			this.dispatchEvent(new CustomEvent('favorite', {detail: this.$('#favorite').checked}));
+			this.emit('favorite', this.$('#favorite').checked);
 		}
 
 		emitLink_(e) {
 			e.stopPropagation(); // prevent emitSelect
-			this.dispatchEvent(new CustomEvent('link'));
+			this.emit('link');
 		}
 
 		emitRemove_(e) {
 			e.stopPropagation(); // prevent emitSelect
-			this.dispatchEvent(new CustomEvent('remove'));
+			this.emit('remove');
 		}
 
 		emitSelect_() {
-			this.dispatchEvent(new CustomEvent('select'));
+			this.emit('select');
 		}
 	}
 );

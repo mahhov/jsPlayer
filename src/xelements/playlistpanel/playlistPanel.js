@@ -49,7 +49,7 @@ customElements.define('x-playlist-panel', class extends XElement {
 
 		onDownload_() {
 			this.syncher_.download();
-			this.dispatchEvent(new CustomEvent('download', {detail: this.syncher_.tracker}));
+			this.emit('download', this.syncher_.tracker);
 		}
 
 		stopDownload() {
@@ -58,7 +58,7 @@ customElements.define('x-playlist-panel', class extends XElement {
 
 		onRemove_() {
 			this.remove();
-			this.dispatchEvent(new CustomEvent('removed'));
+			this.emit('removed');
 		}
 	}
 );

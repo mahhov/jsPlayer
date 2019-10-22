@@ -50,11 +50,11 @@ customElements.define(name, class extends XElement {
 	}
 
 	emitFavorite_() {
-		this.dispatchEvent(new CustomEvent('favorite-song', {detail: {name: this.$('#player').src, favorite: this.$('#favorite').checked}}));
+		this.emit('favorite-song', {name: this.$('#player').src, favorite: this.$('#favorite').checked});
 	}
 
 	emitLink_() {
-		this.dispatchEvent(new CustomEvent('link-song', {detail: this.$('#player').src}));
+		this.emit('link-song', this.$('#player').src);
 	}
 
 	async setSong(index, skipTo) {
@@ -66,7 +66,7 @@ customElements.define(name, class extends XElement {
 		this.updateFavoriteStatus();
 		let numberText = `Playing ${index + 1} of ${songList.length}`;
 		this.$('#status').textContent = `${numberText} ${name}`;
-		this.dispatchEvent(new CustomEvent('playing-song', {detail: index}));
+		this.emit('playing-song', index);
 		new Notification(numberText, {body: name});
 	}
 });

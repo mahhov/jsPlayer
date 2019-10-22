@@ -83,19 +83,19 @@ customElements.define('x-list-frame', class DownloaderFrame extends XElement {
 	}
 
 	emitSelectSong_(index) {
-		this.dispatchEvent(new CustomEvent('select-song', {detail: index}));
+		this.emit('select-song', index);
 	}
 
 	emitFavoriteSong_(name, favorite) {
-		this.dispatchEvent(new CustomEvent('favorite-song', {detail: {name, favorite}}));
+		this.emit('favorite-song', {name, favorite});
 	}
 
 	emitLinkSong_(name) {
-		this.dispatchEvent(new CustomEvent('link-song', {detail: name}));
+		this.emit('link-song', name);
 	}
 
 	emitRemoveSong_(name) {
-		this.dispatchEvent(new CustomEvent('remove-song', {detail: name}));
+		this.emit('remove-song', name);
 	}
 });
 

@@ -93,7 +93,7 @@ customElements.define(name, class extends XElement {
 
 		emitSelect_() {
 			if (this.downloadStatus === 'true')
-				this.dispatchEvent(new CustomEvent('select'));
+				this.emit('select');
 		}
 	}
 );

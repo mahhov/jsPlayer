@@ -21,6 +21,6 @@ customElements.define(name, class extends XElement {
 
 	onChange_() {
 		this.checked = this.$('#checkbox').checked;
-		this.dispatchEvent(new CustomEvent('change', {detail: this.checked}));
+		this.emit('change', this.checked);
 	}
 });
