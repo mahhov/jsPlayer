@@ -1,6 +1,6 @@
 require('./frame/frame');
 
-require('./playframe/PlayFrame');
+require('./playframe/playFrame');
 require('./player/player');
 require('./audiovisualizer/audioVisualizer');
 require('./progressbar/progressbar');
