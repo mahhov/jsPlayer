@@ -28,11 +28,23 @@
 		flex-grow: 1;
 	}
 
-	#list {
+	.middle {
+		flex-grow: 1;
+		display: flex;
+	}
+
+	.left {
 		display: flex;
 		flex-direction: column;
-		flex-basis: 0;
-		flex-grow: 1;
+		overflow: hidden;
+	}
+
+	.left,
+	.right {
+		flex: 1;
+	}
+
+	#list {
 		overflow: auto;
 	}
 
@@ -49,10 +61,19 @@
 	<button id="search-button" class="fa fa-search-plus"></button>
 	<button id="clear-button" class="fa fa-remove"></button>
 </div>
-<div class="summary">
-	<div id="summary-line-one"></div>
-	<div id="summary-line-two"></div>
+
+<div class="middle">
+	<div class="left">
+		<div class="summary">
+			<div id="summary-line-one"></div>
+			<div id="summary-line-two"></div>
+		</div>
+		<div id="list"></div>
+	</div>
+	<div class="right">
+		<div id="pending-list"></div>
+	</div>
 </div>
-<div id="list"></div>
+
 <x-player id="player"></x-player>
 <!--todo hide player shuffle button-->

@@ -3,8 +3,6 @@
 	@import url("./style/elements.css");
 
 	:host {
-		/*display: flex;*/
-		/*flex-direction: column;*/
 	}
 
 	#container.playlist-added,
@@ -16,8 +14,19 @@
 		display: flex;
 	}
 
-	.top > *:not(:last-child) {
-		margin-right: 15px;
+	.top > *:not(:first-child) {
+		margin-left: 15px;
+	}
+
+	#title,
+	#status {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	#title {
+		flex: 1;
 	}
 
 	#container:not(.playlist-not-added) #add {
@@ -33,7 +42,7 @@
 	}
 
 	#container.download-success .fa-download {
-		display: none
+		display: none;
 	}
 
 	#container.download-fail .fa-download {

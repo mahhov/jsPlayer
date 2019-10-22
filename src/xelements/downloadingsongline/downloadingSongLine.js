@@ -37,6 +37,7 @@ customElements.define(name, class extends XElement {
 			let playlistItemIdsPromises = (await storage.playlistList).map(playlistId =>
 				authYoutubeApi.includes(playlistId, this.videoId));
 			this.playlistItemIds_ = (await Promise.all(playlistItemIdsPromises)).flat();
+			// todo implement Promise.any instead of .all
 			this.playlistStatus = !!this.playlistItemIds_.length;
 		}
 
