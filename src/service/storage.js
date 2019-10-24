@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs').promises;
 const rootPath = require('env-paths')('js-player').data;
+const dwytp = require('dwytpl');
 
 console.log(rootPath);
 const STORAGE_DIR = rootPath;
@@ -76,11 +77,13 @@ class Storage {
 
 	async readSong(songName) {
 		await this.prepareDir_();
-		try {
-			return await fs.readFile(path.resolve(this.downloadDir_, songName));
-		} catch {
-			return fs.readFile(path.resolve(this.explorerDownloadDir_, songName))
-		}
+		return fs.readFile(path.resolve(this.downloadDir_, songName))
+			.catch(() => fs.readFile(path.resolve(this.explorerDownloadDir_, songName)))
+			.catch(async () => {
+				let songId = dwytp.Video.idFromFileName(songName);
+				let renamedSongName = (await this.songList).find(fileName => dwytp.Video.idFromFileName(fileName) === songId);
+				return fs.readFile(path.resolve(this.downloadDir_, renamedSongName));
+			});
 	}
 
 	async removeSong(songName) {

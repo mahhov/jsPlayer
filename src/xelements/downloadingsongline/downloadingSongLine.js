@@ -74,7 +74,6 @@ customElements.define(name, class extends XElement {
 			this.$('#container').classList.toggle('play-unplayed', value === 'undetermined');
 		}
 
-		// todo retry add/remove on failure
 		async add_(e) {
 			e.stopPropagation(); // prevent emitSelect
 			this.playlistStatus = 'undetermined';
