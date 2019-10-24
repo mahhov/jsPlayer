@@ -22,6 +22,18 @@ customElements.define(name, class extends XElement {
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 		this.clear_();
+		this.$('#playlist-pending-refresh').addEventListener('click', () =>
+			[...this.$('#playlist-pending-list').children].forEach(line => line.checkPlaylistStatus()));
+		this.playlistPendingAdds_ = new dwytpl.VideoList();
+		this.playlistPendingRemoves_ = new dwytpl.VideoList();
+		[this.playlistPendingAdds_, this.playlistPendingRemoves_].forEach((videoList, i) =>
+			videoList.videos.each(async video => {
+				let line = document.createElement('x-playlist-pending-song-line');
+				line.videoId = video.id_;
+				line.title = video.getName_();
+				line.adding = !i;
+				this.$('#playlist-pending-list').appendChild(line);
+			}));
 	}
 
 	set playerFocus(value) {
@@ -69,7 +81,7 @@ customElements.define(name, class extends XElement {
 		});
 
 		XElement.clearChildren(this.$('#list'));
-		this.search_.videos.each(async video => {
+		this.search_.videos.each(video => {
 			let line = document.createElement('x-downloading-song-line');
 			line.videoId = video.id_;
 			line.title = video.getName_();
@@ -79,6 +91,7 @@ customElements.define(name, class extends XElement {
 				.catch(() => line.downloadStatus = 'false');
 			this.$('#list').appendChild(line);
 			line.addEventListener('select', () => this.selectLine_(line, video));
+			line.addEventListener('playlist-status-changed', ({detail}) => this.addPlaylistPending_(video.id_, detail));
 		});
 	}
 
@@ -89,6 +102,10 @@ customElements.define(name, class extends XElement {
 		});
 		line.playStatus = 'true';
 		this.$('#player').src = video.getFileName_();
+	}
+
+	addPlaylistPending_(videoId, adding) {
+		(adding ? this.playlistPendingAdds_ : this.playlistPendingRemoves_).add(videoId);
 	}
 
 	async prevSong_() {

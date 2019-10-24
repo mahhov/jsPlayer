@@ -14,5 +14,6 @@ require('./fixedlinesdiv/fixedLinesDiv');
 
 require('./explorerframe/explorerFrame');
 require('./downloadingsongline/downloadingSongLine');
+require('./playlistpendingsongline/playlistPendingSongLine');
 
 require('./toggle/toggle');

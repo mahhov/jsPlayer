@@ -1,0 +1,38 @@
+<style>
+	@import url("./style/faIcons.css");
+	@import url("./style/elements.css");
+
+	#container {
+		display: flex;
+	}
+
+	#container > *:not(:first-child) {
+		margin-left: 15px;
+	}
+
+	#title {
+		flex: 1;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	#container:not(.adding) .fa-plus {
+		display: none;
+	}
+
+	#container.adding .fa-remove {
+		display: none;
+	}
+
+	#container:not(.checking) .fa-list {
+		display: none;
+	}
+</style>
+
+<div id="container" class="line">
+	<div id="title"></div>
+	<span class="fa fa-plus"></span>
+	<span class="fa fa-remove"></span>
+	<span class="fa fa-list"></span>
+</div>
