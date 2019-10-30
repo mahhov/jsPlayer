@@ -1,10 +1,10 @@
-const template = require('fs').readFileSync(`${__dirname}/downloaderFrame.html`, 'utf8');
-const XElement = require('../XElement');
+const {importUtil, XElement} = require('xx-element');
+const {template, name} = importUtil(__filename);
 const storage = require('../../service/storage');
 
-customElements.define('x-downloader-frame', class DownloaderFrame extends XElement {
-	constructor() {
-		super(template);
+customElements.define(name, class extends XElement {
+	static get htmlTemplate() {
+		return template;
 	}
 
 	connectedCallback() {
