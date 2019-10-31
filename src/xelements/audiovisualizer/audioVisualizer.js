@@ -1,16 +1,16 @@
-const template = require('fs').readFileSync(`${__dirname}/audioVisualizer.html`, 'utf8');
-const XElement = require('../XElement');
+const {importUtil, XElement} = require('xx-element');
+const {template, name} = importUtil(__filename);
 const Visualizer = require('../../service/visualizer');
 
 const BAR_COUNT = 32 * 4;
 
-customElements.define('x-audio-visualizer', class extends XElement {
-	static get observedAttributes() {
-		return ['width', 'height'];
+customElements.define(name, class extends XElement {
+	static get attributeTypes() {
+		return {width: false, height: false};
 	}
 
-	constructor() {
-		super(template);
+	static get htmlTemplate() {
+		return template;
 	}
 
 	connectedCallback() {
@@ -26,17 +26,14 @@ customElements.define('x-audio-visualizer', class extends XElement {
 		this.updateVisualizer_();
 	}
 
-	attributeChangedCallback(name, oldValue, newValue) {
-		switch (name) {
-			case 'width':
-				this.$('#canvas').width = newValue;
-				this.newVisualizer_();
-				break;
-			case 'height':
-				this.$('#canvas').height = newValue;
-				this.newVisualizer_();
-				break;
-		}
+	set width(value) {
+		this.$('#canvas').width = value;
+		this.newVisualizer_();
+	}
+
+	set height(value) {
+		this.$('#canvas').height = value;
+		this.newVisualizer_();
 	}
 
 	updateVisualizer_() {

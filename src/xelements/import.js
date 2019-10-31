@@ -3,7 +3,7 @@ require('./frame/frame');
 require('./playframe/playFrame');
 require('./player/player');
 require('./audiovisualizer/audioVisualizer');
-require('./progressbar/progressbar');
+require('./progressbar/progressBar');
 
 require('./listframe/listFrame');
 require('./songline/songLine');

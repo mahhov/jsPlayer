@@ -1,16 +1,16 @@
-const template = require('fs').readFileSync(`${__dirname}/playlistPanel.html`, 'utf8');
-const XElement = require('../XElement');
+const {importUtil, XElement} = require('xx-element');
+const {template, name} = importUtil(__filename);
 const dwytpl = require('dwytpl');
 const playlistCache = require('../../service/playlistCache');
 const storage = require('../../service/storage');
 
-customElements.define('x-playlist-panel', class extends XElement {
-	static get observedAttributes() {
-		return ['playlist-id'];
+customElements.define(name, class extends XElement {
+	static get attributeTypes() {
+		return {playlistId: false};
 	}
 
-	constructor() {
-		super(template);
+	static get htmlTemplate() {
+		return template;
 	}
 
 	connectedCallback() {
@@ -23,16 +23,7 @@ customElements.define('x-playlist-panel', class extends XElement {
 		this.$('#remove').addEventListener('click', () => this.onRemove_());
 	}
 
-	get playlistId() {
-		return this.getAttribute('playlist-id');
-	}
-
 	set playlistId(value) {
-		this.setAttribute('playlist-id', value);
-	}
-
-	attributeChangedCallback(name, oldValue, newValue) {
-		this.playlistId_ = newValue;
 		this.refresh();
 	}
 
