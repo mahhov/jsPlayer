@@ -91,7 +91,7 @@ customElements.define(name, class extends XElement {
 				.catch(() => line.downloadStatus = 'false');
 			this.$('#list').appendChild(line);
 			line.addEventListener('select', () => this.selectLine_(line, video));
-			line.addEventListener('playlist-status-changed', ({detail}) => this.addPlaylistPending_(video.id_, detail));
+			line.addEventListener('playlist-status-pending', ({detail}) => this.addPlaylistPending_(video.id_, detail));
 		});
 	}
 
