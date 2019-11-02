@@ -22,8 +22,6 @@ customElements.define(name, class extends XElement {
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 		this.clear_();
-		this.$('#playlist-pending-refresh').addEventListener('click', () =>
-			[...this.$('#playlist-pending-list').children].forEach(line => line.checkPlaylistStatus()));
 		this.playlistPendingAdds_ = new dwytpl.VideoList();
 		this.playlistPendingRemoves_ = new dwytpl.VideoList();
 		[this.playlistPendingAdds_, this.playlistPendingRemoves_].forEach((videoList, i) =>

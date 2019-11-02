@@ -18,23 +18,22 @@ customElements.define(name, class extends XElement {
 	}
 
 	connectedCallback() {
-		this.$('#container').addEventListener('click', () => this.checkPlaylistStatus()); // todo recheck playlist status on an interval
+		this.intervalCheck_ = setInterval(() => this.checkPlaylistStatus_(), 12000);
 	}
 
 	// todo share code with downloading song line
-	async checkPlaylistStatus() {
+	async checkPlaylistStatus_() {
+		if (!this.videoId)
+			return;
 		this.checking = true;
 		let playlistItemIdsPromises = (await storage.playlistList).map(playlistId =>
 			authYoutubeApi.includes(playlistId, this.videoId));
 		this.playlistItemIds_ = (await Promise.all(playlistItemIdsPromises)).flat();
-		if (this.adding === !!this.playlistItemIds_.length)
+		if (this.adding === !!this.playlistItemIds_.length) {
+			clearInterval(this.intervalCheck_);
 			this.remove();
+		}
 		this.checking = false;
-	}
-
-	set videoId(value) {
-		this.playlistStatus = 'undetermined';
-		this.checkPlaylistStatus();
 	}
 
 	set title(value) {
