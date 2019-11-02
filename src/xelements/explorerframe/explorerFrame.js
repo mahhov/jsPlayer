@@ -29,8 +29,8 @@ customElements.define(name, class extends XElement {
 		[this.playlistPendingAdds_, this.playlistPendingRemoves_].forEach((videoList, i) =>
 			videoList.videos.each(async video => {
 				let line = document.createElement('x-playlist-pending-song-line');
-				line.videoId = video.id_;
-				line.title = video.getName_();
+				line.videoId = video.id;
+				line.title = video.numberedFileName;
 				line.adding = !i;
 				this.$('#playlist-pending-list').appendChild(line);
 			}));
@@ -83,15 +83,15 @@ customElements.define(name, class extends XElement {
 		XElement.clearChildren(this.$('#list'));
 		this.search_.videos.each(video => {
 			let line = document.createElement('x-downloading-song-line');
-			line.videoId = video.id_;
-			line.title = video.getName_();
+			line.videoId = video.id;
+			line.title = video.numberedFileName;
 			video.status.stream.each(statusText => line.status = statusText);
 			video.status.promise
 				.then(() => line.downloadStatus = 'true')
 				.catch(() => line.downloadStatus = 'false');
 			this.$('#list').appendChild(line);
 			line.addEventListener('select', () => this.selectLine_(line, video));
-			line.addEventListener('playlist-status-pending', ({detail}) => this.addPlaylistPending_(video.id_, detail));
+			line.addEventListener('playlist-status-pending', ({detail}) => this.addPlaylistPending_(video.id, detail));
 		});
 	}
 
@@ -101,7 +101,7 @@ customElements.define(name, class extends XElement {
 				lineI.playStatus = 'false';
 		});
 		line.playStatus = 'true';
-		this.$('#player').src = video.getFileName_();
+		this.$('#player').src = video.fileName;
 	}
 
 	addPlaylistPending_(videoId, adding) {
