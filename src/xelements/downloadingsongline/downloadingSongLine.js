@@ -79,8 +79,8 @@ customElements.define(name, class extends XElement {
 		this.playlistStatus = 'undetermined';
 		// todo allow adding to any playlist
 		await authYoutubeApi.add('PLameShrvoeYdaXeCaQoiFwXhlEu25USlc', this.videoId);
-		if (!await this.checkPlaylistStatus_())
-			this.emit('playlist-status-pending', true);
+		this.playlistStatus = 'true';
+		this.emit('playlist-status-pending', true);
 	}
 
 	async remove_(e) {
@@ -88,8 +88,8 @@ customElements.define(name, class extends XElement {
 		this.playlistStatus = 'undetermined';
 		// todo bug with youtube api not allowing removing multiple instances of same video simultaneously
 		await Promise.all(this.playlistItemIds_.map(playlistItemId => authYoutubeApi.remove(playlistItemId)));
-		if (await this.checkPlaylistStatus_())
-			this.emit('playlist-status-pending', false);
+		this.playlistStatus = 'false';
+		this.emit('playlist-status-pending', false);
 	}
 
 	emitSelect_() {
