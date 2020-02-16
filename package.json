@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "dwytpl": "^3.3.3",
+    "dwytpl": "^5.2.3",
     "env-paths": "^2.1.0",
     "font-awesome": "^4.7.0",
     "google-oauth2-x": "^1.0.2",

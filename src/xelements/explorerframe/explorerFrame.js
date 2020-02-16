@@ -70,7 +70,7 @@ customElements.define(name, class extends XElement {
 
 		this.search_ = new dwytpl.Search();
 		this.syncher_ = new dwytpl.Syncher(this.search_, storage.explorerDownloadDir, [storage.downloadDir]);
-		this.syncher_.download();
+		this.syncher_.download(10, {filter: 'audioonly'});
 
 		this.syncher_.tracker.summary.each(summaryText => {
 			this.$('#summary-line-one').textContent = summaryText[0];

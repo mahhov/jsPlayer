@@ -39,7 +39,7 @@ customElements.define(name, class extends XElement {
 	}
 
 	onDownload_() {
-		this.syncher_.download();
+		this.syncher_.download(10, {filter: 'audioonly'});
 		this.emit('download', this.syncher_.tracker);
 	}
 
