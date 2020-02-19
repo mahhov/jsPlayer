@@ -1,6 +1,7 @@
 const {importUtil, XElement} = require('xx-element');
 const {template, name} = importUtil(__filename);
 const storage = require('../../service/storage');
+const Searcher = require('../../service/Searcher');
 const {shell} = require('electron');
 
 customElements.define(name, class extends XElement {
@@ -23,22 +24,12 @@ customElements.define(name, class extends XElement {
 			let songLines = [...this.$('#list-container').children];
 			this.$('#count').textContent = songList.length;
 
-			// Ignoring case and symbols, each word of the filterString
-			// must be included in the song line.
-			// Both are broken on spaces and symbols.
-			// Order of words does not matter.
-			// Separators may be omitted if full words are entered.
-			let inputString = this.$('#search').value;
-			const charFilterRe = /[^a-zA-Z\d]/g;
-			let inputWords = inputString.toLowerCase().split(charFilterRe);
+			let searcher = new Searcher(this.$('#search').value, false);
 
 			let songLineCount = 0;
 			for (let i = 0; i < songList.length; i++) {
 				let title = songList[i];
-
-				let songLineText = title.replace(charFilterRe, '').toLowerCase();
-
-				let filter = !inputWords.every(word => songLineText.includes(word))
+				let filter = !searcher.test(title)
 					|| this.$('#favorite').checked && !await storage.isSongFavorite(title)
 					|| this.$('#limit').checked && songLineCount > 99;
 				if (filter)
