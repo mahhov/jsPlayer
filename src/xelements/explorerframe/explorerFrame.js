@@ -145,18 +145,7 @@ customElements.define(name, class ExplorerFrame extends XElement {
 });
 
 // todo
-// styling
-// confirm add/remove
-// download fail
 // explorer frame to display selected background for currently playing on refresh
-// button to clear explorer download dir
-// freeze on search
-// remove remove button from play frame
-// downloading songs added from explorer frame not happening
 // remove from playlists when removing from list frame
 // removing from explorer frame should also remove from playlist frame and downloads
-// display temp dir count and add a clear button
 // copyable text without underscores
-// error playing songs in non-temp dir
-// delay in adding/removing to playlist to show
-// error sometimes on load regarding file not found
