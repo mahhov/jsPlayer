@@ -3,6 +3,7 @@ const {template, name} = importUtil(__filename);
 const {shell} = require('electron');
 const dwytpl = require('dwytpl');
 const storage = require('../../service/storage');
+const playlistCache = require('../../service/playlistCache');
 const authYoutubeApi = require('../../service/authYoutubeApi');
 
 customElements.define(name, class ExplorerFrame extends XElement {
@@ -34,10 +35,12 @@ customElements.define(name, class ExplorerFrame extends XElement {
 				this.$('#playlist-pending-list').appendChild(line);
 			}));
 		storage.playlistList.then(playlistList =>
-			playlistList.forEach(playlist => {
+			playlistList.forEach(async playlistId => {
 				let option = document.createElement('option');
-				option.textContent = playlist;
+				option.textContent = playlistId;
 				this.$('#playlist').appendChild(option);
+
+				option.textContent = await playlistCache.getPlaylist(playlistId).title;
 			}));
 	}
 

@@ -2,6 +2,7 @@ const {importUtil, XElement} = require('xx-element');
 const {template, name} = importUtil(__filename);
 const authYoutubeApi = require('../../service/authYoutubeApi');
 const storage = require('../../service/storage');
+const playlistCache = require('../../service/playlistCache');
 
 customElements.define(name, class extends XElement {
 	static get attributeTypes() {
@@ -37,11 +38,12 @@ customElements.define(name, class extends XElement {
 		let playlistIncludes = (await Promise.all((await storage.playlistList)
 			.map(async playlistId => [playlistId, await authYoutubeApi.includes(playlistId, this.videoId)])))
 			.filter(([_, itemIds]) => itemIds.length);
-		let playlists = playlistIncludes.map(([playlist]) => playlist);
+		let playlistIds = playlistIncludes.map(([playlistId]) => playlistId);
 		this.playlistItemIds_ = playlistIncludes.flatMap(([_, itemIds]) => itemIds);
 
-		this.$('#remove').title = playlists;
+		this.$('#remove').title = playlistIds;
 		this.playlistStatus = !!this.playlistItemIds_.length;
+		this.$('#remove').title = await Promise.all(playlistIds.map(playlistId => playlistCache.getPlaylist(playlistId).title));
 	}
 
 	set videoId(value) {
