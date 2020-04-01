@@ -40,3 +40,8 @@ input {
 .line.selected {
 	background-color: var(--dark-blue);
 }
+
+select {
+	background: black;
+	color: white;
+}

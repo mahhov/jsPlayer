@@ -41,6 +41,10 @@
 		display: none;
 	}
 
+	#playlist {
+		width: 200px;
+	}
+
 	.middle {
 		flex-grow: 1;
 		display: flex;
@@ -76,6 +80,7 @@
 	<input id="search" placeholder="search" consume-key>
 	<input id="count" type="number" min="0" max="50" placeholder="count" value="15" consume-key>
 	<button id="clear-button" class="fa fa-remove"></button>
+	<select id="playlist" consume-key></select>
 </div>
 
 <div class="middle">

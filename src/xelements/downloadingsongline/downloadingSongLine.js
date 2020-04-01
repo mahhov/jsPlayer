@@ -1,6 +1,5 @@
 const {importUtil, XElement} = require('xx-element');
 const {template, name} = importUtil(__filename);
-const playlistCache = require('../../service/playlistCache');
 const authYoutubeApi = require('../../service/authYoutubeApi');
 const storage = require('../../service/storage');
 
@@ -33,7 +32,8 @@ customElements.define(name, class extends XElement {
 		this.$('#container').addEventListener('click', () => this.emitSelect_());
 	}
 
-	async checkPlaylistStatus_() {
+	async checkPlaylistStatus() {
+		this.playlistStatus = 'undetermined';
 		let playlistIncludes = (await Promise.all((await storage.playlistList)
 			.map(async playlistId => [playlistId, await authYoutubeApi.includes(playlistId, this.videoId)])))
 			.filter(([_, itemIds]) => itemIds.length);
@@ -45,8 +45,7 @@ customElements.define(name, class extends XElement {
 	}
 
 	set videoId(value) {
-		this.playlistStatus = 'undetermined';
-		this.checkPlaylistStatus_();
+		this.checkPlaylistStatus();
 	}
 
 	set title(value) {
@@ -80,19 +79,13 @@ customElements.define(name, class extends XElement {
 	async add_(e) {
 		e.stopPropagation(); // prevent emitSelect
 		this.playlistStatus = 'undetermined';
-		// todo allow adding to any playlist
-		await authYoutubeApi.add('PLameShrvoeYdaXeCaQoiFwXhlEu25USlc', this.videoId);
-		this.playlistStatus = 'true';
-		this.emit('playlist-status-pending', true);
+		this.emit('add');
 	}
 
 	async remove_(e) {
 		e.stopPropagation(); // prevent emitSelect
 		this.playlistStatus = 'undetermined';
-		// todo bug with youtube api not allowing removing multiple instances of same video simultaneously
-		await Promise.all(this.playlistItemIds_.map(playlistItemId => authYoutubeApi.remove(playlistItemId)));
-		this.playlistStatus = 'false';
-		this.emit('playlist-status-pending', false);
+		this.emit('remove', this.playlistItemIds_);
 	}
 
 	emitSelect_() {

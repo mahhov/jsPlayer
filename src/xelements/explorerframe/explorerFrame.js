@@ -1,8 +1,9 @@
 const {importUtil, XElement} = require('xx-element');
 const {template, name} = importUtil(__filename);
+const {shell} = require('electron');
 const dwytpl = require('dwytpl');
 const storage = require('../../service/storage');
-const {shell} = require('electron');
+const authYoutubeApi = require('../../service/authYoutubeApi');
 
 customElements.define(name, class ExplorerFrame extends XElement {
 	static get attributeTypes() {
@@ -31,6 +32,12 @@ customElements.define(name, class ExplorerFrame extends XElement {
 				line.title = ExplorerFrame.getLineTitle_(video, j);
 				line.adding = !i;
 				this.$('#playlist-pending-list').appendChild(line);
+			}));
+		storage.playlistList.then(playlistList =>
+			playlistList.forEach(playlist => {
+				let option = document.createElement('option');
+				option.textContent = playlist;
+				this.$('#playlist').appendChild(option);
 			}));
 	}
 
@@ -89,7 +96,8 @@ customElements.define(name, class ExplorerFrame extends XElement {
 				.catch(() => line.downloadStatus = 'false');
 			this.$('#list').appendChild(line);
 			line.addEventListener('select', () => this.selectLine_(line, video));
-			line.addEventListener('playlist-status-pending', ({detail}) => this.addPlaylistPending_(video.id, detail));
+			line.addEventListener('add', () => this.addLineToPlaylist_(line));
+			line.addEventListener('remove', ({detail}) => this.removeLineFromPlaylist_(line, detail));
 		});
 	}
 
@@ -102,8 +110,17 @@ customElements.define(name, class ExplorerFrame extends XElement {
 		this.$('#player').src = video.fileName;
 	}
 
-	addPlaylistPending_(videoId, adding) {
-		(adding ? this.playlistPendingAdds_ : this.playlistPendingRemoves_).add(videoId);
+	async addLineToPlaylist_(line) {
+		this.playlistPendingAdds_.add(line.videoId);
+		await authYoutubeApi.add(this.$('#playlist').value, line.videoId);
+		line.playlistStatus = 'true';
+	}
+
+	async removeLineFromPlaylist_(line, playlistItemIds) {
+		this.playlistPendingRemoves_.add(line.videoId);
+		// todo bug with youtube api not allowing removing multiple instances of same video simultaneously
+		await Promise.all(playlistItemIds.map(playlistItemId => authYoutubeApi.remove(playlistItemId)));
+		line.playlistStatus = 'false';
 	}
 
 	async prevSong_() {
@@ -113,7 +130,7 @@ customElements.define(name, class ExplorerFrame extends XElement {
 	}
 
 	static getLineTitle_(video, i) {
-		return `${i.toString().padStart(4, 2)} ${video.title} ${video.id}`;
+		return `${i.toString().padStart(2, 0)} ${video.title} ${video.id}`;
 	}
 });
 
