@@ -17,6 +17,7 @@ customElements.define(name, class extends XElement {
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 		this.$('#player').addEventListener('shuffle', ({detail}) => this.setShuffle_(detail));
 		this.$('#favorite').addEventListener('change', () => this.emitFavorite_());
+		this.$('#related').addEventListener('click', () => this.emitRelated_());
 		this.$('#link').addEventListener('click', () => this.emitLink_());
 		this.seeker = new Seeker();
 		storage.songList.then(songList => this.seeker.setSize(songList.length));
@@ -51,6 +52,10 @@ customElements.define(name, class extends XElement {
 
 	emitFavorite_() {
 		this.emit('favorite-song', {name: this.$('#player').src, favorite: this.$('#favorite').checked});
+	}
+
+	emitRelated_() {
+		this.emit('related-song', this.$('#player').src);
 	}
 
 	emitLink_() {

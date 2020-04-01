@@ -71,7 +71,7 @@ customElements.define(name, class ExplorerFrame extends XElement {
 			this.search_.query(this.$('#search').value, this.$('#count').value);
 	}
 
-	queryRelated_(videoId) {
+	queryRelated(videoId) {
 		this.clear_();
 		if (this.$('#count').checkValidity())
 			this.search_.queryRelated(videoId, this.$('#count').value);
@@ -105,7 +105,7 @@ customElements.define(name, class ExplorerFrame extends XElement {
 				.catch(() => line.downloadStatus = 'false');
 			this.$('#list').appendChild(line);
 			line.addEventListener('select', () => this.selectLine_(line, video));
-			line.addEventListener('related', () => this.queryRelated_(video.id));
+			line.addEventListener('related', () => this.queryRelated(video.id));
 			line.addEventListener('add', () => this.addLineToPlaylist_(line));
 			line.addEventListener('remove', ({detail}) => this.removeLineFromPlaylist_(line, detail));
 		});
