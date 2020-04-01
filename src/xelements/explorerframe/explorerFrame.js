@@ -17,7 +17,7 @@ customElements.define(name, class ExplorerFrame extends XElement {
 		this.$('#link-dir').addEventListener('click', () => this.linkDir_());
 		this.$('#clear-dir').addEventListener('click', () => this.clearDir_());
 		this.$('#search').addEventListener('keydown', e => e.key === 'Enter' && this.query_());
-		this.$('#search-button').addEventListener('click', () => this.query_());
+		this.$('#count').addEventListener('keydown', e => e.key === 'Enter' && this.query_());
 		this.$('#clear-button').addEventListener('click', () => this.clear_());
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
@@ -57,8 +57,8 @@ customElements.define(name, class ExplorerFrame extends XElement {
 
 	query_() {
 		this.clear_();
-		if (this.$('#search').value)
-			this.search_.query(this.$('#search').value);
+		if (this.$('#search').value && this.$('#count').checkValidity())
+			this.search_.query(this.$('#search').value, this.$('#count').value);
 	}
 
 	clear_() {

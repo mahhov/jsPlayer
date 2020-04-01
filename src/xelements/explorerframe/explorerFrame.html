@@ -24,13 +24,27 @@
 		margin-bottom: auto;
 	}
 
-	input {
+	#search {
 		flex-grow: 1;
+	}
+
+	#count {
+		width: 50px;
+	}
+
+	#count:invalid {
+		border-color: var(--red);
+	}
+
+	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+		display: none;
 	}
 
 	.middle {
 		flex-grow: 1;
 		display: flex;
+		overflow: hidden;
 	}
 
 	.left,
@@ -60,7 +74,7 @@
 	<button id="link-dir" class="fa fa-external-link"></button>
 	<button id="clear-dir" class="fa fa-remove"></button>
 	<input id="search" placeholder="search" consume-key>
-	<button id="search-button" class="fa fa-search-plus"></button>
+	<input id="count" type="number" min="0" max="50" placeholder="count" value="15" consume-key>
 	<button id="clear-button" class="fa fa-remove"></button>
 </div>
 
