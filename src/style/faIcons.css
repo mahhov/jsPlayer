@@ -1,5 +1,5 @@
 /*
-	We have to do this because importing the giant font-awesome stylesheet for each shadow dom that requires it presents a performance issue.
+	We have to do this because importing the giant font-awesome stylesheet for each shadow dom that requires it is slow.
 	This is especially true with the custom element x-song-line, which we create a 5000+ times for each x-list-frame refresh.
 */
 

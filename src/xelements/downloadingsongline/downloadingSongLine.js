@@ -28,6 +28,7 @@ customElements.define(name, class extends XElement {
 			this.downloadStatus = 'undetermined';
 		if (this.playStatus === null)
 			this.playStatus = 'undetermined';
+		this.$('#related').addEventListener('click', e => this.related_(e));
 		this.$('#add').addEventListener('click', e => this.add_(e));
 		this.$('#remove').addEventListener('click', e => this.remove_(e));
 		this.$('#container').addEventListener('click', () => this.emitSelect_());
@@ -76,6 +77,11 @@ customElements.define(name, class extends XElement {
 		this.$('#container').classList.toggle('play-playing', value === 'true');
 		this.$('#container').classList.toggle('play-played', value === 'false');
 		this.$('#container').classList.toggle('play-unplayed', value === 'undetermined');
+	}
+
+	related_(e) {
+		e.stopPropagation(); // prevent emitSelect
+		this.emit('related');
 	}
 
 	async add_(e) {
