@@ -34,10 +34,13 @@ customElements.define(name, class extends XElement {
 	}
 
 	async checkPlaylistStatus_() {
-		let playlistItemIdsPromises = (await storage.playlistList).map(playlistId =>
-			authYoutubeApi.includes(playlistId, this.videoId));
-		this.playlistItemIds_ = (await Promise.all(playlistItemIdsPromises)).flat();
-		// todo implement Promise.any instead of .all
+		let playlistIncludes = (await Promise.all((await storage.playlistList)
+			.map(async playlistId => [playlistId, await authYoutubeApi.includes(playlistId, this.videoId)])))
+			.filter(([_, itemIds]) => itemIds.length);
+		let playlists = playlistIncludes.map(([playlist]) => playlist);
+		this.playlistItemIds_ = playlistIncludes.flatMap(([_, itemIds]) => itemIds);
+
+		this.$('#remove').title = playlists;
 		this.playlistStatus = !!this.playlistItemIds_.length;
 	}
 
