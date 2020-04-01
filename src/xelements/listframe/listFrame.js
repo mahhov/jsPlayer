@@ -43,6 +43,7 @@ customElements.define(name, class extends XElement {
 					songLine = document.createElement('x-song-line');
 					songLine.addEventListener('select', () => this.emitSelectSong_(songLine.number - 1));
 					songLine.addEventListener('favorite', () => this.emitFavoriteSong_(songLine.title, songLine.favorited));
+					songLine.addEventListener('related', () => this.emitRelatedSong_(songLine.title));
 					songLine.addEventListener('link', () => this.emitLinkSong_(songLine.title));
 					songLine.addEventListener('remove', () => this.emitRemoveSong_(songLine.title));
 					this.$('#list-container').appendChild(songLine);
@@ -79,6 +80,10 @@ customElements.define(name, class extends XElement {
 
 	emitFavoriteSong_(name, favorite) {
 		this.emit('favorite-song', {name, favorite});
+	}
+
+	emitRelatedSong_(name) {
+		this.emit('related-song', name);
 	}
 
 	emitLinkSong_(name) {

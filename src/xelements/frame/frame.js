@@ -39,6 +39,7 @@ customElements.define(name, class extends XElement {
 		this.$('#play-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#explorer-frame')));
 		this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
 		this.$('#list-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
+		this.$('#list-frame').addEventListener('related-song', ({detail}) => this.onRelatedSong_(detail));
 		this.$('#list-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));
 		this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 		this.$('#explorer-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#play-frame')));

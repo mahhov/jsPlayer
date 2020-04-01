@@ -22,6 +22,7 @@ customElements.define(name, class extends XElement {
 			this.setAttribute('title', '');
 
 		this.$('#favorite').addEventListener('change', () => this.emitFavorite_());
+		this.$('#related').addEventListener('click', e => this.emitRelated_(e));
 		this.$('#link').addEventListener('click', e => this.emitLink_(e));
 		this.$('#remove').addEventListener('click', e => this.emitRemove_(e));
 		this.$('#container').addEventListener('click', () => this.emitSelect_());
@@ -50,6 +51,11 @@ customElements.define(name, class extends XElement {
 	emitFavorite_() {
 		this.favorited = this.$('#favorite').checked;
 		this.emit('favorite', this.$('#favorite').checked);
+	}
+
+	emitRelated_(e) {
+		e.stopPropagation(); // prevent emitSelect
+		this.emit('related');
 	}
 
 	emitLink_(e) {
