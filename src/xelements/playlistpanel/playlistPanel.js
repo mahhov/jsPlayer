@@ -29,13 +29,13 @@ customElements.define(name, class extends XElement {
 
 	async refresh() {
 		this.playlist_ = playlistCache.getUncachedPlaylist(this.playlistId);
-		this.syncher_ = new dwytpl.Syncher(this.playlist_, storage.downloadDir, [storage.explorerDownloadDir], true);
+		this.syncher_ = new dwytpl.Syncher(this.playlist_.videos, storage.downloadDir, [storage.explorerDownloadDir], true);
 
-		({
-			title: this.$('#title').textContent,
-			length: this.$('#count').textContent
-		} = await this.playlist_.getOverview());
+		this.$('#refresh').classList.add('refreshing');
+		this.$('#title').textContent = await this.playlist_.title;
+		this.$('#count').textContent = await this.playlist_.length;
 		this.$('#playlist-id').textContent = this.playlistId;
+		this.$('#refresh').classList.remove('refreshing');
 	}
 
 	onDownload_() {

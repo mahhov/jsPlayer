@@ -4,7 +4,7 @@ const dwytpl = require('dwytpl');
 const storage = require('../../service/storage');
 const {shell} = require('electron');
 
-customElements.define(name, class extends XElement {
+customElements.define(name, class ExplorerFrame extends XElement {
 	static get attributeTypes() {
 		return {playerFocus: true};
 	}
@@ -25,10 +25,10 @@ customElements.define(name, class extends XElement {
 		this.playlistPendingAdds_ = new dwytpl.VideoList();
 		this.playlistPendingRemoves_ = new dwytpl.VideoList();
 		[this.playlistPendingAdds_, this.playlistPendingRemoves_].forEach((videoList, i) =>
-			videoList.videos.each(async video => {
+			videoList.videos.each(async (video, j) => {
 				let line = document.createElement('x-playlist-pending-song-line');
 				line.videoId = video.id;
-				line.title = video.numberedFileName;
+				line.title = ExplorerFrame.getLineTitle_(video, j);
 				line.adding = !i;
 				this.$('#playlist-pending-list').appendChild(line);
 			}));
@@ -69,7 +69,7 @@ customElements.define(name, class extends XElement {
 		}
 
 		this.search_ = new dwytpl.Search();
-		this.syncher_ = new dwytpl.Syncher(this.search_, storage.explorerDownloadDir, [storage.downloadDir]);
+		this.syncher_ = new dwytpl.Syncher(this.search_.videos, storage.explorerDownloadDir, [storage.downloadDir]);
 		this.syncher_.download(10, {filter: 'audioonly'});
 
 		this.syncher_.tracker.summary.each(summaryText => {
@@ -79,10 +79,10 @@ customElements.define(name, class extends XElement {
 		});
 
 		XElement.clearChildren(this.$('#list'));
-		this.search_.videos.each(video => {
+		this.search_.videos.each((video, i) => {
 			let line = document.createElement('x-downloading-song-line');
 			line.videoId = video.id;
-			line.title = video.numberedFileName;
+			line.title = ExplorerFrame.getLineTitle_(video, i);
 			video.status.stream.each(statusText => line.status = statusText);
 			video.status.promise
 				.then(() => line.downloadStatus = 'true')
@@ -110,6 +110,10 @@ customElements.define(name, class extends XElement {
 	}
 
 	async nextSong_() {
+	}
+
+	static getLineTitle_(video, i) {
+		return `${i.toString().padStart(4, 2)} ${video.title} ${video.id}`;
 	}
 });
 
