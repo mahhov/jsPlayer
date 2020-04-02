@@ -117,7 +117,10 @@ customElements.define(name, class ExplorerFrame extends XElement {
 				lineI.playStatus = 'false';
 		});
 		line.playStatus = 'true';
-		this.$('#player').src = video.fileName;
+		if (line.downloadStatus === 'true')
+			this.$('#player').src = video.fileName;
+		else
+			this.$('#player').videoSrc = video;
 	}
 
 	async addLineToPlaylist_(line) {

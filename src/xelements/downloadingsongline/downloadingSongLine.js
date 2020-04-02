@@ -97,7 +97,6 @@ customElements.define(name, class extends XElement {
 	}
 
 	emitSelect_() {
-		if (this.downloadStatus === 'true')
-			this.emit('select');
+		this.emit('select');
 	}
 });

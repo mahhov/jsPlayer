@@ -1,5 +1,6 @@
 const {importUtil, XElement} = require('xx-element');
 const {template, name} = importUtil(__filename);
+const Debouncer = require('../../service/Debouncer');
 const storage = require('../../service/storage');
 const AudioTrack = require('../../service/AudioTrack');
 const shortcuts = require('../../service/shortcuts');
@@ -36,9 +37,12 @@ customElements.define(name, class Player extends XElement {
 		shortcuts.addListenerGlobalPrev(() => this.focus_ && this.onPrev_());
 		shortcuts.addListenerGlobalNext(() => this.focus_ && this.onEnd_());
 		shortcuts.addListenerGlobalPause(() => this.focus_ && this.pauseToggle_());
+
+		this.videoSrcDebouncer_ = new Debouncer(500);
 	}
 
 	set src(value) {
+		this.clearVideoSrc();
 		this.onPauseSet_(true);
 		storage.readSong(value)
 			.then(({buffer}) => this.audioTrack_.readAudioData(buffer))
@@ -49,6 +53,37 @@ customElements.define(name, class Player extends XElement {
 				this.onSetTime_(0);
 				this.onPauseSet_(false);
 			});
+	}
+
+	set videoSrc(video) {
+		this.clearVideoSrc();
+		this.videoSrc_ = video;
+
+		let first = true;
+		let updateAudioTrack = async () => {
+			this.audioTrack_.audioData = await this.audioTrack_.readAudioData(video.buffer.buffer);
+			if (first) {
+				this.onSetTime_(0);
+				this.onPauseSet_(false);
+				first = false;
+			} else if (!this.audioTrack_.paused) {
+				this.audioTrack_.pause();
+				this.audioTrack_.play();
+			}
+		};
+
+		video.on('data', () => this.videoSrcDebouncer_.add(() => updateAudioTrack()));
+		video.on('end', () => this.videoSrcDebouncer_.add(() => updateAudioTrack()));
+		if (video.buffer.buffer.length)
+			updateAudioTrack();
+	}
+
+	clearVideoSrc() {
+		if (this.videoSrc_) {
+			this.videoSrc_.removeAllListeners('data');
+			this.videoSrc_.removeAllListeners('end');
+			this.videoSrcDebouncer_.cancel();
+		}
 	}
 
 	set focus(value) {
