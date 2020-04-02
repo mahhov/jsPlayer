@@ -37,6 +37,7 @@ customElements.define(name, class ExplorerFrame extends XElement {
 		storage.playlistList.then(playlistList =>
 			playlistList.forEach(async playlistId => {
 				let option = document.createElement('option');
+				option.value = playlistId;
 				option.textContent = playlistId;
 				this.$('#playlist').appendChild(option);
 
