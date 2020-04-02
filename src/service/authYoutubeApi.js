@@ -21,12 +21,12 @@ class AuthYoutubeApi extends GoogleAuth {
 	}
 
 	async includes(playlistId, videoId) {
-		return (await this.twoTryRequest_('get', {part: 'snippet', playlistId, videoId}))
+		return (await this.twoTryRequest_('get', {part: 'id', playlistId, videoId}))
 			.data.items.map(item => item.id);
 	}
 
 	add(playlistId, videoId) {
-		return this.twoTryRequest_('post', {part: 'snippet'},
+		return this.twoTryRequest_('post', {part: 'id'},
 			{
 				snippet: {
 					playlistId,
