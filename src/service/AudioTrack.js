@@ -45,7 +45,7 @@ class AudioTrack {
 		this.offsetTime_ -= this.audioCtx_.currentTime;
 
 		this.timeListenerIntervalId_ = setInterval(() => this.timeListener_(this.time, this.duration), 100);
-		this.source_.addEventListener('ended', () => {
+		this.source_.addEventListener('ended', this.sourceEndedListener_ = () => {
 			clearInterval(this.timeListenerIntervalId_);
 			if (this.endListener_)
 				this.endListener_();
@@ -57,6 +57,8 @@ class AudioTrack {
 			return;
 
 		this.paused_ = true;
+		this.source_.removeEventListener('ended', this.sourceEndedListener_);
+		this.source_.stop();
 		this.source_.disconnect();
 		this.offsetTime_ += this.audioCtx_.currentTime;
 
