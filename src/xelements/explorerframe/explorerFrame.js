@@ -24,7 +24,8 @@ customElements.define(name, class ExplorerFrame extends XElement {
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
 		this.$('#playlist').addEventListener('input', () =>
-			storage.explorerPlaylistPreference = this.$('#playlist').value)
+			storage.explorerPlaylistPreference = this.$('#playlist').value);
+		this.$('#auth-button').addEventListener('click', () => authYoutubeApi.authenticate());
 		this.clear_();
 		this.playlistPendingAdds_ = new dwytpl.VideoList();
 		this.playlistPendingRemoves_ = new dwytpl.VideoList();

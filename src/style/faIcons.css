@@ -61,7 +61,7 @@
 	content: "\f002";
 }
 
- .fa-search-plus:before {
+.fa-search-plus:before {
 	content: "\f00e";
 }
 
@@ -83,4 +83,8 @@
 
 .fa-stop:before {
 	content: "\f04d";
+}
+
+.fa-user:before {
+	content: "\f007";
 }

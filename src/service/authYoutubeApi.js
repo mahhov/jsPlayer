@@ -20,6 +20,10 @@ class AuthYoutubeApi extends GoogleAuth {
 		});
 	}
 
+	authenticate() {
+		this.getCleanToken();
+	}
+
 	async includes(playlistId, videoId) {
 		return (await this.twoTryRequest_('get', {part: 'id', playlistId, videoId}))
 			.data.items.map(item => item.id);
