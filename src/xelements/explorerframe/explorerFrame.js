@@ -23,6 +23,8 @@ customElements.define(name, class ExplorerFrame extends XElement {
 		this.$('#clear-button').addEventListener('click', () => this.clear_());
 		this.$('#player').addEventListener('prev', () => this.prevSong_());
 		this.$('#player').addEventListener('next', () => this.nextSong_());
+		this.$('#playlist').addEventListener('input', () =>
+			storage.explorerPlaylistPreference = this.$('#playlist').value)
 		this.clear_();
 		this.playlistPendingAdds_ = new dwytpl.VideoList();
 		this.playlistPendingRemoves_ = new dwytpl.VideoList();
@@ -40,7 +42,7 @@ customElements.define(name, class ExplorerFrame extends XElement {
 				option.value = playlistId;
 				option.textContent = playlistId;
 				this.$('#playlist').appendChild(option);
-
+				option.defaultSelected = playlistId === await storage.explorerPlaylistPreference;
 				option.textContent = await playlistCache.getPlaylist(playlistId).title;
 			}));
 	}
