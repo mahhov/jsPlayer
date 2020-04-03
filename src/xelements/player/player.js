@@ -17,7 +17,7 @@ customElements.define(name, class Player extends XElement {
 	}
 
 	connectedCallback() {
-		storage.playerSettings.then(({shuffle}) => {
+		storage.shufflePreference.then(shuffle => {
 			this.shuffleSet(shuffle);
 			this.onEnd_();
 		});
@@ -133,7 +133,7 @@ customElements.define(name, class Player extends XElement {
 
 	onShuffleSet_(shuffle) {
 		this.shuffleSet(shuffle);
-		storage.addPlayerSettings({shuffle: this.$('#shuffle').checked});
+		storage.shufflePreference = this.$('#shuffle').checked;
 	}
 
 	shuffleSet(shuffle) {

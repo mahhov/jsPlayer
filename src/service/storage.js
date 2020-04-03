@@ -5,20 +5,16 @@ const dwytp = require('dwytpl');
 
 console.log(rootPath);
 const STORAGE_DIR = rootPath;
-const PLAYLIST_LIST = 'playlistList.json';
 const DOWNLOAD_DIR = 'downloads';
 const EXPLORER_DOWNLOAD_DIR = 'tempDownloads';
-const FAVORITES = 'favorites.json';
-const PLAYER_SETTINGS = 'playerSettings.json';
+const PREFERENCES_FILE = 'preferences.json';
 
 class Storage {
-	constructor(storageDir, playlistList, downloadDir, explorerDownloadDir, favorites, playerSettings) {
+	constructor(storageDir, downloadDir, explorerDownloadDir, preferencesFile) {
 		this.storageDir_ = path.resolve(storageDir);
-		this.playlistList_ = path.resolve(storageDir, playlistList);
 		this.downloadDir_ = path.resolve(storageDir, downloadDir);
 		this.explorerDownloadDir_ = path.resolve(storageDir, explorerDownloadDir);
-		this.favoritesPath_ = path.resolve(storageDir, favorites);
-		this.playerSettings_ = path.resolve(storageDir, playerSettings);
+		this.preferencesFile_ = path.resolve(storageDir, preferencesFile);
 
 		this.prepareDir_();
 	}
@@ -55,21 +51,6 @@ class Storage {
 		});
 	}
 
-	get playlistList() { // todo rename listList to lists. likewise songList
-		return this.playlistListPromise_ = this.playlistListPromise_ ||
-			this.prepareDir_()
-				.then(() => fs.readFile(this.playlistList_, 'utf8'))
-				.then(a => JSON.parse(a))
-				.catch(() => []);
-	}
-
-	set playlistList(playlistList) {
-		this.playlistListPromise_ = Promise.resolve(playlistList);
-		this.prepareDir_()
-			.then(() => fs.writeFile(this.playlistList_, JSON.stringify(playlistList)))
-			.catch(e => console.error('error saving playlist lists:', e));
-	}
-
 	get songList() {
 		return this.songListPromise_ = this.songListPromise_ ||
 			this.prepareDir_().then(() => fs.readdir(this.downloadDir_));
@@ -92,12 +73,33 @@ class Storage {
 		await fs.unlink(path.resolve(this.downloadDir_, songName));
 	}
 
-	get favorites_() {
-		return this.favoritesPromise_ = this.favoritesPromise_ ||
+	get preferences_() {
+		return this.preferencesPromise_ = this.preferencesPromise_ ||
 			this.prepareDir_()
-				.then(() => fs.readFile(this.favoritesPath_, 'utf8'))
+				.then(() => fs.readFile(this.preferencesFile_, 'utf8'))
 				.then(a => JSON.parse(a))
 				.catch(() => ({}));
+	}
+
+	async updatePreferences_(mergePreferences) {
+		let preferences = {...await this.preferences_, ...mergePreferences};
+		this.prepareDir_()
+			.then(() => fs.writeFile(this.preferencesFile_, JSON.stringify(preferences)))
+			.catch(e => console.error('error saving preferences:', e));
+		this.preferencesPromise_ = Promise.resolve(preferences);
+	}
+
+	get playlistList() {
+		// todo rename listList to lists. likewise songList
+		return this.preferences_.then(preferences => preferences.playlistList || []);
+	}
+
+	set playlistList(playlistList) {
+		this.updatePreferences_({playlistList});
+	}
+
+	get favorites_() {
+		return this.preferences_.then(preferences => preferences.favorites || {});
 	}
 
 	async isSongFavorite(name) {
@@ -107,29 +109,32 @@ class Storage {
 	async setSongFavorite(name, favorite) {
 		let favorites = await this.favorites_;
 		favorites[name] = favorite;
-		this.prepareDir_()
-			.then(() => fs.writeFile(this.favoritesPath_, JSON.stringify(favorites)))
-			.catch(e => console.error('error saving favorites:', e));
+		this.updatePreferences_({favorites});
 	}
 
-	get playerSettings() {
-		return this.playerSettingsPromise_ = this.playerSettingsPromise_ ||
-			this.prepareDir_()
-				.then(() => fs.readFile(this.playerSettings_, 'utf8'))
-				.then(a => JSON.parse(a))
-				.catch(() => ({}));
+	get shufflePreference() {
+		return this.preferences_.then(preferences => preferences.shuffle);
 	}
 
-	async addPlayerSettings(playerSettings) {
-		this.playerSettings = {...await this.playerSettings, ...playerSettings};
+	set shufflePreference(shuffle) {
+		this.updatePreferences_({shuffle});
 	}
 
-	set playerSettings(playerSettings) {
-		this.playerSettingsPromise_ = Promise.resolve(playerSettings);
-		this.prepareDir_()
-			.then(() => fs.writeFile(this.playerSettings_, JSON.stringify(playerSettings)))
-			.catch(e => console.error('error saving player settings:', e));
+	get fullscreenPreference() {
+		return this.preferences_.then(preferences => preferences.fullscreen);
+	}
+
+	set fullscreenPreference(fullscreen) {
+		this.updatePreferences_({fullscreen});
+	}
+
+	get explorerPlaylistPreference() {
+		return this.preferences_.then(preferences => preferences.explorerPlaylist || preferences.playlistList[0]);
+	}
+
+	set explorerPlaylistPreference(explorerPlaylist) {
+		this.updatePreferences_({explorerPlaylist});
 	}
 }
 
-module.exports = new Storage(STORAGE_DIR, PLAYLIST_LIST, DOWNLOAD_DIR, EXPLORER_DOWNLOAD_DIR, FAVORITES, PLAYER_SETTINGS);
+module.exports = new Storage(STORAGE_DIR, DOWNLOAD_DIR, EXPLORER_DOWNLOAD_DIR, PREFERENCES_FILE);

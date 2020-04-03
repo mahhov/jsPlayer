@@ -11,7 +11,7 @@ customElements.define(name, class extends XElement {
 	}
 
 	connectedCallback() {
-		storage.playerSettings.then(({fullscreen}) => {
+		storage.fullscreenPreference.then(fullscreen => {
 			if (fullscreen)
 				this.toggleFullscreen_();
 		});
@@ -62,7 +62,7 @@ customElements.define(name, class extends XElement {
 
 	onFullscreenChange_() {
 		ipc.send('fullscreen-request', this.$('#fullscreen').checked);
-		storage.addPlayerSettings({fullscreen: this.$('#fullscreen').checked});
+		storage.fullscreenPreference = this.$('#fullscreen').checked;
 	}
 
 	toggleFullscreen_() {
