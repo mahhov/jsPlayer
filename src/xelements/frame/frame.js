@@ -82,9 +82,10 @@ customElements.define(name, class extends XElement {
 
 	onRelatedSong_(name) {
 		let id = dwytpl.Video.idFromFileName(name);
+		let title = dwytpl.Video.titleFromFileName(name);
 		let explorerFrameIndex = this.frames_.findIndex(frame => frame === this.$('#explorer-frame'));
 		this.onSelect_(explorerFrameIndex);
-		this.$('#explorer-frame').queryRelated(id);
+		this.$('#explorer-frame').queryRelated(id, title);
 	}
 
 	onLinkSong_(name) {

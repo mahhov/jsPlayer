@@ -11,12 +11,12 @@
   "author": "mahhov1",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^8.2.0",
+    "electron": "^8.2.1",
     "electron-builder": "^20.44.4"
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "dwytpl": "^5.3.0",
+    "dwytpl": "^5.3.1",
     "env-paths": "^2.2.0",
     "font-awesome": "^4.7.0",
     "google-oauth2-x": "^1.1.0",
