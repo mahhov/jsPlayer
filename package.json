@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder .",
-    "ship": "git push && build --win --linux -p always"
+    "ship": "git push && build --win -p always"
   },
   "author": "mahhov1",
   "license": "ISC",

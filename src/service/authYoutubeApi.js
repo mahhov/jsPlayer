@@ -1,3 +1,4 @@
+const path = require('path');
 const http = require('http');
 const axios = require('axios');
 const GoogleAuth = require('google-oauth2-x');
@@ -71,8 +72,7 @@ class AuthYoutubeApi extends GoogleAuth {
 	}
 }
 
-// todo correct paths
 module.exports = new AuthYoutubeApi(
-	'resources/googleCredentials.json',
+	path.join(__dirname, '../../resources/googleCredentials.json'),
 	storage.getStoragePath('googleTokens.json'),
 	'https://www.googleapis.com/auth/youtube');
