@@ -1,6 +1,6 @@
 {
   "name": "js-player",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "electron app to play local media",
   "main": "src/electronStarter.js",
   "scripts": {
