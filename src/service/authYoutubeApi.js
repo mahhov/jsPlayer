@@ -31,7 +31,7 @@ class AuthYoutubeApi extends GoogleAuth {
 	}
 
 	add(playlistId, videoId) {
-		return this.twoTryRequest_('post', {part: 'id'},
+		return this.twoTryRequest_('post', {part: 'snippet'},
 			{
 				snippet: {
 					playlistId,
