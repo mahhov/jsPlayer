@@ -34,9 +34,11 @@ customElements.define(name, class Player extends XElement {
 		this.$('#visualizer').analyzer = this.audioTrack_.analyzer;
 
 		shortcuts.addListenerKeydown(this.handleKeypress_.bind(this));
-		shortcuts.addListenerGlobalPrev(() => this.focus_ && this.onPrev_());
-		shortcuts.addListenerGlobalNext(() => this.focus_ && this.onEnd_());
-		shortcuts.addListenerGlobalPause(() => this.focus_ && this.pauseToggle_());
+		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.PREV, () => this.focus_ && this.onPrev_());
+		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.NEXT, () => this.focus_ && this.onEnd_());
+		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.PAUSE, () => this.focus_ && this.pauseToggle_());
+		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.BACKWARD, () => this.focus_ && this.seekBackward_());
+		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.FORWARD, () => this.focus_ && this.seekForward_());
 
 		this.videoSrcDebouncer_ = new Debouncer(500);
 	}
@@ -146,6 +148,14 @@ customElements.define(name, class Player extends XElement {
 		this.onTimeChange_();
 	}
 
+	seekBackward_() {
+		this.seek_(-SEEK_DELTA_S);
+	}
+
+	seekForward_() {
+		this.seek_(SEEK_DELTA_S);
+	}
+
 	handleKeypress_(e) {
 		if (!this.focus_)
 			return;
@@ -162,10 +172,10 @@ customElements.define(name, class Player extends XElement {
 				this.pauseToggle_();
 				break;
 			case ',':
-				this.seek_(-SEEK_DELTA_S);
+				this.seekBackward_();
 				break;
 			case '.':
-				this.seek_(SEEK_DELTA_S);
+				this.seekForward_();
 				break;
 		}
 	}

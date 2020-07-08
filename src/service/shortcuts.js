@@ -1,10 +1,14 @@
 const ipc = require('electron').ipcRenderer;
 
-let addListenerGlobalPrev = handler => ipc.on('shortcutPrev', handler);
+let globalShortcutEvents = {
+	PREV: 'PREV',
+	NEXT: 'NEXT',
+	PAUSE: 'PAUSE',
+	BACKWARD: 'BACKWARD',
+	FORWARD: 'FORWARD',
+};
 
-let addListenerGlobalNext = handler => ipc.on('shortcutNext', handler);
-
-let addListenerGlobalPause = handler => ipc.on('shortcutPause', handler);
+let addGlobalShortcutListener = (event, handler) => ipc.on(event, handler);
 
 let addListenerKeydown = handler => document.addEventListener('keydown', e => {
 	if (e.path[0].hasAttribute('consume-key') && e.key === 'Escape')
@@ -13,4 +17,4 @@ let addListenerKeydown = handler => document.addEventListener('keydown', e => {
 		handler(e);
 });
 
-module.exports = {addListenerGlobalPrev, addListenerGlobalNext, addListenerGlobalPause, addListenerKeydown};
+module.exports = {globalShortcutEvents, addGlobalShortcutListener, addListenerKeydown};

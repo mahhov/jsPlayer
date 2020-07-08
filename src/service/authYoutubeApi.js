@@ -22,7 +22,7 @@ class AuthYoutubeApi extends GoogleAuth {
 	}
 
 	authenticate() {
-		this.getCleanToken();
+		this.getCleanToken(true);
 	}
 
 	async includes(playlistId, videoId) {
