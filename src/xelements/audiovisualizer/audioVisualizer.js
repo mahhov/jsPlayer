@@ -6,7 +6,7 @@ const BAR_COUNT = 32 * 4;
 
 customElements.define(name, class extends XElement {
 	static get attributeTypes() {
-		return {width: false, height: false};
+		return {width: false, height: false, animate: true};
 	}
 
 	static get htmlTemplate() {
@@ -14,6 +14,13 @@ customElements.define(name, class extends XElement {
 	}
 
 	connectedCallback() {
+		this.docFocus_ = true;
+		window.addEventListener('blur', () => this.docFocus_ = false);
+		window.addEventListener('focus', () => {
+			this.docFocus_ = true;
+			this.updateVisualizer_();
+		});
+
 		if (!this.hasAttribute('width'))
 			this.setAttribute('width', '1000');
 		if (!this.hasAttribute('height'))
@@ -36,13 +43,24 @@ customElements.define(name, class extends XElement {
 		this.newVisualizer_();
 	}
 
+	set animate(value) {
+		this.updateVisualizer_();
+	}
+
 	updateVisualizer_() {
+		if (!this.animate || this.animationFramePending_ || !this.docFocus_)
+			return;
+
 		this.frequencyData_ = this.frequencyData_ || new Uint8Array(BAR_COUNT);
 		if (!this.analyzer_ || !this.visualizer_)
 			return;
 		this.analyzer_.getByteFrequencyData(this.frequencyData_);
 		this.visualizer_.draw([...this.frequencyData_].map(v => v / 255));
-		requestAnimationFrame(() => this.updateVisualizer_());
+
+		this.animationFramePending_ = requestAnimationFrame(() => {
+			this.animationFramePending_ = 0;
+			this.updateVisualizer_();
+		});
 	}
 
 	newVisualizer_() {

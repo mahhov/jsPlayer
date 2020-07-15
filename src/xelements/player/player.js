@@ -90,6 +90,7 @@ customElements.define(name, class Player extends XElement {
 
 	set focus(value) {
 		this.focus_ = value;
+		this.$('#visualizer').animate = value;
 	}
 
 	onTimeChange_() {
