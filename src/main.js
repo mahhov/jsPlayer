@@ -1,4 +1,5 @@
 require('./xelements/import');
+require('dwytpl').setApiKey('AIzaSyBEIQjA_wQnhHC68hovfbhMGdbT0qewdVE');
 
 // todo
 // refresh download frame status and player and list when deleting song
