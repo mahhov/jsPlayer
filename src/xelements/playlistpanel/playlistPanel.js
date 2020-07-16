@@ -33,6 +33,8 @@ customElements.define(name, class extends XElement {
 
 		this.$('#refresh').classList.add('refreshing');
 		this.$('#title').textContent = await this.playlist_.title;
+		this.syncher_.tracker.summary.each(summary =>
+			this.$('#downloaded-count').textContent = summary[2].predownloaded);
 		this.$('#count').textContent = await this.playlist_.length;
 		this.$('#playlist-id').textContent = this.playlistId;
 		this.$('#refresh').classList.remove('refreshing');

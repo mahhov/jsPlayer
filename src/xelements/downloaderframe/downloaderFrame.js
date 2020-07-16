@@ -55,7 +55,7 @@ customElements.define(name, class extends XElement {
 		this.connectedTracker_ = tracker;
 
 		tracker.title.each(lines => this.$('#title').lines = lines);
-		tracker.summary.each(lines => this.$('#summary').lines = lines);
+		tracker.summary.each(lines => this.$('#summary').lines = lines.splice(0, 2));
 		tracker.progress.each(lines => this.$('#progress').lines = lines);
 		tracker.messages.each(lines => this.$('#messages').lines = lines);
 	}
