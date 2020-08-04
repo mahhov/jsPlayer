@@ -47,14 +47,12 @@ customElements.define(name, class extends XElement {
 
 	connectTracker(tracker) {
 		if (this.connectedTracker_) {
-			tracker.title.disconnect();
 			tracker.summary.disconnect();
 			tracker.progress.disconnect();
 			tracker.messages.disconnect();
 		}
 		this.connectedTracker_ = tracker;
 
-		tracker.title.each(lines => this.$('#title').lines = lines);
 		tracker.summary.each(lines => this.$('#summary').lines = lines.splice(0, 2));
 		tracker.progress.each(lines => this.$('#progress').lines = lines);
 		tracker.messages.each(lines => this.$('#messages').lines = lines);
