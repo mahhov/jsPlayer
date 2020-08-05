@@ -33,8 +33,10 @@ class AudioTrack {
 	}
 
 	play() {
-		if (!this.paused_ || !this.audioData_)
+		if (!this.paused_)
 			return;
+		if (!this.audioData_)
+			return this.endListener_?.();
 
 		this.paused_ = false;
 		this.source_ = this.audioCtx_.createBufferSource();
@@ -47,8 +49,7 @@ class AudioTrack {
 		this.timeListenerIntervalId_ = setInterval(() => this.timeListener_(this.time, this.duration), 100);
 		this.source_.addEventListener('ended', this.sourceEndedListener_ = () => {
 			clearInterval(this.timeListenerIntervalId_);
-			if (this.endListener_)
-				this.endListener_();
+			this.endListener_?.();
 		});
 	}
 
