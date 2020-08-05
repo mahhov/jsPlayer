@@ -1,0 +1,31 @@
+<style>
+	@import url("./style/faIcons.css");
+	@import url("./style/elements.css");
+
+	#container {
+		display: flex;
+	}
+
+	#number {
+		margin-right: 15px;
+	}
+
+	#title {
+		margin-right: 10px;
+	}
+
+	.download-success .fa-download {
+		display: none;
+	}
+
+	.download-fail .fa-download {
+		color: var(--red);
+	}
+</style>
+
+<div id="container" class="line">
+	<span id="title"></span>
+	<button id="related" class="fa fa-search-plus"></button>
+	<button id="link" class="fa fa-external-link"></button>
+	<span id="download-icon" class="fa fa-download"></span>
+</div>

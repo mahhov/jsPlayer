@@ -88,3 +88,7 @@
 .fa-user:before {
 	content: "\f007";
 }
+
+.fa-wifi:before {
+	content: "\f1eb";
+}

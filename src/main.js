@@ -1,5 +1,6 @@
 require('./xelements/import');
 require('dwytpl').setApiKey('AIzaSyBEIQjA_wQnhHC68hovfbhMGdbT0qewdVE');
+// require('dwytpl').setApiKey('AIzaSyCgXdZVVVsh7FVKb5wicN5Bv2tiPD22U60'); // alternative dev key
 
 // todo
 // refresh download frame status and player and list when deleting song
