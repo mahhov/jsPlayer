@@ -4,6 +4,7 @@ const Stream = require('bs-better-stream');
 const storage = require('../../service/storage');
 const playlistCache = require('../../service/playlistCache');
 const Seeker = require('../../service/Seeker');
+const Debouncer = require('../../service/Debouncer');
 
 customElements.define(name, class extends XElement {
 	static get attributeTypes() {
@@ -28,13 +29,16 @@ customElements.define(name, class extends XElement {
 			this.seeker.setShuffle(detail);
 			this.updateNextList();
 		});
+
 		this.seeker = new Seeker();
-		this.songsStream.each(() => {
+		this.nextSongIndexes = [];
+		let songsStreamDebouncer = new Debouncer(2000);
+		this.songsStream.each(() => songsStreamDebouncer.add(() => {
 			this.$('#count').textContent = this.songsStream.length;
 			this.seeker.setSize(this.songsStream.length);
 			this.seeker.setShuffle(this.$('#player').shuffle);
 			this.updateNextList();
-		});
+		}));
 	}
 
 	set playerFocus(value) {
@@ -50,13 +54,13 @@ customElements.define(name, class extends XElement {
 	}
 
 	setSong(index, skipTo = false) {
-		this.currentSong_ = this.getSong(index);
-		if (!this.currentSong_)
+		this.currentSong = this.getSong(index);
+		if (!this.currentSong)
 			return;
 		if (skipTo)
 			this.seeker.skipTo(index);
-		this.currentSong_.getWriteStream();
-		this.$('#player').videoSrc = this.currentSong_;
+		this.currentSong.getWriteStream();
+		this.$('#player').videoSrc = this.currentSong;
 		this.updateNextList();
 	}
 
@@ -64,11 +68,19 @@ customElements.define(name, class extends XElement {
 		if (!this.songsStream.length)
 			return;
 
-		let lines = this.$$('#next-list x-stream-frame-line');
-		this.seeker.peek(2, 5).forEach((songIndex, i) => {
-			let song = this.getSong(songIndex);
-			song.getWriteStream();
+		// cancel downloading next songs
+		let nextSongIndexes = this.seeker.peek(2, 5);
+		this.nextSongIndexes
+			.filter(songIndex => !nextSongIndexes.includes(songIndex))
+			.forEach(songIndex => this.getSong(songIndex).stopDownload());
+		this.nextSongIndexes = nextSongIndexes;
 
+		// update next songs display
+		let lines = this.$$('#next-list x-stream-frame-line');
+		nextSongIndexes.forEach(async (songIndex, i) => {
+			let song = this.getSong(songIndex);
+
+			// get or create a line el
 			let line = lines[i];
 			if (!line) {
 				line = document.createElement('x-stream-frame-line');
@@ -79,14 +91,18 @@ customElements.define(name, class extends XElement {
 				this.$('#next-list').append(line);
 			}
 
+			// update values of the line el
 			line.songIndex = songIndex;
 			line.title = song.title;
-			line.selected = song === this.currentSong_;
-			song.status.stream.each(statusText => line.status = statusText);
+			line.selected = song === this.currentSong;
 			line.downloadStatus = 'undetermined';
-			song.getWriteStream().promise
-				.then(() => line.downloadStatus = 'true')
-				.catch(() => line.downloadStatus = 'false');
+
+			// queue download
+			await Debouncer.sleep(2000);
+			if (this.nextSongIndexes.includes(songIndex))
+				song.getWriteStream().promise
+					.then(() => line.downloadStatus = 'true')
+					.catch(() => line.downloadStatus = 'false');
 		});
 	}
 });

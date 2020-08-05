@@ -3,7 +3,7 @@ class Debouncer {
 		this.delay_ = delay;
 	}
 
-	static sleep_(ms) {
+	static sleep(ms) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
@@ -13,7 +13,7 @@ class Debouncer {
 		if (this.nextHandler_ !== handler)
 			return;
 		this.wait_ = Promise.resolve(handler())
-			.then(() => Debouncer.sleep_(this.delay_));
+			.then(() => Debouncer.sleep(this.delay_));
 	}
 
 	cancel() {
