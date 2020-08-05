@@ -48,7 +48,6 @@ customElements.define(name, class extends XElement {
 
 		this.$('#explorer-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#play-frame'), this.$('#stream-frame')));
 
-		this.$('#stream-frame').addEventListener('playing-song', ({detail}) => this.onPlayingSong_(detail));
 		this.$('#stream-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#explorer-frame'), this.$('#play-frame')));
 		this.$('#stream-frame').addEventListener('related-song', ({detail}) => this.onRelatedSong_(detail.id, detail.title));
 		this.$('#stream-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));

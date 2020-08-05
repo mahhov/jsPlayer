@@ -58,7 +58,6 @@ customElements.define(name, class extends XElement {
 		this.currentSong_.getWriteStream();
 		this.$('#player').videoSrc = this.currentSong_;
 		this.updateNextList();
-		this.emit('playing-song', index);
 	}
 
 	updateNextList() {
