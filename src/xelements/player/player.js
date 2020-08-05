@@ -9,7 +9,7 @@ const SEEK_DELTA_S = 10;
 
 customElements.define(name, class Player extends XElement {
 	static get attributeTypes() {
-		return {src: false, focus: true};
+		return {src: false, shuffle: true, focus: true};
 	}
 
 	static get htmlTemplate() {
@@ -18,7 +18,7 @@ customElements.define(name, class Player extends XElement {
 
 	connectedCallback() {
 		storage.shufflePreference.then(shuffle => {
-			this.shuffleSet(shuffle);
+			this.onShuffleSet_(shuffle);
 			this.onEnd_();
 		});
 
@@ -76,7 +76,7 @@ customElements.define(name, class Player extends XElement {
 
 		video.on('data', () => this.videoSrcDebouncer_.add(() => updateAudioTrack()));
 		video.on('end', () => this.videoSrcDebouncer_.add(() => updateAudioTrack()));
-		if (video.buffer.buffer.length)
+		if (video.buffer.buffer.byteLength)
 			updateAudioTrack();
 	}
 
@@ -85,7 +85,12 @@ customElements.define(name, class Player extends XElement {
 			this.videoSrc_.removeAllListeners('data');
 			this.videoSrc_.removeAllListeners('end');
 			this.videoSrcDebouncer_.cancel();
+			this.videoSrc_ = null;
 		}
+	}
+
+	set shuffle(value) {
+		this.$('#shuffle').checked = value;
 	}
 
 	set focus(value) {
@@ -100,7 +105,8 @@ customElements.define(name, class Player extends XElement {
 	}
 
 	onEnd_() {
-		this.emit('next');
+		if (!this.videoSrc_ || this.videoSrc_.getWriteStream().promise.done)
+			this.emit('next');
 	}
 
 	onSetTime_(time) {
@@ -135,13 +141,9 @@ customElements.define(name, class Player extends XElement {
 	}
 
 	onShuffleSet_(shuffle) {
-		this.shuffleSet(shuffle);
+		this.shuffle = shuffle;
 		storage.shufflePreference = this.$('#shuffle').checked;
-	}
-
-	shuffleSet(shuffle) {
 		this.emit('shuffle', shuffle);
-		this.$('#shuffle').checked = shuffle;
 	}
 
 	seek_(deltaS) {
