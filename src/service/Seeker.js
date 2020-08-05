@@ -1,58 +1,68 @@
-// [min, max)
-let randInt = (min, max) => parseInt(Math.random() * (max - min) + min);
-
 class Seeker {
 	constructor() {
-		this.size = 0;
-		this.current = -1;
-		this.shuffled = [];
+		this.size_ = 0;
+		this.index_ = -1;
+		this.shuffled_ = [];
 	}
 
 	setSize(size) {
-		this.size = size;
+		this.size_ = size;
+		if (this.shuffled_.length) {
+			this.setShuffle(false);
+			this.setShuffle(true);
+		}
 	}
 
 	setShuffle(shuffle) {
-		if (shuffle) {
+		if (shuffle && !this.shuffled_.length) {
 			this.shuffle_();
-			this.skipTo();
-		} else {
-			this.current = this.getCurrent_();
-			this.shuffled = [];
+			this.skipTo(this.index_);
+		} else if (!shuffle && this.shuffled_.length) {
+			this.index_ = this.getValue_();
+			this.shuffled_ = [];
 		}
 	}
 
 	shuffle_() {
-		this.shuffled = Array(this.size).fill(0).map((_, i) => i);
-		this.shuffled.forEach((_, i) => {
-			let j = randInt(i, this.size);
-			[this.shuffled[i], this.shuffled[j]] = [this.shuffled[j], this.shuffled[i]];
+		this.shuffled_ = Array(this.size_).fill(0).map((_, i) => i);
+		this.shuffled_.forEach((_, i) => {
+			let j = Math.floor(Math.random() * (this.size_ - i) + i);
+			[this.shuffled_[i], this.shuffled_[j]] = [this.shuffled_[j], this.shuffled_[i]];
 		});
 	}
 
-	getCurrent_() {
-		return this.shuffled[this.current] !== undefined ? this.shuffled[this.current] : this.current;
+	getValue_(index = this.index_) {
+		return this.shuffled_[index] !== undefined ? this.shuffled_[index] : index;
 	}
 
-	getIndex_(current) {
-		let index = this.shuffled.indexOf(current);
-		return index === -1 ? current : index;
+	getIndex_(value) {
+		let index = this.shuffled_.indexOf(value);
+		return index === -1 ? value : index;
 	}
 
-	skipTo(current = this.current) {
-		this.current = this.getIndex_(current);
+	skipTo(value) {
+		this.index_ = this.getIndex_(value);
 	}
 
 	getNext() {
-		if (++this.current === this.size)
-			this.current = 0;
-		return this.getCurrent_();
+		if (++this.index_ === this.size_)
+			this.index_ = 0;
+		return this.getValue_();
 	}
 
 	getPrev() {
-		if (--this.current === -1)
-			this.current = this.size - 1;
-		return this.getCurrent_();
+		if (--this.index_ === -1)
+			this.index_ = this.size_ - 1;
+		return this.getValue_();
+	}
+
+	peek(prevCount, nextCount) {
+		let peek = [];
+		for (let i = this.index_ - prevCount; i <= this.index_ + nextCount; i++) {
+			let index = ((i + this.size_) % this.size_ + this.size_) % this.size_;
+			peek.push(this.getValue_(index));
+		}
+		return peek;
 	}
 }
 
