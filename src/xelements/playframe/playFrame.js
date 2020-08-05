@@ -1,5 +1,6 @@
 const {importUtil, XElement} = require('xx-element');
 const {template, name} = importUtil(__filename);
+const dwytpl = require('dwytpl');
 const storage = require('../../service/storage');
 const Seeker = require('../../service/Seeker');
 
@@ -55,11 +56,14 @@ customElements.define(name, class extends XElement {
 	}
 
 	emitRelated_() {
-		this.emit('related-song', this.$('#player').src);
+		let id = dwytpl.Video.idFromFileName(this.$('#player').src);
+		let title = dwytpl.Video.titleFromFileName(this.$('#player').src);
+		this.emit('related-song', {id, title});
 	}
 
 	emitLink_() {
-		this.emit('link-song', this.$('#player').src);
+		let id = dwytpl.Video.idFromFileName(this.$('#player').src);
+		this.emit('link-song', id);
 	}
 
 	async setSong(index, skipTo) {
@@ -67,6 +71,8 @@ customElements.define(name, class extends XElement {
 			this.seeker.skipTo(index);
 		let songList = await storage.songList;
 		let name = songList[index];
+		if (!name)
+			return;
 		this.$('#player').src = name;
 		this.updateFavoriteStatus();
 		let numberText = `Playing ${index + 1} of ${songList.length}`;

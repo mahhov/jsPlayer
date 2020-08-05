@@ -1,5 +1,6 @@
 const {importUtil, XElement} = require('xx-element');
 const {template, name} = importUtil(__filename);
+const dwytpl = require('dwytpl');
 const storage = require('../../service/storage');
 const Searcher = require('../../service/Searcher');
 const {shell} = require('electron');
@@ -83,11 +84,14 @@ customElements.define(name, class extends XElement {
 	}
 
 	emitRelatedSong_(name) {
-		this.emit('related-song', name);
+		let id = dwytpl.Video.idFromFileName(name);
+		let title = dwytpl.Video.titleFromFileName(name);
+		this.emit('related-song', {id, title});
 	}
 
 	emitLinkSong_(name) {
-		this.emit('link-song', name);
+		let id = dwytpl.Video.idFromFileName(name);
+		this.emit('link-song', id);
 	}
 
 	emitRemoveSong_(name) {

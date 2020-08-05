@@ -33,13 +33,14 @@ customElements.define(name, class extends XElement {
 		this.selects_.forEach((select, i) => select.addEventListener('change', () => this.onSelect_(i)));
 
 		this.$('#play-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
-		this.$('#play-frame').addEventListener('related-song', ({detail}) => this.onRelatedSong_(detail));
+		this.$('#play-frame').addEventListener('related-song', ({detail}) => this.onRelatedSong_(detail.id, detail.title));
 		this.$('#play-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));
 		this.$('#play-frame').addEventListener('playing-song', ({detail}) => this.onPlayingSong_(detail));
-		this.$('#play-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#explorer-frame')));
+		this.$('#play-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#explorer-frame'), this.$('#stream-frame')));
+
 		this.$('#list-frame').addEventListener('select-song', ({detail}) => this.onSelectSong_(detail));
 		this.$('#list-frame').addEventListener('favorite-song', ({detail: {name, favorite}}) => this.onFavoriteSong_(name, favorite));
-		this.$('#list-frame').addEventListener('related-song', ({detail}) => this.onRelatedSong_(detail));
+		this.$('#list-frame').addEventListener('related-song', ({detail}) => this.onRelatedSong_(detail.id, detail.title));
 		this.$('#list-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));
 		this.$('#list-frame').addEventListener('remove-song', ({detail}) => this.onRemoveSong_(detail));
 		this.$('#explorer-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#play-frame')));
@@ -80,16 +81,13 @@ customElements.define(name, class extends XElement {
 		this.$('#list-frame').updateFavoriteStatus();
 	}
 
-	onRelatedSong_(name) {
-		let id = dwytpl.Video.idFromFileName(name);
-		let title = dwytpl.Video.titleFromFileName(name);
+	onRelatedSong_(id, title) {
 		let explorerFrameIndex = this.frames_.findIndex(frame => frame === this.$('#explorer-frame'));
 		this.onSelect_(explorerFrameIndex);
 		this.$('#explorer-frame').queryRelated(id, title);
 	}
 
-	onLinkSong_(name) {
-		let id = dwytpl.Video.idFromFileName(name);
+	onLinkSong_(id) {
 		shell.openExternal(`https://www.youtube.com/watch?v=${id}`);
 	}
 
