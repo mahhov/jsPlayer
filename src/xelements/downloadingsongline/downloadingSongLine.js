@@ -66,7 +66,6 @@ customElements.define(name, class extends XElement {
 	}
 
 	set downloadStatus(value) {
-		this.$('#container').classList.toggle('disabled', value !== 'true'); // for element.css
 		this.$('#container').classList.toggle('download-success', value === 'true');
 		this.$('#container').classList.toggle('download-fail', value === 'false');
 		this.$('#container').classList.toggle('download-undetermined', value === 'undetermined');

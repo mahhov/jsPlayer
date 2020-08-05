@@ -117,9 +117,9 @@ customElements.define(name, class ExplorerFrame extends XElement {
 	}
 
 	selectLine_(line, video) {
-		[...this.$('#list').children].forEach(lineI => {
-			if (lineI.playStatus === 'true')
-				lineI.playStatus = 'false';
+		[...this.$('#list').children].forEach(line => {
+			if (line.playStatus === 'true')
+				line.playStatus = 'false';
 		});
 		line.playStatus = 'true';
 		if (line.downloadStatus === 'true')

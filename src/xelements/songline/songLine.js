@@ -29,11 +29,11 @@ customElements.define(name, class extends XElement {
 	}
 
 	set number(value) {
-		this.$(`#number`).textContent = value;
+		this.$('#number').textContent = value;
 	}
 
 	set title(value) {
-		this.$(`#title`).textContent = value;
+		this.$('#title').textContent = value;
 	}
 
 	set favorited(value) {
