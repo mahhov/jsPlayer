@@ -53,14 +53,17 @@ customElements.define(name, class extends XElement {
 		this.$('#player').stopPlay();
 	}
 
-	setSong(index, skipTo = false) {
-		this.currentSong = this.getSong(index);
-		if (!this.currentSong)
+	async setSong(index, skipTo = false) {
+		let song = this.getSong(index);
+		if (!song || song === this.currentSong)
 			return;
+		this.currentSong = song;
 		if (skipTo)
 			this.seeker.skipTo(index);
-		this.currentSong.getWriteStream();
-		this.$('#player').videoSrc = this.currentSong;
+		if (this.currentSong.audioData)
+			this.$('#player').audioData = this.currentSong.audioData;
+		else
+			this.$('#player').videoSrc = this.currentSong;
 		this.updateNextList();
 	}
 
@@ -95,14 +98,27 @@ customElements.define(name, class extends XElement {
 			line.songIndex = songIndex;
 			line.title = song.title;
 			line.selected = song === this.currentSong;
-			line.downloadStatus = 'undetermined';
 
-			// queue download
-			await Debouncer.sleep(2000);
-			if (this.nextSongIndexes.includes(songIndex))
-				song.getWriteStream().promise
-					.then(() => line.downloadStatus = 'true')
-					.catch(() => line.downloadStatus = 'false');
+			// queue download nad update status
+			if (song.audioData)
+				line.status = 'ready';
+			else {
+				line.status = 'undetermined';
+				await Debouncer.sleep(2000);
+				if (this.nextSongIndexes.indexOf(songIndex) === i)
+					line.status = 'downloading';
+				if (this.nextSongIndexes.includes(songIndex))
+					song.getWriteStream().promise
+						.then(async () => {
+							if (this.nextSongIndexes.indexOf(songIndex) === i)
+								line.status = 'reading';
+							if (!song.audioData)
+								song.audioData = await this.$('#player').getAudioData(song.buffer.buffer);
+							if (this.nextSongIndexes.indexOf(songIndex) === i)
+								line.status = 'ready';
+						})
+						.catch(() => line.status = 'failed');
+			}
 		});
 	}
 });

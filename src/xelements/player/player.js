@@ -45,11 +45,15 @@ customElements.define(name, class Player extends XElement {
 		this.videoSrcDebouncer_ = new Debouncer(500);
 	}
 
+	getAudioData(buffer) {
+		return this.audioTrack_.readAudioData(buffer);
+	}
+
 	set src(value) {
 		this.clearVideoSrc();
 		this.onPauseSet_(true);
 		storage.readSong(value)
-			.then(({buffer}) => this.audioTrack_.readAudioData(buffer))
+			.then(({buffer}) => this.getAudioData(buffer))
 			.then(audioData => {
 				if (value !== this.src)
 					return;
@@ -87,6 +91,14 @@ customElements.define(name, class Player extends XElement {
 				this.videoSrc_.loaded = true;
 			updateAudioTrack();
 		}
+	}
+
+	set audioData(audioData) {
+		this.clearVideoSrc();
+		this.onPauseSet_(true);
+		this.audioTrack_.audioData = audioData;
+		this.onSetTime_(0);
+		this.onPauseSet_(false);
 	}
 
 	clearVideoSrc() {

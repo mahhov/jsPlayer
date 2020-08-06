@@ -14,12 +14,23 @@
 		margin-right: 10px;
 	}
 
-	.download-success .fa-download {
+	.undetermined .fa-download {
+		color: var(--light-gray)
+	}
+
+	.downloading .fa-download {
+	}
+
+	.reading .fa-download {
+		color: var(--dark-blue)
+	}
+
+	.ready .fa-download {
 		display: none;
 	}
 
-	.download-fail .fa-download {
-		color: var(--red);
+	.failed .fa-download {
+		color: var(--red)
 	}
 </style>
 
@@ -27,5 +38,5 @@
 	<span id="title"></span>
 	<button id="related" class="fa fa-search-plus"></button>
 	<button id="link" class="fa fa-external-link"></button>
-	<span id="download-icon" class="fa fa-download"></span>
+	<span class="fa fa-download"></span>
 </div>

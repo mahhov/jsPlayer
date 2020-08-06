@@ -7,7 +7,6 @@ customElements.define(name, class extends XElement {
 			title: false,
 			selected: true,
 			status: false,
-			downloadStatus: false,
 		};
 	}
 
@@ -36,11 +35,7 @@ customElements.define(name, class extends XElement {
 	}
 
 	set status(value) {
-		this.$('#download-icon').title = value;
-	}
-
-	set downloadStatus(value) {
-		this.$('#container').classList.toggle('download-success', value === 'true');
-		this.$('#container').classList.toggle('download-fail', value === 'false');
+		this.$('#container').classList.remove('undetermined', 'downloading', 'reading', 'ready', 'failed');
+		this.$('#container').classList.add(value);
 	}
 });
