@@ -60,8 +60,8 @@ customElements.define(name, class extends XElement {
 		this.currentSong = song;
 		if (skipTo)
 			this.seeker.skipTo(index);
-		if (this.currentSong.audioData)
-			this.$('#player').audioData = this.currentSong.audioData;
+		if (this.currentSong.audioData?.done)
+			this.$('#player').audioData = await this.currentSong.audioData;
 		else
 			this.$('#player').videoSrc = this.currentSong;
 		this.updateNextList();
@@ -98,26 +98,32 @@ customElements.define(name, class extends XElement {
 			line.songIndex = songIndex;
 			line.title = song.title;
 			line.selected = song === this.currentSong;
+			let setLineStatus = status => {
+				if (this.nextSongIndexes.indexOf(songIndex) === i)
+					line.status = status;
+			};
 
 			// queue download nad update status
-			if (song.audioData)
-				line.status = 'ready';
-			else {
-				line.status = 'undetermined';
+			if (song.audioData) {
+				setLineStatus('reading');
+				await song.audioData;
+				setLineStatus('ready');
+			} else {
+				setLineStatus('undetermined');
 				await Debouncer.sleep(2000);
-				if (this.nextSongIndexes.indexOf(songIndex) === i)
-					line.status = 'downloading';
+				setLineStatus('downloading');
 				if (this.nextSongIndexes.includes(songIndex))
 					song.getWriteStream().promise
 						.then(async () => {
-							if (this.nextSongIndexes.indexOf(songIndex) === i)
-								line.status = 'reading';
-							if (!song.audioData)
-								song.audioData = await this.$('#player').getAudioData(song.buffer.buffer);
-							if (this.nextSongIndexes.indexOf(songIndex) === i)
-								line.status = 'ready';
+							setLineStatus('reading');
+							if (!song.audioData) {
+								song.audioData = this.$('#player').getAudioData(song.buffer.buffer);
+								await song.audioData;
+								song.audioData.done = true
+								setLineStatus('ready');
+							}
 						})
-						.catch(() => line.status = 'failed');
+						.catch(() => setLineStatus('failed'));
 			}
 		});
 	}
