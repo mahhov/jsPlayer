@@ -116,12 +116,10 @@ customElements.define(name, class extends XElement {
 					song.getWriteStream().promise
 						.then(async () => {
 							setLineStatus('reading');
-							if (!song.audioData) {
-								song.audioData = this.$('#player').getAudioData(song.buffer.buffer);
-								await song.audioData;
-								song.audioData.done = true
-								setLineStatus('ready');
-							}
+							song.audioData = song.audioData || this.$('#player').getAudioData(song.buffer.buffer);
+							await song.audioData;
+							song.audioData.done = true
+							setLineStatus('ready');
 						})
 						.catch(() => setLineStatus('failed'));
 			}
