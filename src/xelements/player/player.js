@@ -62,6 +62,7 @@ customElements.define(name, class Player extends XElement {
 	set videoSrc(video) {
 		this.clearVideoSrc();
 		this.videoSrc_ = video;
+		this.onPauseSet_(true);
 
 		let first = true;
 		let updateAudioTrack = async () => {
