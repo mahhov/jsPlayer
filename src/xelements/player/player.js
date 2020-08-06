@@ -34,8 +34,10 @@ customElements.define(name, class Player extends XElement {
 		this.$('#visualizer').analyzer = this.audioTrack_.analyzer;
 
 		shortcuts.addListenerKeydown(this.handleKeypress_.bind(this));
-		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.PREV, () => this.focus_ && this.onPrev_());
-		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.NEXT, () => this.focus_ && this.onEnd_());
+		let prevDebouncer = new Debouncer(1000, true);
+		let nextDebouncer = new Debouncer(1000, true);
+		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.PREV, () => prevDebouncer.add(() => this.focus_ && this.onPrev_()));
+		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.NEXT, () => nextDebouncer.add(() => this.focus_ && this.onEnd_()));
 		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.PAUSE, () => this.focus_ && this.pauseToggle_());
 		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.BACKWARD, () => this.focus_ && this.seekBackward_());
 		shortcuts.addGlobalShortcutListener(shortcuts.globalShortcutEvents.FORWARD, () => this.focus_ && this.seekForward_());
