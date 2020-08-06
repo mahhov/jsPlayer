@@ -78,7 +78,10 @@ customElements.define(name, class Player extends XElement {
 		};
 
 		video.on('data', () => this.videoSrcDebouncer_.add(() => updateAudioTrack()));
-		video.on('end', () => this.videoSrcDebouncer_.add(() => updateAudioTrack()));
+		video.on('end', async () => {
+			await updateAudioTrack(true)
+			this.videoSrc_.loaded = true;
+		});
 		if (video.buffer.buffer.byteLength)
 			updateAudioTrack();
 	}
@@ -108,7 +111,7 @@ customElements.define(name, class Player extends XElement {
 	}
 
 	onEnd_() {
-		if (!this.videoSrc_ || this.videoSrc_.getWriteStream().promise.done)
+		if (!this.videoSrc_ || this.videoSrc_.loaded)
 			this.emit('next');
 	}
 
