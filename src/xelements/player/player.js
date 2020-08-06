@@ -65,7 +65,7 @@ customElements.define(name, class Player extends XElement {
 		this.onPauseSet_(true);
 
 		let first = true;
-		let updateAudioTrack = async () => {
+		let updateAudioTrack = () => this.videoSrcDebouncer_.add(async () => {
 			this.audioTrack_.audioData = await this.audioTrack_.readAudioData(video.buffer.buffer);
 			if (first) {
 				this.onSetTime_(0);
@@ -75,15 +75,18 @@ customElements.define(name, class Player extends XElement {
 				this.audioTrack_.pause();
 				this.audioTrack_.play();
 			}
-		};
+		});
 
-		video.on('data', () => this.videoSrcDebouncer_.add(() => updateAudioTrack()));
+		video.on('data', () => updateAudioTrack());
 		video.on('end', async () => {
 			await updateAudioTrack(true)
 			this.videoSrc_.loaded = true;
 		});
-		if (video.buffer.buffer.byteLength)
+		if (video.buffer.buffer.byteLength) {
+			if (video.getWriteStream().promise.done)
+				this.videoSrc_.loaded = true;
 			updateAudioTrack();
+		}
 	}
 
 	clearVideoSrc() {
