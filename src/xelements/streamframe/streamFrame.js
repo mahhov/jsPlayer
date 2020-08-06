@@ -128,3 +128,6 @@ customElements.define(name, class extends XElement {
 });
 
 // todo cache playlists to reduce youtube api queries
+// todo refresh songs button
+// todo playlist add/remove/refresh
+// todo search songs
