@@ -9,16 +9,22 @@
 		justify-content: center;
 	}
 
-	div {
+	#bottom {
+		width: 100%;
+		max-width: 500px;
+	}
+
+	#bottom > div {
 		margin-top: 15px;
 	}
 
-	#next-list {
-		width: 100%;
-		max-width: 500px;
+	#count-container {
+		color: var(--light-gray);
 	}
 </style>
 
 <x-player id="player"></x-player>
-<div><span id="count"></span> songs</div>
-<div id="next-list"></div>
+<div id="bottom">
+	<div id="next-list"></div>
+	<div id="count-container"><span id="count"></span> songs</div>
+</div>
