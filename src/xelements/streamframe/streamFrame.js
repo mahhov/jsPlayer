@@ -5,6 +5,7 @@ const storage = require('../../service/storage');
 const playlistCache = require('../../service/playlistCache');
 const Seeker = require('../../service/Seeker');
 const Debouncer = require('../../service/Debouncer');
+const authYoutubeApi = require('../../service/authYoutubeApi');
 
 customElements.define(name, class extends XElement {
 	static get attributeTypes() {
@@ -62,8 +63,10 @@ customElements.define(name, class extends XElement {
 			this.seeker.skipTo(index);
 		if (this.currentSong.audioData?.done)
 			this.$('#player').audioData = await this.currentSong.audioData;
-		else
+		else {
+			this.currentSong.getWriteStream(await this.requestOptions);
 			this.$('#player').videoSrc = this.currentSong;
+		}
 		this.updateNextList();
 	}
 
@@ -110,10 +113,10 @@ customElements.define(name, class extends XElement {
 				setLineStatus('ready');
 			} else {
 				setLineStatus('undetermined');
-				await Debouncer.sleep(2000);
+				await Debouncer.sleep(6000);
 				setLineStatus('downloading');
 				if (this.nextSongIndexes.includes(songIndex))
-					song.getWriteStream().promise
+					song.getWriteStream(await this.requestOptions).promise
 						.then(async () => {
 							setLineStatus('reading');
 							song.audioData = song.audioData || this.$('#player').getAudioData(song.buffer.buffer);
@@ -124,6 +127,12 @@ customElements.define(name, class extends XElement {
 						.catch(() => setLineStatus('failed'));
 			}
 		});
+	}
+
+	get requestOptions() {
+		return this.requestOptions_ = this.requestOptions_ ||
+			authYoutubeApi.getHeaders().then(headers =>
+				({filter: 'audioonly', requestOptions: {headers}}));
 	}
 });
 

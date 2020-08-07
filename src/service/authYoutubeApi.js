@@ -52,19 +52,19 @@ class AuthYoutubeApi extends GoogleAuth {
 		let request = {
 			method,
 			url: `${API_ENDPOINT}/playlistItems?${paramsString}`,
-			headers: await this.getHeaders_(),
+			headers: await this.getHeaders(),
 			data: body,
 		};
 		try {
 			return await axios(request);
 		} catch (e) {
 			await this.getRefreshedToken();
-			request.headers = await this.getHeaders_();
+			request.headers = await this.getHeaders();
 			return await axios(request);
 		}
 	}
 
-	async getHeaders_() {
+	async getHeaders() {
 		return {
 			Authorization: `Bearer ${await this.getToken()}`,
 			'Content-Type': 'application/json',
