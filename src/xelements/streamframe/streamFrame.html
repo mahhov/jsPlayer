@@ -12,19 +12,33 @@
 	#bottom {
 		width: 100%;
 		max-width: 500px;
+		overflow: hidden;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
 	}
 
-	#bottom > div {
+	#list, #count-container, #search-input {
 		margin-top: 15px;
+	}
+
+	#list {
+		flex: 1;
+		overflow-x: hidden;
 	}
 
 	#count-container {
 		color: var(--light-gray);
 	}
+
+	.hidden {
+		display: none;
+	}
 </style>
 
 <x-player id="player"></x-player>
 <div id="bottom">
-	<div id="next-list"></div>
+	<div id="list"></div>
 	<div id="count-container"><span id="count"></span> songs</div>
+	<input id="search-input" placeholder="Search" consume-key>
 </div>
