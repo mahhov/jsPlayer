@@ -67,7 +67,7 @@ customElements.define(name, class extends XElement {
 		if (this.currentSong.audioData?.done)
 			this.$('#player').audioData = await this.currentSong.audioData;
 		else {
-			this.currentSong.getWriteStream(await this.requestOptions);
+			await authYoutubeApi.download(this.currentSong);
 			this.$('#player').videoSrc = this.currentSong;
 		}
 		this.updateList();
@@ -151,7 +151,7 @@ customElements.define(name, class extends XElement {
 			await Debouncer.sleep(downloadDelay);
 			setLineStatus('downloading');
 			if (this.nextSongIndexes.includes(songIndex))
-				song.getWriteStream(await this.requestOptions).promise
+				authYoutubeApi.download(song)
 					.then(async () => {
 						setLineStatus('reading');
 						song.audioData = song.audioData || this.$('#player').getAudioData(song.buffer.buffer);
@@ -161,12 +161,6 @@ customElements.define(name, class extends XElement {
 					})
 					.catch(() => setLineStatus('failed'));
 		}
-	}
-
-	get requestOptions() {
-		return this.requestOptions_ = this.requestOptions_ ||
-			authYoutubeApi.getHeaders().then(headers =>
-				({filter: 'audioonly', requestOptions: {headers}}));
 	}
 });
 

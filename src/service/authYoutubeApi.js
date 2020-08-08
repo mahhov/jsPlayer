@@ -47,20 +47,33 @@ class AuthYoutubeApi extends GoogleAuth {
 		return this.twoTryRequest_('delete', {id: videoPlaylistItemId});
 	}
 
-	async twoTryRequest_(method, params = {}, body = undefined) {
+	twoTryPlaylistItemsRequest_(method, params = {}, body = undefined) {
 		let paramsString = Object.entries(params).map(([key, value]) => `${key}=${value}`).join('&');
 		let request = {
 			method,
 			url: `${API_ENDPOINT}/playlistItems?${paramsString}`,
-			headers: await this.getHeaders(),
 			data: body,
 		};
-		try {
-			return await axios(request);
-		} catch (e) {
-			await this.getRefreshedToken();
+		return this.twoTryRequest_(async () => {
 			request.headers = await this.getHeaders();
-			return await axios(request);
+			return axios(request);
+		});
+	}
+
+	download(video) {
+		return this.twoTryRequest_(async () => {
+			let requestOptions = {filter: 'audioonly', requestOptions: {headers: await this.getHeaders()}};
+			return video.getWriteStream(requestOptions).promise;
+		});
+	}
+
+	async twoTryRequest_(doRequest) {
+		try {
+			return await doRequest();
+		} catch (e) {
+			console.log('GETTING NEW HEADER')
+			await this.getRefreshedToken();
+			return await doRequest();
 		}
 	}
 
