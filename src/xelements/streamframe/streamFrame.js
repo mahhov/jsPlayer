@@ -64,11 +64,11 @@ customElements.define(name, class extends XElement {
 		this.currentSong = song;
 		if (skipTo)
 			this.seeker.skipTo(index);
-		if (this.currentSong.audioData?.done)
-			this.$('#player').audioData = await this.currentSong.audioData;
+		if (song.audioData?.done)
+			this.$('#player').audioData = await song.audioData;
 		else {
-			await authYoutubeApi.download(this.currentSong);
-			this.$('#player').videoSrc = this.currentSong;
+			await authYoutubeApi.download(song);
+			this.$('#player').videoSrc = song;
 		}
 		this.updateList();
 	}
@@ -88,7 +88,10 @@ customElements.define(name, class extends XElement {
 		let nextSongIndexes = this.seeker.peek(2, 5);
 		this.nextSongIndexes
 			.filter(songIndex => !nextSongIndexes.includes(songIndex))
-			.forEach(songIndex => this.getSong(songIndex).stopDownload());
+			.forEach(songIndex => {
+				this.getSong(songIndex).stopDownload();
+				this.getSong(songIndex).audioData = null;
+			});
 		this.nextSongIndexes = nextSongIndexes;
 
 		// update next songs display

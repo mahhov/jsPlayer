@@ -71,7 +71,6 @@ class AuthYoutubeApi extends GoogleAuth {
 		try {
 			return await doRequest();
 		} catch (e) {
-			console.log('GETTING NEW HEADER')
 			await this.getRefreshedToken();
 			return await doRequest();
 		}
