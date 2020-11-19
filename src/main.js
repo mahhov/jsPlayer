@@ -10,3 +10,6 @@ require('dwytpl').setApiKey('AIzaSyBEIQjA_wQnhHC68hovfbhMGdbT0qewdVE');
 // consistent file capitalization
 // way to navigate to list frame from player frame and scroll to currently playing song
 // remove font awesome hacks
+// fix not queuing downloads when search is active
+// fix not playing progressivly while downloading
+// add a way to scroll through playlist
