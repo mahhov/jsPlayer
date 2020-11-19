@@ -1,6 +1,5 @@
 :focus {
-	border-color: var(--white-blue);
-	outline-color: var(--white-blue);
+	outline: 1px solid var(--white-blue);
 }
 
 button {
@@ -19,10 +18,10 @@ button:active {
 }
 
 input {
-	background: black;
-	border: 1px solid white;
+	background: #111;
+	border: 1px solid;
 	color: white;
-	padding: 3px;
+	padding: 3px 5px;
 }
 
 .line {
