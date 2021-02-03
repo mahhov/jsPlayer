@@ -49,12 +49,16 @@
 </style>
 
 <div class="frame-group">
+	<x-stream-frame id="stream-frame"></x-stream-frame>
 	<x-downloader-frame id="downloader-frame"></x-downloader-frame>
 	<x-explorer-frame id="explorer-frame"></x-explorer-frame>
-	<x-stream-frame id="stream-frame"></x-stream-frame>
 </div>
 
 <div class="select-strip">
+	<x-toggle id="stream-select">
+		<button slot="toggle-on" class="fa fa-wifi"></button>
+		<button slot="toggle-off" class="fa fa-wifi"></button>
+	</x-toggle>
 	<x-toggle id="downloader-select">
 		<button slot="toggle-on" class="fa fa-download"></button>
 		<button slot="toggle-off" class="fa fa-download"></button>
@@ -62,10 +66,6 @@
 	<x-toggle id="explorer-select">
 		<button slot="toggle-on" class="fa fa-search"></button>
 		<button slot="toggle-off" class="fa fa-search"></button>
-	</x-toggle>
-	<x-toggle id="stream-select">
-		<button slot="toggle-on" class="fa fa-wifi"></button>
-		<button slot="toggle-off" class="fa fa-wifi"></button>
 	</x-toggle>
 
 	<x-toggle id="fullscreen">

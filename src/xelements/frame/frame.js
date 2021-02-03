@@ -17,24 +17,24 @@ customElements.define(name, class extends XElement {
 		});
 
 		this.frames_ = [
+			this.$('#stream-frame'),
 			this.$('#downloader-frame'),
 			this.$('#explorer-frame'),
-			this.$('#stream-frame'),
 		];
 
 		this.selects_ = [
+			this.$('#stream-select'),
 			this.$('#downloader-select'),
 			this.$('#explorer-select'),
-			this.$('#stream-select'),
 		];
 
 		this.selects_.forEach((select, i) => select.addEventListener('change', () => this.onSelect_(i)));
 
-		this.$('#explorer-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#stream-frame')));
-
 		this.$('#stream-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#explorer-frame')));
 		this.$('#stream-frame').addEventListener('related-song', ({detail}) => this.onRelatedSong_(detail.id, detail.title));
 		this.$('#stream-frame').addEventListener('link-song', ({detail}) => this.onLinkSong_(detail));
+
+		this.$('#explorer-frame').addEventListener('player-play', () => this.onPlayerPlay_(this.$('#stream-frame')));
 
 		this.$('#fullscreen').addEventListener('change', () => this.onFullscreenChange_());
 
@@ -48,8 +48,8 @@ customElements.define(name, class extends XElement {
 		this.frames_.forEach((item, i) => item.classList.toggle('hidden-frame', i !== index));
 
 		let explorerFrameSelected = this.frames_[index] === this.$('#explorer-frame');
-		this.$('#explorer-frame').playerFocus = explorerFrameSelected;
 		this.$('#stream-frame').playerFocus = !explorerFrameSelected;
+		this.$('#explorer-frame').playerFocus = explorerFrameSelected;
 	}
 
 	onFullscreenChange_() {
