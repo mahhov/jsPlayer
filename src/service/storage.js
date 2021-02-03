@@ -67,12 +67,6 @@ class Storage {
 			});
 	}
 
-	async removeSong(songName) {
-		this.songListPromise_ = Promise.resolve((await this.songList).filter(a => a !== songName));
-		await this.prepareDir_();
-		await fs.unlink(path.resolve(this.downloadDir_, songName));
-	}
-
 	get preferences_() {
 		return this.preferencesPromise_ = this.preferencesPromise_ ||
 			this.prepareDir_()
@@ -104,12 +98,6 @@ class Storage {
 
 	async isSongFavorite(name) {
 		return (await this.favorites_)[name];
-	}
-
-	async setSongFavorite(name, favorite) {
-		let favorites = await this.favorites_;
-		favorites[name] = favorite;
-		this.updatePreferences_({favorites});
 	}
 
 	get shufflePreference() {
