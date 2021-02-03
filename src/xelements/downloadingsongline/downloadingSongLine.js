@@ -36,7 +36,7 @@ customElements.define(name, class extends XElement {
 
 	async checkPlaylistStatus() {
 		this.playlistStatus = 'undetermined';
-		let playlistIncludes = (await Promise.all((await storage.playlistList)
+		let playlistIncludes = (await Promise.all((await storage.playlists)
 			.map(async playlistId => [playlistId, await authYoutubeApi.includes(playlistId, this.videoId)])))
 			.filter(([_, itemIds]) => itemIds.length);
 		let playlistIds = playlistIncludes.map(([playlistId]) => playlistId);

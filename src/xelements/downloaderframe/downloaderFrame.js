@@ -8,8 +8,8 @@ customElements.define(name, class extends XElement {
 	}
 
 	connectedCallback() {
-		storage.playlistList.then(playlistList =>
-			playlistList.forEach(playlist => this.addPlaylistPanel_(playlist)));
+		storage.playlists.then(playlists =>
+			playlists.forEach(playlist => this.addPlaylistPanel_(playlist)));
 
 		this.$('#add-playlist').addEventListener('click', () => this.onAddPlaylist_());
 		this.$('#refresh-all').addEventListener('click', () => this.onRefreshAll_());
@@ -17,7 +17,7 @@ customElements.define(name, class extends XElement {
 
 	onAddPlaylist_() {
 		this.addPlaylistPanel_(this.$('#playlist-id').value);
-		this.savePlaylistList_();
+		this.savePlaylists();
 	}
 
 	addPlaylistPanel_(playlistId) {
@@ -31,7 +31,7 @@ customElements.define(name, class extends XElement {
 					playlistPanelIter.stopDownload();
 			});
 		});
-		playlistPanel.addEventListener('removed', () => this.savePlaylistList_());
+		playlistPanel.addEventListener('removed', () => this.savePlaylists());
 
 		this.$('#playlist-panels-list').appendChild(playlistPanel);
 	}
@@ -41,8 +41,8 @@ customElements.define(name, class extends XElement {
 			playlistPanel.refresh());
 	}
 
-	savePlaylistList_() {
-		storage.playlistList = [...this.$('#playlist-panels-list').children].map(playlistPanel => playlistPanel.playlistId);
+	savePlaylists() {
+		storage.playlists = [...this.$('#playlist-panels-list').children].map(playlistPanel => playlistPanel.playlistId);
 	}
 
 	connectTracker(tracker) {

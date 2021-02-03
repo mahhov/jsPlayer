@@ -19,7 +19,7 @@ customElements.define(name, class extends XElement {
 
 	connectedCallback() {
 		this.songsStream = new Stream()
-			.writePromise(storage.playlistList)
+			.writePromise(storage.playlists)
 			.flatten()
 			.map(playlistId => playlistCache.getPlaylist(playlistId))
 			.map(playlist => playlist.videos)

@@ -51,6 +51,7 @@ class Storage {
 		});
 	}
 
+	// todo can this be removed
 	get songList() {
 		return this.songListPromise_ = this.songListPromise_ ||
 			this.prepareDir_().then(() => fs.readdir(this.downloadDir_));
@@ -83,21 +84,12 @@ class Storage {
 		this.preferencesPromise_ = Promise.resolve(preferences);
 	}
 
-	get playlistList() {
-		// todo rename listList to lists. likewise songList
-		return this.preferences_.then(preferences => preferences.playlistList || []);
+	get playlists() {
+		return this.preferences_.then(preferences => preferences.playlists || []);
 	}
 
-	set playlistList(playlistList) {
-		this.updatePreferences_({playlistList});
-	}
-
-	get favorites_() {
-		return this.preferences_.then(preferences => preferences.favorites || {});
-	}
-
-	async isSongFavorite(name) {
-		return (await this.favorites_)[name];
+	set playlists(playlists) {
+		this.updatePreferences_({playlists});
 	}
 
 	get shufflePreference() {
@@ -117,7 +109,7 @@ class Storage {
 	}
 
 	get explorerPlaylistPreference() {
-		return this.preferences_.then(preferences => preferences.explorerPlaylist || preferences.playlistList[0]);
+		return this.preferences_.then(preferences => preferences.explorerPlaylist || preferences.playlists[0]);
 	}
 
 	set explorerPlaylistPreference(explorerPlaylist) {

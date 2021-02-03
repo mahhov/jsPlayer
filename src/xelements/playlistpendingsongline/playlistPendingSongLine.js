@@ -26,7 +26,7 @@ customElements.define(name, class extends XElement {
 		if (!this.videoId)
 			return;
 		this.checking = true;
-		let playlistItemIdsPromises = (await storage.playlistList).map(playlistId =>
+		let playlistItemIdsPromises = (await storage.playlists).map(playlistId =>
 			authYoutubeApi.includes(playlistId, this.videoId));
 		this.playlistItemIds_ = (await Promise.all(playlistItemIdsPromises)).flat();
 		if (this.adding === !!this.playlistItemIds_.length) {

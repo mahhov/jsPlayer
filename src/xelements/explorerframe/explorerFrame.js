@@ -37,8 +37,8 @@ customElements.define(name, class ExplorerFrame extends XElement {
 				line.adding = !i;
 				this.$('#playlist-pending-list').appendChild(line);
 			}));
-		storage.playlistList.then(playlistList =>
-			playlistList.forEach(async playlistId => {
+		storage.playlists.then(playlists =>
+			playlists.forEach(async playlistId => {
 				let option = document.createElement('option');
 				option.value = playlistId;
 				option.textContent = playlistId;
