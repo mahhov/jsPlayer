@@ -6,7 +6,6 @@ require('./progressbar/progressBar');
 
 require('./downloaderframe/downloaderFrame');
 require('./playlistpanel/playlistPanel');
-require('./fixedlinesdiv/fixedLinesDiv');
 
 require('./explorerframe/explorerFrame');
 require('./downloadingsongline/downloadingSongLine');

@@ -18,8 +18,6 @@ customElements.define(name, class extends XElement {
 			this.setAttribute('playlist-id', '');
 
 		this.$('#refresh').addEventListener('click', () => this.refresh());
-		this.$('#download-toggle').addEventListener('change', ({detail: value}) =>
-			value ? this.onDownload_() : this.stopDownload());
 		this.$('#remove').addEventListener('click', () => this.onRemove_());
 	}
 
@@ -33,20 +31,9 @@ customElements.define(name, class extends XElement {
 
 		this.$('#refresh').classList.add('refreshing');
 		this.$('#title').textContent = await this.playlist_.title;
-		this.syncher_.tracker.summary.each(summary =>
-			this.$('#downloaded-count').textContent = summary[2].predownloaded);
 		this.$('#count').textContent = await this.playlist_.length;
 		this.$('#playlist-id').textContent = this.playlistId;
 		this.$('#refresh').classList.remove('refreshing');
-	}
-
-	onDownload_() {
-		this.syncher_.download(10, {filter: 'audioonly'});
-		this.emit('download', this.syncher_.tracker);
-	}
-
-	stopDownload() {
-		this.syncher_.stopDownload(true);
 	}
 
 	onRemove_() {
