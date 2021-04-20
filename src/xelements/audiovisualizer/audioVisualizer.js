@@ -1,6 +1,6 @@
 const {importUtil, XElement} = require('xx-element');
 const {template, name} = importUtil(__filename);
-const Visualizer = require('../../service/visualizer');
+const Visualizer = require('../../service/Visualizer');
 
 const BAR_COUNT = 32 * 4;
 
